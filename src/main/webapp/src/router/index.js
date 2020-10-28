@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Config from '../components/config'
 import operate from '../components/operate'
+import manage from '../components/manage'
 Vue.use(VueRouter)
 
 const routes = [
@@ -11,6 +12,7 @@ const routes = [
         children: [
             {path: '/config', name: 'Config', component: Config},
             {path: '/operate', name: 'operate', component: operate},
+            {path: '/manage', name: 'manage', component: manage}
         ]
     },
     {

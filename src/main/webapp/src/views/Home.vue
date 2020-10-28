@@ -3,6 +3,7 @@
     <el-container>
       <el-header>
         <router-link to="/config">配置</router-link>
+        <router-link to="/manage">管理</router-link>
         <router-link to="/operate">操作</router-link>
       </el-header>
       <el-main>
