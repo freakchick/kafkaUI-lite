@@ -2,10 +2,13 @@
   <div class="home">
     <el-container>
       <el-header>
-        <router-link>{{msg}}</router-link>
+        <router-link to="/config">配置</router-link>
+        <router-link to="/operate">操作</router-link>
       </el-header>
-      <el-main>Main</el-main>
-      <el-footer>Footer</el-footer>
+      <el-main>
+        <router-view></router-view>
+      </el-main>
+<!--      <el-footer>Footer</el-footer>-->
     </el-container>
   </div>
 </template>
@@ -28,28 +31,5 @@ export default {
 </script>
 
 <style>
-.el-header, .el-footer {
-  background-color: #B3C0D1;
-  color: #333;
-  text-align: center;
-  line-height: 60px;
-}
 
-.el-aside {
-  background-color: #D3DCE6;
-  color: #333;
-  text-align: center;
-  line-height: 200px;
-}
-
-.el-main {
-  background-color: #E9EEF3;
-  color: #333;
-  text-align: center;
-  line-height: 160px;
-}
-
-body > .el-container {
-  margin-bottom: 40px;
-}
 </style>
