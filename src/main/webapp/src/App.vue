@@ -1,13 +1,6 @@
 <template>
   <div id="app">
-    <Home></Home>
-    <header>
-      <router-link to="/">Home</router-link>
-      <router-link to="/about">About</router-link>
-    </header>
-    <!-- 对应的组件内容渲染到router-view中 -->
     <router-view></router-view>
-
   </div>
 </template>
 
