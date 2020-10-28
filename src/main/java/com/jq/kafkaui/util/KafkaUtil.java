@@ -13,7 +13,6 @@ import java.util.*;
  **/
 public class KafkaUtil {
 
-
     public static AdminClient createAdminClientByProperties() {
 
         Properties prop = new Properties();
@@ -24,7 +23,6 @@ public class KafkaUtil {
         // 创建AdminClient实例
         return AdminClient.create(prop);
     }
-
 
     public static void listTopicsWithOptions() throws Exception {
         // 创建AdminClient客户端对象
@@ -55,7 +53,7 @@ public class KafkaUtil {
 
     /**
      * 获取topic的描述信息
-     *
+     * <p>
      * topic name = a-topic, desc = (name=a-topic, internal=false, partitions=(partition=0, leader=192.168.182.128:9092 (id: 0 rack: null), replicas=192.168.182.128:9092 (id: 0 rack: null), isr=192.168.182.128:9092 (id: 0 rack: null)), authorizedOperations=null)
      * topic name = b-topic, desc = (name=b-topic, internal=false, partitions=(partition=0, leader=192.168.182.128:9092 (id: 0 rack: null), replicas=192.168.182.128:9092 (id: 0 rack: null), isr=192.168.182.128:9092 (id: 0 rack: null)), authorizedOperations=null)
      */
@@ -97,8 +95,46 @@ public class KafkaUtil {
         adminClient.close();
     }
 
+    /**
+     * 创建一个或多个topic
+     *
+     * @param topicNames topic名称的集合
+     */
+    public static void createTopic(List<String> topicNames) throws Exception {
+// 创建AdminClient客户端对象
+        AdminClient adminClient = createAdminClientByProperties();
+
+        List<NewTopic> topicList = new ArrayList();
+/**
+ * 定义topic信息
+ * String name                topic名
+ * int numPartitions          分区数
+ * short replicationFactor    副本数,必须不能大于broker数量
+ */
+        topicNames.forEach(topicName -> topicList.add(
+                new NewTopic(topicName, 1, Short.parseShort("1"))));
+
+// 创建topic
+        CreateTopicsResult result = adminClient.createTopics(topicList);
+
+// get方法是一个阻塞方法，一定要等到createTopics完成之后才进行下一步操作
+        result.all().get();
+
+// 打印新创建的topic名
+        result.values().forEach((name, future) -> System.out.println("topicName:" + name));
+
+// 关闭资源
+        adminClient.close();
+    }
+
     public static void main(String[] args) throws Exception {
-        listTopicsWithOptions();
+        List<String> list = new ArrayList<>();
+        list.add("jiang");
+        list.add("1iang");
+//        createTopic(list);
+//        listTopicsWithOptions();
+
+        describeTopics(list);
     }
 
 }
