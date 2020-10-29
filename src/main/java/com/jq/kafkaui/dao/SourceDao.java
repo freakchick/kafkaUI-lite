@@ -1,10 +1,7 @@
 package com.jq.kafkaui.dao;
 
 import com.jq.kafkaui.domain.Source;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -15,4 +12,7 @@ public interface SourceDao {
     @Results({@Result(property = "name", column = "name"),
             @Result(property = "broker", column = "broker")})
     List<Source> getAll();
+
+    @Insert({"insert into source (name, broker) values (#{name}, #{broker})"})
+    void insert(Source source);
 }

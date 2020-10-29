@@ -39,4 +39,9 @@ public class HomeController {
         return kafkaService.getAllSource();
     }
 
+    @RequestMapping("/add")
+    public String addSource(Source source) {
+         kafkaService.add(source);
+         return "success";
+    }
 }

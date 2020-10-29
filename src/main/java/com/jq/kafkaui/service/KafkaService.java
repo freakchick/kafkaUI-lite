@@ -17,7 +17,7 @@ public class KafkaService {
     @Autowired
     SourceDao sourceDao;
 
-    public List<Source> getAllSource(){
+    public List<Source> getAllSource() {
         return sourceDao.getAll();
     }
 
@@ -30,4 +30,7 @@ public class KafkaService {
 
     }
 
+    public void add(Source source) {
+        sourceDao.insert(source);
+    }
 }
