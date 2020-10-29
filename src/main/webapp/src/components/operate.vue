@@ -33,10 +33,12 @@ export default {
       topics: ["aa", "bb"],
       sender: null,
       mode: "1",
-      on: false
+      on: false,
+      group:null
     }
   },
   mounted() {
+    console.log('operate mounted' )
     // WebSocket
     if ('WebSocket' in window) {
       this.websocket = new WebSocket('ws://localhost:8889/push/websocket')
