@@ -13,7 +13,8 @@
     <el-radio v-model="mode" label="1">历史消息</el-radio>
     <el-radio v-model="mode" label="2">最新消息</el-radio>
 
-    <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66" inactive-color="#ff4949"></el-switch>
+    <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"
+               inactive-color="#ff4949"></el-switch>
 
     <el-input v-model="group" placeholder="请输入group"></el-input>
     <el-input type="textarea" size="medium" rows="10" v-model="sender" maxlength="3000" show-word-limit></el-input>
@@ -29,10 +30,53 @@ export default {
       broker: null,
       brokers: [{"address": "127.0.0.1:9092", "name": "local kafka"}],
       topic: null,
-      topics :["aa","bb"],
-      sender:null,
-      mode:"1",
-      on:false
+      topics: ["aa", "bb"],
+      sender: null,
+      mode: "1",
+      on: false
+    }
+  },
+  mounted() {
+    // WebSocket
+    if ('WebSocket' in window) {
+      this.websocket = new WebSocket('ws://localhost:8889/push/websocket')
+      // alert('连接浏览器')
+      this.initWebSocket()
+    } else {
+      alert('当前浏览器 不支持')
+    }
+  },
+  methods: {
+    initWebSocket() {
+      // 连接错误
+      this.websocket.onerror = this.setErrorMessage
+      // 连接成功
+      this.websocket.onopen = this.setOnopenMessage
+      // 收到消息的回调
+      this.websocket.onmessage = this.setOnmessageMessage
+      // 连接关闭的回调
+      this.websocket.onclose = this.setOncloseMessage
+      // 监听窗口关闭事件，当窗口关闭时，主动去关闭websocket连接，防止连接还没断开就关闭窗口，server端会抛异常。
+      window.onbeforeunload = this.onbeforeunload
+    },
+    setErrorMessage() {
+      console.log('WebSocket连接发生错误   状态码：' + this.websocket.readyState)
+    },
+    setOnopenMessage() {
+      console.log('WebSocket连接成功    状态码：' + this.websocket.readyState)
+    },
+    setOnmessageMessage(event) {
+      // 根据服务器推送的消息做自己的业务处理
+      console.log('服务端返回：' + event.data)
+    },
+    setOncloseMessage() {
+      console.log('WebSocket连接关闭    状态码：' + this.websocket.readyState)
+    },
+    onbeforeunload() {
+      this.closeWebSocket()
+    },
+    closeWebSocket() {
+      this.websocket.close()
     }
   }
 }
