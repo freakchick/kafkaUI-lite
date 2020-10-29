@@ -39,7 +39,6 @@ public class WebSocketServer {
         log.info("is connected");
     }
 
-    //    @Asyn
     public void consume(Session session) {
 
         new Thread(new Runnable() {
