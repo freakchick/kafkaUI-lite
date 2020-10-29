@@ -13,6 +13,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/push/websocket")
 @Slf4j
 public class WebSocketServer {
+
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
     //concurrent包的线程安全Set，用来存放每个客户端对应的MyWebSocket对象。
@@ -34,11 +35,28 @@ public class WebSocketServer {
         addOnlineCount();           //在线数加1
         log.info("有新窗口开始监听:" + sid + ",当前在线人数为" + getOnlineCount());
         this.sid = sid;
-        /*try {
-            sendMessage(JSON.toJSONString(RestResponse.success()));
-        } catch (IOException e) {
-            log.error("websocket IO异常");
-        }*/
+        consume(this.session);
+        log.info("is connected");
+    }
+
+    //    @Asyn
+    public void consume(Session session) {
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (session.isOpen()) {
+                    try {
+                        Thread.sleep(1000);
+                        log.info("---------");
+                        session.getBasicRemote().sendText("sssdd");
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
+
     }
 
     /**

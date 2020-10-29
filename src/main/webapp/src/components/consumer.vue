@@ -23,7 +23,8 @@ export default {
       group: null,
       address: null,
 
-        sender: null
+      sender: null,
+      websocket: null
     }
   },
   created() {
@@ -32,14 +33,14 @@ export default {
   methods: {
     onchange() {
       console.log(this.on)
-      if (this.on){
+      if (this.on) {
         if ('WebSocket' in window) {
           this.websocket = new WebSocket('ws://' + this.address + '/push/websocket')
           this.initWebSocket()
         } else {
           alert('当前浏览器 不支持')
         }
-      }else{
+      } else {
         this.websocket.close()
       }
 
