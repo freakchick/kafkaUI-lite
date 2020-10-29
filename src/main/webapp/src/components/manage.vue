@@ -18,7 +18,7 @@ export default {
   name: "manage",
   data() {
     return {
-      broker: null,
+      broker: "192.168.33.201:9092",
       brokers: [{"address": "127.0.0.1:9092", "name": "local kafka"}],
       tableData: [{
         date: '2016-05-02',
@@ -37,6 +37,17 @@ export default {
         name: '王小虎',
         address: '上海市普陀区金沙江路 1516 弄'
       }]
+    }
+  },
+  created() {
+    this.getTopics()
+  },
+  methods: {
+    getTopics() {
+      this.axios.post("/getTopics",{"brokers":this.broker}).then((response) => {
+        console.log(response.data);
+      }).catch((error) => {
+      })
     }
   }
 }

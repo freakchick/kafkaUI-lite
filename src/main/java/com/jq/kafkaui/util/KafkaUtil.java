@@ -11,6 +11,7 @@ import org.apache.kafka.common.config.ConfigResource;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * @program: kafkaUI
@@ -20,20 +21,22 @@ import java.util.*;
  **/
 public class KafkaUtil {
 
-    public static AdminClient createAdminClientByProperties() {
+    public static AdminClient createAdminClientByProperties(String brokers) {
 
         Properties prop = new Properties();
 
         // 配置Kafka服务的访问地址及端口号
-        prop.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, "192.168.33.201:9092");
+        prop.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);
+        prop.setProperty(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG, "2000");
+        prop.setProperty(AdminClientConfig.DEFAULT_API_TIMEOUT_MS_CONFIG, "2000");
 
         // 创建AdminClient实例
         return AdminClient.create(prop);
     }
 
-    public static void listTopicsWithOptions() throws Exception {
+    public static List<String> listTopicsWithOptions(String brokers) {
         // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties();
+        AdminClient adminClient = createAdminClientByProperties(brokers);
 
         ListTopicsOptions options = new ListTopicsOptions();
         // 列出内部的Topic
@@ -42,20 +45,17 @@ public class KafkaUtil {
         // 列出所有的topic
         ListTopicsResult result = adminClient.listTopics(options);
 
-        // 获取所有topic的名字，返回的是一个Set集合
-        Set<String> topicNames = result.names().get();
+        try {
+            Set<String> topicNames = result.names().get();
+            return new ArrayList<>(topicNames);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        } finally {
 
-        topicNames.forEach(System.out::println);
+            adminClient.close();
+        }
 
-        // 获取所有topic的信息，返回的是一个Collection集合
-        // (name=hello-kafka, internal=false),internal代表是否为内部的topic
-        Collection<TopicListing> topicListings = result.listings().get();
-
-        // 打印所有topic的信息
-        topicListings.forEach(System.out::println);
-
-        // 关闭资源
-        adminClient.close();
     }
 
     /**
@@ -64,9 +64,9 @@ public class KafkaUtil {
      * topic name = a-topic, desc = (name=a-topic, internal=false, partitions=(partition=0, leader=192.168.182.128:9092 (id: 0 rack: null), replicas=192.168.182.128:9092 (id: 0 rack: null), isr=192.168.182.128:9092 (id: 0 rack: null)), authorizedOperations=null)
      * topic name = b-topic, desc = (name=b-topic, internal=false, partitions=(partition=0, leader=192.168.182.128:9092 (id: 0 rack: null), replicas=192.168.182.128:9092 (id: 0 rack: null), isr=192.168.182.128:9092 (id: 0 rack: null)), authorizedOperations=null)
      */
-    public static void describeTopics(List<String> topics) throws Exception {
+    public static void describeTopics(List<String> topics, String brokers) throws Exception {
         // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties();
+        AdminClient adminClient = createAdminClientByProperties(brokers);
 
         // 获取Topic的描述信息
         DescribeTopicsResult result = adminClient.describeTopics(topics);
@@ -82,9 +82,9 @@ public class KafkaUtil {
     /**
      * 获取topic的配置信息
      */
-    public static void describeConfigTopics(List<String> topicNames) throws Exception {
+    public static void describeConfigTopics(List<String> topicNames, String brokers) throws Exception {
         // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties();
+        AdminClient adminClient = createAdminClientByProperties(brokers);
 
         List<ConfigResource> configResources = new ArrayList<>();
         topicNames.forEach(topicName -> configResources.add(
@@ -107,9 +107,9 @@ public class KafkaUtil {
      *
      * @param topicNames topic名称的集合
      */
-    public static void createTopic(List<String> topicNames) throws Exception {
+    public static void createTopic(List<String> topicNames, String brokers) throws Exception {
 // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties();
+        AdminClient adminClient = createAdminClientByProperties(brokers);
 
         List<NewTopic> topicList = new ArrayList();
 /**
@@ -145,7 +145,7 @@ public class KafkaUtil {
         Producer<String, String> producer = new KafkaProducer<>(props);
 
         for (int i = 0; i < 100; i++)
-            producer.send(new ProducerRecord<>(topic,"ddd"));
+            producer.send(new ProducerRecord<>(topic, "ddd"));
 
         producer.close();
 
@@ -175,7 +175,7 @@ public class KafkaUtil {
 //        createTopic(list);
 //        listTopicsWithOptions();
 
-        describeTopics(list);
+//        describeTopics(list);
     }
 
 }
