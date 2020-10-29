@@ -116,8 +116,7 @@
                 <executions>
                     <execution>
                         <id>copy-spring-boot-webapp</id>
-                        <!-- here the phase you need -->
-                        <phase>validate</phase>
+                        <phase>package</phase>
                         <goals>
                             <goal>copy-resources</goal>
                         </goals>
