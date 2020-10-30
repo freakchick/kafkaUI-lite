@@ -137,7 +137,7 @@ public class KafkaUtil {
         adminClient.close();
     }
 
-    public static void producer(String brokers, String topic) {
+    public static Producer<String, String> getProducer(String brokers) {
 
         Properties props = new Properties();
         props.put("bootstrap.servers", brokers);
@@ -147,10 +147,9 @@ public class KafkaUtil {
 
         Producer<String, String> producer = new KafkaProducer<>(props);
 
-        for (int i = 0; i < 100; i++)
-            producer.send(new ProducerRecord<>(topic, "ddd"));
 
-        producer.close();
+
+        return producer;
 
     }
 
