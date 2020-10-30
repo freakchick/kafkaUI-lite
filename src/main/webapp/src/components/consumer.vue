@@ -8,7 +8,8 @@
                inactive-color="#ff4949" @change="onchange"></el-switch>
 
     <el-input v-model="group" placeholder="请输入group"></el-input>
-    <el-input type="textarea" size="medium" rows="10" v-model="sender" maxlength="3000" show-word-limit></el-input>
+    <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>
+    <span v-></span>
   </div>
 </template>
 
@@ -23,7 +24,7 @@ export default {
       group: null,
       address: null,
 
-      sender: null,
+      message: [],
       websocket: null
     }
   },
@@ -66,9 +67,10 @@ export default {
         console.log('WebSocket连接成功    状态码：' + this.websocket.readyState)
       }
       // 收到消息的回调
-      this.websocket.onmessage = function (event) {
+      this.websocket.onmessage =  (event) => {
         // 根据服务器推送的消息做自己的业务处理
         console.log('服务端返回：' + event.data)
+        this.message.push(event.data)
       }
       // 连接关闭的回调
       this.websocket.onclose = () => {
