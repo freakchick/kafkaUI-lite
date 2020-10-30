@@ -3,6 +3,7 @@ package com.jq.kafkaui.service;
 import com.jq.kafkaui.dao.SourceDao;
 import com.jq.kafkaui.domain.Source;
 import com.jq.kafkaui.util.IPUtil;
+import com.jq.kafkaui.util.KafkaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -33,4 +34,11 @@ public class KafkaService {
     public void add(Source source) {
         sourceDao.insert(source);
     }
+
+    public void deleteSource(Integer id) {
+
+        sourceDao.delete(id);
+    }
+
+
 }

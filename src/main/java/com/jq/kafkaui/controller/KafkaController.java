@@ -9,6 +9,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -23,7 +24,7 @@ import java.util.concurrent.Future;
  **/
 @RestController
 @RequestMapping("/api")
-public class HomeController {
+public class KafkaController {
 
     @Autowired
     KafkaService kafkaService;
@@ -42,6 +43,25 @@ public class HomeController {
     @RequestMapping("/getSource")
     public List<Source> getSource() {
         return kafkaService.getAllSource();
+    }
+
+    @RequestMapping("/deleteSource")
+    public String deleteSource(Integer id) {
+        kafkaService.deleteSource(id);
+        return "success";
+    }
+
+    @RequestMapping("/createTopic")
+    public String createTopic(String brokers, String topic,
+                              @RequestParam(defaultValue = "1") Integer partition,
+                              @RequestParam(defaultValue = "1") Integer replica) {
+        try {
+            KafkaUtil.createTopic(brokers, topic, partition, replica);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
     }
 
     @RequestMapping("/add")

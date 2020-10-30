@@ -16,4 +16,7 @@ public interface SourceDao {
 
     @Insert({"insert into source (name, broker) values (#{name}, #{broker})"})
     void insert(Source source);
+
+    @Delete("")
+    void delete(Integer id);
 }

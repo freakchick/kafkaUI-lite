@@ -5,7 +5,6 @@ import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.config.ConfigResource;
 
 import java.util.*;
@@ -105,35 +104,18 @@ public class KafkaUtil {
         adminClient.close();
     }
 
-    /**
-     * 创建一个或多个topic
-     *
-     * @param topicNames topic名称的集合
-     */
-    public static void createTopic(List<String> topicNames, String brokers) throws Exception {
-// 创建AdminClient客户端对象
+    public static void createTopic(String brokers, String topic, Integer partition, Integer replica) throws Exception {
+        // 创建AdminClient客户端对象
         AdminClient adminClient = createAdminClientByProperties(brokers);
-
         List<NewTopic> topicList = new ArrayList();
-/**
- * 定义topic信息
- * String name                topic名
- * int numPartitions          分区数
- * short replicationFactor    副本数,必须不能大于broker数量
- */
-        topicNames.forEach(topicName -> topicList.add(
-                new NewTopic(topicName, 1, Short.parseShort("1"))));
-
-// 创建topic
+        NewTopic newTopic = new NewTopic(topic, partition, replica.shortValue());
+        topicList.add(newTopic);
         CreateTopicsResult result = adminClient.createTopics(topicList);
-
-// get方法是一个阻塞方法，一定要等到createTopics完成之后才进行下一步操作
+        // get方法是一个阻塞方法，一定要等到createTopics完成之后才进行下一步操作
         result.all().get();
-
-// 打印新创建的topic名
+        // 打印新创建的topic名
         result.values().forEach((name, future) -> System.out.println("topicName:" + name));
-
-// 关闭资源
+        // 关闭资源
         adminClient.close();
     }
 
@@ -146,8 +128,6 @@ public class KafkaUtil {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         Producer<String, String> producer = new KafkaProducer<>(props);
-
-
 
         return producer;
 
