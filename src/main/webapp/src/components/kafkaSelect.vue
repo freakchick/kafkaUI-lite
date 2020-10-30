@@ -15,13 +15,17 @@ export default {
   },
   created() {
     this.getAllSource()
-    if (this.sources.length > 0)
-      this.broker = this.sources[0].broker
+
   },
   methods: {
     getAllSource() {
       this.axios.post("/getSource").then((response) => {
         this.sources = response.data
+        console.log(this.sources[0])
+        if (this.sources.length > 0) {
+          this.broker = this.sources[0].broker
+          this.selectkafka()
+        }
       }).catch((error) => {
       })
     },
