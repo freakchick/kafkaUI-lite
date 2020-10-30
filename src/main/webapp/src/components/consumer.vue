@@ -12,6 +12,7 @@
     <!--    <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>-->
     <div class="frame" ref="frame">
       <p v-for="item in message"><i class="el-icon-d-arrow-right"></i> &nbsp;&nbsp;{{ item }}</p>
+      <p><i class="el-icon-loading" v-if="on"></i></p>
     </div>
   </div>
 </template>
