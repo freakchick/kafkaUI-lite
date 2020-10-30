@@ -1,56 +1,58 @@
 <template>
-  <div>
-    <el-select v-model="broker">
-      <el-option v-for="item in brokers" :key="item.address" :label="item.name" :value="item.address"></el-option>
-    </el-select>
+    <div>
+        <kafkaSource></kafkaSource>
 
-    <el-table :data="tableData" style="width: 100%">
-      <el-table-column prop="date" label="日期" width="180"></el-table-column>
-      <el-table-column prop="name" label="姓名" width="180"></el-table-column>
-      <el-table-column prop="address" label="地址"></el-table-column>
-    </el-table>
+        <el-table :data="tableData" style="width: 100%">
+            <el-table-column prop="date" label="日期" width="180"></el-table-column>
+            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="address" label="地址"></el-table-column>
+        </el-table>
 
-  </div>
+    </div>
 </template>
 
 <script>
-export default {
-  name: "manage",
-  data() {
-    return {
-      broker: "192.168.33.201:9092",
-      brokers: [{"address": "127.0.0.1:9092", "name": "local kafka"}],
-      tableData: [{
-        date: '2016-05-02',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1518 弄'
-      }, {
-        date: '2016-05-04',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1517 弄'
-      }, {
-        date: '2016-05-01',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1519 弄'
-      }, {
-        date: '2016-05-03',
-        name: '王小虎',
-        address: '上海市普陀区金沙江路 1516 弄'
-      }]
+    import kafkaSource from '@/components/kafkaSource.vue'
+
+    export default {
+        name: "manage",
+        data() {
+            return {
+                broker: null,
+                sources: [],
+                tableData: [{
+                    date: '2016-05-02',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1518 弄'
+                }, {
+                    date: '2016-05-04',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1517 弄'
+                }, {
+                    date: '2016-05-01',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1519 弄'
+                }, {
+                    date: '2016-05-03',
+                    name: '王小虎',
+                    address: '上海市普陀区金沙江路 1516 弄'
+                }]
+            }
+        },
+        created() {
+        },
+        methods: {
+            getTopics() {
+                this.axios.post("/getTopics", {"brokers": this.broker}).then((response) => {
+                    console.log(response.data);
+                }).catch((error) => {
+                })
+            }
+        },
+        components: {
+            kafkaSource
+        }
     }
-  },
-  created() {
-    this.getTopics()
-  },
-  methods: {
-    getTopics() {
-      this.axios.post("/getTopics",{"brokers":this.broker}).then((response) => {
-        console.log(response.data);
-      }).catch((error) => {
-      })
-    }
-  }
-}
 </script>
 
 <style scoped>
