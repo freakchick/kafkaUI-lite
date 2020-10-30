@@ -6,6 +6,7 @@
 
     <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"
                inactive-color="#ff4949" @change="onchange"></el-switch>
+    <el-button type="danger" icon="el-icon-delete" @click="clear" circle></el-button>
 
     <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
     <!--    <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>-->
@@ -36,6 +37,9 @@ export default {
   },
   props: ["topic", "broker"],
   methods: {
+    clear() {
+      this.message = []
+    },
     onchange() {
       this.disabled = !this.disabled
       console.log(this.on)
