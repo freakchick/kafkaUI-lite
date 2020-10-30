@@ -7,7 +7,7 @@
     <h2> 生产消息</h2>
     <el-input type="textarea" size="medium" rows="10" maxlength="3000" show-word-limit></el-input>
 
-    <consumer></consumer>
+    <consumer :broker="broker" :topic="topic"></consumer>
 
   </div>
 </template>

@@ -1,12 +1,19 @@
 package com.jq.kafkaui.conf;
 
+import com.jq.kafkaui.util.KafkaUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
+import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
@@ -25,6 +32,8 @@ public class WebSocketServer {
     //接收sid
     private String sid = "";
 
+    Map<String, String> params = new HashMap<>();
+
     /**
      * 连接建立成功调用的方法
      */
@@ -35,24 +44,38 @@ public class WebSocketServer {
         addOnlineCount();           //在线数加1
         log.info("有新窗口开始监听:" + sid + ",当前在线人数为" + getOnlineCount());
         this.sid = sid;
-        consume(this.session);
-        log.info("is connected");
+
+        String queryString = session.getQueryString();
+        String[] array = queryString.split("&");
+        for (String p : array) {
+            String[] split = p.split("=");
+            params.put(split[0], split[1]);
+        }
+
+        consume(this.session, params.get("broker"), params.get("topic"), params.get("group"), params.get("offset"));
+
     }
 
-    public void consume(Session session) {
+    public void consume(Session session, String broker, String topic, String group, String offset) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
+                KafkaConsumer<String, String> consumer = KafkaUtil.getConsumer(broker, topic, group, offset);
                 while (session.isOpen()) {
-                    try {
-                        Thread.sleep(1000);
-                        log.info("---------");
-                        session.getBasicRemote().sendText("sssdd");
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
+                    for (ConsumerRecord<String, String> record : records) {
+                        System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+                        try {
+                            session.getBasicRemote().sendText(record.value());
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
+                consumer.close();
+                log.info("kafka consumer closed");
+
             }
         }).start();
 

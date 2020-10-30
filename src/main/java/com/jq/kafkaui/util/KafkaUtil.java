@@ -2,17 +2,13 @@ package com.jq.kafkaui.util;
 
 import com.jq.kafkaui.domain.Topic;
 import org.apache.kafka.clients.admin.*;
-import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.common.config.ConfigResource;
 
-import java.time.Duration;
 import java.util.*;
-import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -158,21 +154,19 @@ public class KafkaUtil {
 
     }
 
-    public static void consumer(String brokers, String group, String topic) {
+    public static KafkaConsumer<String, String> getConsumer(String brokers, String topic, String group, String offset) {
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", brokers);
         props.setProperty("group.id", group);
         props.setProperty("enable.auto.commit", "true");
         props.setProperty("auto.commit.interval.ms", "1000");
+        props.setProperty("auto.offset.reset", offset);
         props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
         consumer.subscribe(Arrays.asList(topic));
-        while (true) {
-            ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
-            for (ConsumerRecord<String, String> record : records)
-                System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
-        }
+        return consumer;
+
     }
 
     public static void main(String[] args) throws Exception {
