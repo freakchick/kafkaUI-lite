@@ -2,9 +2,14 @@
   <div>
     <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
-    <el-table :data="tableData" >
+    <el-table :data="tableData">
       <el-table-column prop="name" label="topic" width="180"></el-table-column>
     </el-table>
+
+    <el-input v-model="topic.name" placeholder="请输入topic名称"></el-input>
+    <el-input v-model="topic.partition" placeholder="请输入分区数量"></el-input>
+    <el-input v-model="topic.replica" placeholder="请输入副本数量"></el-input>
+    <el-button @click="addTopic">添加</el-button>
 
   </div>
 </template>
@@ -18,7 +23,13 @@ export default {
     return {
       broker: null,
       sources: [],
-      tableData: []
+      tableData: [],
+      topic: {
+        name: null,
+        partition: null,
+        replica: null
+      }
+
     }
   },
   created() {
@@ -33,6 +44,13 @@ export default {
     kafkaChange(broker) {
       this.broker = broker
       this.getTopics()
+    },
+    addTopic() {
+      this.topic['broker'] = this.broker
+      this.axios.post("/createTopic", this.topic).then((response) => {
+        this.getTopics()
+      }).catch((error) => {
+      })
     }
   },
   components: {

@@ -52,11 +52,11 @@ public class KafkaController {
     }
 
     @RequestMapping("/createTopic")
-    public String createTopic(String brokers, String topic,
+    public String createTopic(String broker, String name,
                               @RequestParam(defaultValue = "1") Integer partition,
                               @RequestParam(defaultValue = "1") Integer replica) {
         try {
-            KafkaUtil.createTopic(brokers, topic, partition, replica);
+            KafkaUtil.createTopic(broker, name, partition, replica);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();

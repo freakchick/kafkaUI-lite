@@ -4,8 +4,9 @@
     <el-select v-model="topic" placeholder="选择topic" clearable>
       <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
     </el-select>
-    <h2> 生产消息</h2>
-    <el-input type="textarea" size="medium" rows="10" maxlength="3000" show-word-limit></el-input>
+    <h5> 生产消息</h5>
+    <el-input type="textarea" v-model="message" size="medium" rows="10" maxlength="3000" show-word-limit></el-input>
+    <el-button @click="produce">发送</el-button>
 
     <consumer :broker="broker" :topic="topic"></consumer>
 
@@ -23,8 +24,8 @@ export default {
       broker: null,
       sources: [],
       topic: null,
-      topics: []
-
+      topics: [],
+      message: null
     }
   },
   methods: {
@@ -32,6 +33,16 @@ export default {
       this.broker = broker
       console.log(broker);
       this.axios.post("/getTopics", {"brokers": this.broker}).then((response) => {
+        this.topics = response.data
+      }).catch((error) => {
+      })
+    },
+    produce() {
+      this.axios.post("/produce", {
+        "broker": this.broker,
+        "topic": this.topic,
+        "message": this.message
+      }).then((response) => {
         this.topics = response.data
       }).catch((error) => {
       })
