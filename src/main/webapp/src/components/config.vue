@@ -1,7 +1,7 @@
 <template>
     <div>
         <el-table :data="sources">
-            <el-table-column prop="name" label="姓名" width="180"></el-table-column>
+            <el-table-column prop="name" label="名称" width="180"></el-table-column>
             <el-table-column prop="broker" label="地址" width="180"></el-table-column>
         </el-table>
         broker地址:

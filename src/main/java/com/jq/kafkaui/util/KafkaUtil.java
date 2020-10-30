@@ -1,5 +1,6 @@
 package com.jq.kafkaui.util;
 
+import com.jq.kafkaui.domain.Topic;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
@@ -12,6 +13,7 @@ import org.apache.kafka.common.config.ConfigResource;
 import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 
 /**
  * @program: kafkaUI
@@ -34,7 +36,7 @@ public class KafkaUtil {
         return AdminClient.create(prop);
     }
 
-    public static List<String> listTopicsWithOptions(String brokers) {
+    public static List<Topic> listTopicsWithOptions(String brokers) {
         // 创建AdminClient客户端对象
         AdminClient adminClient = createAdminClientByProperties(brokers);
 
@@ -47,7 +49,12 @@ public class KafkaUtil {
 
         try {
             Set<String> topicNames = result.names().get();
-            return new ArrayList<>(topicNames);
+            List<Topic> collect = topicNames.stream().map(t -> {
+                Topic topic = new Topic();
+                topic.setName(t);
+                return topic;
+            }).collect(Collectors.toList());
+            return collect;
         } catch (Exception e) {
             e.printStackTrace();
             return null;

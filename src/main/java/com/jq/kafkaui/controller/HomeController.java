@@ -1,6 +1,7 @@
 package com.jq.kafkaui.controller;
 
 import com.jq.kafkaui.domain.Source;
+import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class HomeController {
     KafkaService kafkaService;
 
     @RequestMapping("/getTopics")
-    public List<String> getTopics(String brokers) {
-        List<String> list = KafkaUtil.listTopicsWithOptions(brokers);
+    public List<Topic> getTopics(String brokers) {
+        List<Topic> list = KafkaUtil.listTopicsWithOptions(brokers);
         return list;
     }
 

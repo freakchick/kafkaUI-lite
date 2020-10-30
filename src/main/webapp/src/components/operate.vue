@@ -1,8 +1,8 @@
 <template>
   <div>
     <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
-    <el-select v-model="topic" placeholder="选择topic">
-      <el-option v-for="item in topics" :key="item" :label="item" :value="item"></el-option>
+    <el-select v-model="topic" placeholder="选择topic" clearable>
+      <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
     </el-select>
     <h2> 生产消息</h2>
     <el-input type="textarea" size="medium" rows="10" maxlength="3000" show-word-limit></el-input>
