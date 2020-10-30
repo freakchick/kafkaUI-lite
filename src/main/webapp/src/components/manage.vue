@@ -1,6 +1,6 @@
 <template>
   <div>
-    <kafkaSelect></kafkaSelect>
+    <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
     <el-table :data="tableData" style="width: 100%">
       <el-table-column prop="date" label="日期" width="180"></el-table-column>
@@ -47,6 +47,10 @@ export default {
         console.log(response.data);
       }).catch((error) => {
       })
+    },
+    kafkaChange(broker) {
+      this.broker = broker
+      this.getTopics()
     }
   },
   components: {
