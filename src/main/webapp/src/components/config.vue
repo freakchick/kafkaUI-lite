@@ -18,8 +18,7 @@
             return {
                 broker: null,
                 sources: [],
-                name: null,
-                broker: null
+                name: null
             }
         },
         created() {
