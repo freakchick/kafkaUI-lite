@@ -65,7 +65,7 @@ public class WebSocketServer {
                 while (session.isOpen()) {
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, String> record : records) {
-                        System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
+//                        System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
                         try {
                             session.getBasicRemote().sendText(record.value());
                         } catch (IOException e) {

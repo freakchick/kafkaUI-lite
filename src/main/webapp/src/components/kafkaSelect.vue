@@ -15,6 +15,8 @@ export default {
   },
   created() {
     this.getAllSource()
+    if (this.sources.length > 0)
+      this.broker = this.sources[0].broker
   },
   methods: {
     getAllSource() {
@@ -25,7 +27,7 @@ export default {
     },
     selectkafka() {
       // console.log(this.broker)
-      this.$emit('kafkaChange',this.broker);
+      this.$emit('kafkaChange', this.broker);
     }
   }
 }

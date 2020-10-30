@@ -8,8 +8,8 @@
                inactive-color="#ff4949" @change="onchange"></el-switch>
 
     <el-input v-model="group" placeholder="请输入group"></el-input>
-    <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>
-    <span v-></span>
+<!--    <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>-->
+    <p v-for="item in message">{{item}}</p>
   </div>
 </template>
 
