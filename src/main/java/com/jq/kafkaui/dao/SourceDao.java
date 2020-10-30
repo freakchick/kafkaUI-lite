@@ -10,7 +10,8 @@ public interface SourceDao {
 
     @Select("SELECT * FROM source")
     @Results({@Result(property = "name", column = "name"),
-            @Result(property = "broker", column = "broker")})
+            @Result(property = "broker", column = "broker"),
+            @Result(property = "id", column = "id")})
     List<Source> getAll();
 
     @Insert({"insert into source (name, broker) values (#{name}, #{broker})"})
