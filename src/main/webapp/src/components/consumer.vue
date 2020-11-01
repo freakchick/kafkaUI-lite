@@ -6,13 +6,20 @@
 
     <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"
                inactive-color="#ff4949" @change="start"></el-switch>
-    <el-button type="danger" icon="el-icon-delete" @click="clear" circle></el-button>
 
     <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
     <!--    <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>-->
     <div class="frame" ref="frame">
+      <div class="left">
+        <i class="el-icon-video-play" v-if="!on"></i>
+        <i class="el-icon-video-pause" v-else></i>
+        <i class="el-icon-delete" @click="clear"></i>
+
+      </div>
+      <div class="right">
       <p v-for="item in message"><i class="el-icon-d-arrow-right"></i> &nbsp;&nbsp;{{ item }}</p>
       <p><i class="el-icon-loading" v-if="on"></i></p>
+      </div>
     </div>
   </div>
 </template>
@@ -108,12 +115,23 @@ export default {
 
 <style scoped>
 .frame {
+  display: flex;
   width: 600px;
   height: 200px;
-  border-radius: 10px;
-  background-color: blanchedalmond;
-  color: #42b983;
-  border: black 2px solid;
-  overflow-y: scroll;
+  /*border-radius: 10px;*/
+  /*background-color: blanchedalmond;*/
+  /*color: #42b983;*/
+  border: black 1px solid;
+
 }
+  .left{
+    width: 30px;
+    font-size: 30px;
+    border-right: #8c939d 1px solid;
+  }
+  .right{
+    /*background-color: #d9ecff;*/
+    overflow-y: scroll;
+    width: 100%;
+  }
 </style>
