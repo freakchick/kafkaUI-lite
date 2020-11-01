@@ -45,6 +45,7 @@
                         message: '请先选择kafka和topic',
                         type: 'error'
                     });
+                    return
                 }
 
                 this.axios.post("/produce", {
@@ -88,7 +89,7 @@
     }
     .history{
         background-color: #f3d19e;
-        margin: 1px;
+        margin: 2px;
         padding: 3px;
         line-height: 16px;
         font-size: 16px;

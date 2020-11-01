@@ -14,18 +14,17 @@
         <!--        <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"-->
         <!--                   inactive-color="#ff4949" @change="start"></el-switch>-->
 
-
-            <el-input type="textarea" size="medium" rows="10" v-model="message" maxlength="3000" show-word-limit></el-input>
         <div class="frame" ref="frame">
             <div class="left">
-                <i class="el-icon-video-play" v-if="!on" @click="start"></i>
-                <i class="el-icon-video-pause" v-else @click="stop"></i>
-                <i class="el-icon-delete" @click="clear"></i>
+                <i class="el-icon-video-play" v-if="!on" @click="start" style="color:green"></i>
+                <i class="el-icon-video-pause" v-else @click="stop" style="color: red"></i>
+                <i class="el-icon-delete" @click="clear" style="color: red"></i>
 
             </div>
             <div class="right">
-                <p v-for="item in message"><i class="el-icon-d-arrow-right"></i> &nbsp;&nbsp;{{ item }}</p>
-                <p><i class="el-icon-loading" v-if="on"></i></p>
+                <p v-for="item in message" class="history">
+                    <i class="el-icon-d-arrow-right" ></i>{{ item }}</p>
+                <p><i class="el-icon-loading" v-if="on" style="color: #13ce66"></i></p>
             </div>
         </div>
     </div>
@@ -54,8 +53,25 @@
                 this.message = []
             },
             start() {
-                this.disabled = !this.disabled
-                this.on = false
+                if (this.broker == null || this.broker == '' || this.topic == null || this.topic == '') {
+                    this.$message({
+                        showClose: true,
+                        message: '请先选择kafka和topic',
+                        type: 'error'
+                    });
+                    return
+                }
+                if (this.group == null || this.group == '') {
+                    this.$message({
+                        showClose: true,
+                        message: '请先输入group',
+                        type: 'error'
+                    });
+                    return
+                }
+
+                this.disabled = true
+                this.on = true
 
                 if ('WebSocket' in window) {
 
@@ -70,7 +86,8 @@
 
             },
             stop() {
-                this.on = true
+                this.disabled = false
+                this.on = false
                 this.websocket.close()
             },
             scroll() {
@@ -131,12 +148,21 @@
         width: 30px;
         font-size: 30px;
         border-right: #8c939d 1px solid;
-        background-color: #dfe4ed;
+        background-color: #EDEBEB;
+    }
+    
+    .left i:hover{
+        background-color: #D6D5CF;
     }
 
     .right {
         /*background-color: #d9ecff;*/
         overflow-y: scroll;
         width: 100%;
+        background-color: #FBF7F7;
+    }
+    .right p{
+        /*background-color: #FAF9F5;*/
+        margin: 3px;
     }
 </style>
