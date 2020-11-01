@@ -6,10 +6,29 @@
       <el-table-column prop="name" label="topic" width="180"></el-table-column>
     </el-table>
 
-    <el-input v-model="topic.name" placeholder="请输入topic名称"></el-input>
-    <el-input v-model="topic.partition" placeholder="请输入分区数量"></el-input>
-    <el-input v-model="topic.replica" placeholder="请输入副本数量"></el-input>
-    <el-button @click="addTopic">添加</el-button>
+    <el-button @click="dialogFormVisible = true">创建topic</el-button>
+    <el-dialog title="创建topic" :visible.sync="dialogFormVisible" width="600px">
+      <el-form label-width="80px">
+        <el-form-item label="topic名称">
+          <el-input v-model="topic.name" placeholder="请输入topic名称"></el-input>
+        </el-form-item>
+        <el-form-item label="分区数量">
+          <el-input v-model="topic.partition" placeholder="请输入分区数量"></el-input>
+        </el-form-item>
+        <el-form-item label="副本数量">
+          <el-input v-model="topic.replica" placeholder="请输入副本数量"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogFormVisible = false;addTopic()">确 定</el-button>
+      </div>
+    </el-dialog>
+
+
+
+
+<!--    <el-button @click="addTopic">添加</el-button>-->
 
   </div>
 </template>
@@ -28,7 +47,8 @@ export default {
         name: null,
         partition: null,
         replica: null
-      }
+      },
+      dialogFormVisible: false
 
     }
   },
