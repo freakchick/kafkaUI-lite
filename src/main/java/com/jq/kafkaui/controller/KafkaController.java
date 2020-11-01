@@ -8,6 +8,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,8 +46,8 @@ public class KafkaController {
         return kafkaService.getAllSource();
     }
 
-    @RequestMapping("/deleteSource")
-    public String deleteSource(Integer id) {
+    @RequestMapping("/deleteSource/{id}")
+    public String deleteSource(@PathVariable Integer id) {
         kafkaService.deleteSource(id);
         return "success";
     }

@@ -2,7 +2,7 @@
   <div>
     <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
-    <el-table :data="tableData">
+    <el-table :data="tableData" stripe border>
       <el-table-column prop="name" label="topic" width="180"></el-table-column>
     </el-table>
 
