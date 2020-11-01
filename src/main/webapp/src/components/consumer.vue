@@ -5,7 +5,7 @@
     <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>
 
     <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"
-               inactive-color="#ff4949" @change="onchange"></el-switch>
+               inactive-color="#ff4949" @change="start"></el-switch>
     <el-button type="danger" icon="el-icon-delete" @click="clear" circle></el-button>
 
     <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
@@ -41,7 +41,7 @@ export default {
     clear() {
       this.message = []
     },
-    onchange() {
+    start() {
       this.disabled = !this.disabled
       console.log(this.on)
       if (this.on) {

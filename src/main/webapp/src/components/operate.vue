@@ -12,10 +12,8 @@
             </el-form-item>
         </el-form>
 
-        <h5> 生产消息</h5>
-        <el-input type="textarea" v-model="message" size="medium" rows="4" maxlength="3000" show-word-limit></el-input>
-        <el-button @click="produce">发送</el-button>
 
+        <producer :broker="broker" :topic="topic"></producer>
         <consumer :broker="broker" :topic="topic"></consumer>
 
     </div>
@@ -23,6 +21,7 @@
 
 <script>
     import consumer from '@/components/consumer.vue'
+    import producer from '@/components/producer.vue'
     import kafkaSelect from '@/components/kafkaSelect.vue'
 
     export default {
@@ -36,6 +35,7 @@
                 message: null
             }
         },
+
         methods: {
             getTopics(broker) {
                 this.broker = broker
@@ -45,19 +45,10 @@
                 }).catch((error) => {
                 })
             },
-            produce() {
-                this.axios.post("/produce", {
-                    "broker": this.broker,
-                    "topic": this.topic,
-                    "message": this.message
-                }).then((response) => {
-                    this.topics = response.data
-                }).catch((error) => {
-                })
-            }
+
         },
         components: {
-            consumer, kafkaSelect
+            consumer, kafkaSelect,producer
         }
     }
 </script>
