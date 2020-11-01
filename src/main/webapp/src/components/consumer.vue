@@ -1,11 +1,11 @@
 <template>
     <div>
         <h2> 消费消息</h2>
-        <el-form label-width="80px">
-            <el-form-item label="groupId">
+        <el-form label-width="100px" width="200px">
+            <el-form-item label="groupId：">
                 <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
             </el-form-item>
-            <el-form-item label="消费模式">
+            <el-form-item label="消费模式：">
                 <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息</el-radio>
                 <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>
             </el-form-item>

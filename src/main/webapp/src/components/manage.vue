@@ -2,8 +2,9 @@
   <div>
     <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
+    <h3>所有topic：</h3>
     <el-table :data="tableData" stripe border>
-      <el-table-column prop="name" label="topic" width="180"></el-table-column>
+      <el-table-column prop="name" label="topic"></el-table-column>
     </el-table>
 
     <el-button @click="dialogFormVisible = true">创建topic</el-button>
