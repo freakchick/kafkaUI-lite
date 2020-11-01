@@ -1,10 +1,18 @@
 <template>
     <div>
         <h5> 生产消息</h5>
-        <div class="frame" ref="frame">
-            <p v-for="item in messages"><i class="el-icon-circle-check"></i> &nbsp;&nbsp;{{ item }}</p>
+
+        <div class="frame" ref="history">
+            <div class="left">
+                <i class="el-icon-delete" @click="clear"></i>
+            </div>
+            <div class="right">
+                <p v-for="item in messages" class="history">
+                    <i class="el-icon-circle-check"></i> &nbsp;&nbsp;{{ item }}</p>
+            </div>
         </div>
-        <el-input type="textarea" v-model="message" @keyup.enter.native="produce"> size="medium" rows="4"
+
+        <el-input type="textarea" v-model="message"  size="medium" rows="4" @keyup.enter.native="produce"
             maxlength="3000" show-word-limit>
         </el-input>
         <el-button @click="produce">发送</el-button>
@@ -22,14 +30,12 @@
         },
         props: ["topic", "broker"],
         methods: {
+            clear() {
+                this.messages = []
+            },
             scroll() {
                 this.$nextTick(() => {
-                    // setTimeout(() => {
-                    //   var scrollTop = this.$el.querySelector('.scrolldivmain')
-                    //   scrollTop.scrollTop = scrollTop.scrollHeight
-                    // }, 13)
-                    // var h = this.$refs.frame.scrollHeight();
-                    this.$refs.frame.scrollTop = 10000;
+                    this.$refs.history.scrollTop = 10000;
                 })
             },
             produce() {
@@ -58,12 +64,33 @@
 
 <style scoped>
     .frame {
+        display: flex;
         width: 600px;
-        max-height: 200px;
+        height: 200px;
         /*border-radius: 10px;*/
-        background-color: blanchedalmond;
-        color: #42b983;
-        /*border: black 2px solid;*/
+        /*background-color: blanchedalmond;*/
+        /*color: #42b983;*/
+        border: black 1px solid;
+
+    }
+
+    .left {
+        width: 30px;
+        font-size: 30px;
+        border-right: #8c939d 1px solid;
+        background-color: #dfe4ed;
+    }
+
+    .right {
+        /*background-color: #d9ecff;*/
         overflow-y: scroll;
+        width: 100%;
+    }
+    .history{
+        background-color: #f3d19e;
+        margin: 1px;
+        padding: 3px;
+        line-height: 16px;
+        font-size: 16px;
     }
 </style>
