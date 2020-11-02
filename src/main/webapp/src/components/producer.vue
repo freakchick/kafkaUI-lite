@@ -12,10 +12,13 @@
       </div>
     </div>
 
-    <el-input type="textarea" v-model="message" size="medium" rows="4" @keyup.enter.native="produce"
-              @keyup.up.native="scrollHistory" maxlength="3000" show-word-limit>
+    <el-checkbox v-model="batch">多行內容切分成多条消息批量发送</el-checkbox>
+
+    <el-input type="textarea" v-model="message" size="medium" rows="4" @keyup.enter.native="keyDown"
+              @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory" maxlength="3000"
+              show-word-limit>
     </el-input>
-    <el-button @click="produce">发送</el-button>
+    <el-button @click="produce"><i class="iconfont icon-Send"></i>  发送</el-button>
   </div>
 </template>
 
@@ -27,21 +30,36 @@ export default {
       message: null,
       messages: [],
       history: [],
-      cursor: null
+      cursor: null,
+      batch: false
     }
   },
   props: ["topic", "broker"],
   methods: {
-    //键盘按上键翻滚历史
-    scrollHistory() {
-      if (this.cursor == null) {
-        this.cursor = this.history.length - 1
+    keyDown(e) {
+      if (e.ctrlKey && e.keyCode == 13) {   //用户点击了ctrl+enter触发
+        this.produce()
+      } else { //用户点击了enter触发
+
       }
+    },
+    //键盘按上键翻滚历史
+    scrollUpHistory() {
+
       this.message = this.history[this.cursor]
       this.cursor--
       if (this.cursor < 0) {
         this.cursor = this.history.length - 1
       }
+    },
+    scrollDownHistory() {
+
+      this.cursor++
+      if (this.cursor >= this.history.length) {
+        this.cursor = 0
+      }
+      this.message = this.history[this.cursor]
+
     },
     clear() {
       this.messages = []
@@ -56,7 +74,7 @@ export default {
       if (this.history.length > 5) {
         this.history = this.history.slice(-5)
       }
-      this.cursor = null
+      this.cursor = this.history.length -1
     },
     produce() {
       if (this.broker == null || this.broker == '' || this.topic == null || this.topic == '') {
@@ -71,7 +89,8 @@ export default {
       this.axios.post("/produce", {
         "broker": this.broker,
         "topic": this.topic,
-        "message": this.message
+        "message": this.message,
+        "batch": this.batch
       }).then((response) => {
         this.messages.push(this.message)
         this.processHistory()

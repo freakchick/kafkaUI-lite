@@ -72,10 +72,18 @@ public class KafkaController {
     }
 
     @RequestMapping("/produce")
-    public String addSource(String broker, String topic, String message) throws ExecutionException, InterruptedException {
+    public String addSource(String broker, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {
         Producer<String, String> producer = KafkaUtil.getProducer(broker);
-        Future<RecordMetadata> send = producer.send(new ProducerRecord<>(topic, message));
-        send.get();
+        if (batch) {
+            String[] messages = message.split("\n");
+            for (String ms : messages) {
+                Future<RecordMetadata> send = producer.send(new ProducerRecord<>(topic, message));
+                send.get();
+            }
+        } else {
+            Future<RecordMetadata> send = producer.send(new ProducerRecord<>(topic, message));
+            send.get();
+        }
         return "success";
     }
 }
