@@ -17,13 +17,13 @@
         <div class="frame" ref="frame">
             <div class="left">
               <el-tooltip v-if="!on" class="item" effect="light" content="开始消费" placement="left" open-delay="500">
-                <i class="el-icon-video-play"  @click="start" style="color:green"></i>
+                <i class="el-icon-video-play"  @click="start" style="color:#12b812"></i>
               </el-tooltip>
               <el-tooltip v-if="on" class="item" effect="light" content="停止消费" placement="left" open-delay="500">
-                <i class="el-icon-video-pause" @click="stop" style="color: red"></i>
+                <i class="el-icon-video-pause" @click="stop" style="color: #f83b3b"></i>
               </el-tooltip>
               <el-tooltip class="item" effect="light" content="清空消息记录buffer" placement="left" open-delay="500">
-                <i class="el-icon-delete" @click="clear" style="color: red"></i>
+                <i class="el-icon-delete" @click="clear" style="color: #f64646"></i>
               </el-tooltip>
             </div>
             <div class="right">
