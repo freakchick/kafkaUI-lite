@@ -19,7 +19,7 @@
       <div class="left">
         <i class="iconfont icon-start" v-if="!on" @click="start" style="color:#12b812"></i>
         <i class="iconfont  icon-stopiconcopy" v-if="on" @click="stop" style="color: #f83b3b"></i>
-        <i :class='["iconfont icon-dibu", {"active" :active }]' @click="autoScroll" style="color: #514c4c"></i>
+        <i :class='["iconfont icon-dibu", {"active" :autoScrollToBottom }]' @click="autoScroll" style="color: #514c4c"></i>
         <i class="iconfont icon-huanhang" @click="autoChangeLine" style="color: #4c4747"></i>
         <i class="el-icon-delete" @click="clear" style="color: #f64646"></i>
 
@@ -45,7 +45,7 @@ export default {
       message: [],
       websocket: null,
       disabled: false,
-      active: false
+      autoScrollToBottom: false
     }
   },
   created() {
@@ -54,7 +54,7 @@ export default {
   props: ["topic", "broker"],
   methods: {
     autoScroll() {
-      this.active = !this.active
+      this.autoScrollToBottom = !this.autoScrollToBottom
     },
     autoChangeLine() {
 
@@ -103,7 +103,7 @@ export default {
     scroll() {
       this.$nextTick(() => {
 
-        this.$refs.frame.scrollTop = 10000;
+        this.$refs.frame.scrollTop = 100000;
       })
     },
     getAddress() {
@@ -125,9 +125,10 @@ export default {
       // 收到消息的回调
       this.websocket.onmessage = (event) => {
         // 根据服务器推送的消息做自己的业务处理
-        console.log('服务端返回：' + event.data)
+        // console.log('服务端返回：' + event.data)
         this.message.push(event.data)
-        this.scroll()
+        if (this.autoScrollToBottom)
+          this.scroll()
       }
       // 连接关闭的回调
       this.websocket.onclose = () => {
