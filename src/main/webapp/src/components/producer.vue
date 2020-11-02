@@ -106,7 +106,7 @@ export default {
 <style scoped>
 .frame {
   display: flex;
-  width: 600px;
+  /*width: 600px;*/
   height: 200px;
   /*border-radius: 10px;*/
   /*background-color: blanchedalmond;*/
