@@ -2,11 +2,11 @@
   <div>
     <h5> 生产消息</h5>
 
-    <div class="frame" ref="history">
+    <div class="frame" >
       <div class="left">
         <i class="el-icon-delete" @click="clear"></i>
       </div>
-      <div class="right">
+      <div class="right" ref="history">
         <p v-for="item in messages" class="history">
           <i class="el-icon-circle-check"></i> &nbsp;&nbsp;{{ item }}</p>
       </div>
@@ -103,36 +103,49 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
 .frame {
   display: flex;
-  /*width: 600px;*/
   height: 200px;
-  /*border-radius: 10px;*/
-  /*background-color: blanchedalmond;*/
-  /*color: #42b983;*/
+  border-radius: 2px;
   border: black 1px solid;
 
+  .left {
+    width: 30px;
+    font-size: 30px;
+    border-right: #8c939d 1px solid;
+    background-color: #EDEBEB;
+    display: flex;
+    flex-direction: column;
+
+    i {
+      font-size: 20px;
+      text-align: center;
+      font-weight: 900;
+      padding: 4px 0;
+      color: #151313;
+    }
+
+    i:hover {
+      background-color: #ababa7;
+    }
+
+    .active {
+      background-color: #ababa7;
+    }
+  }
+
+  .right {
+    overflow-y: scroll;
+    width: 100%;
+    background-color: #FBF7F7;
+
+    p {
+      margin: 3px;
+    }
+  }
 }
 
-.left {
-  width: 30px;
-  font-size: 30px;
-  border-right: #8c939d 1px solid;
-  background-color: #dfe4ed;
-}
 
-.right {
-  /*background-color: #d9ecff;*/
-  overflow-y: scroll;
-  width: 100%;
-}
-
-.history {
-  background-color: #f3d19e;
-  margin: 2px;
-  padding: 3px;
-  line-height: 16px;
-  font-size: 16px;
-}
 </style>

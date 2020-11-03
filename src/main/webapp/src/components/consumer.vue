@@ -11,18 +11,13 @@
       </el-form-item>
     </el-form>
 
-
-    <!--        <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"-->
-    <!--                   inactive-color="#ff4949" @change="start"></el-switch>-->
-
     <div class="frame">
       <div class="left">
         <i class="iconfont icon-start" v-if="!on" @click="start" style="color:#12b812"></i>
         <i class="iconfont  icon-stopiconcopy" v-if="on" @click="stop" style="color: #f83b3b"></i>
-        <i :class='["iconfont icon-dibu", {"active" :autoScrollToBottom }]' @click="autoScroll"
-           style="color: #514c4c"></i>
-        <i class="iconfont icon-huanhang" @click="autoChangeLine" style="color: #4c4747"></i>
-        <i class="el-icon-delete" @click="clear" style="color: #f64646"></i>
+        <i :class='["iconfont icon-dibu", {"active" :autoScrollToBottom }]' @click="autoScroll"></i>
+        <i class="iconfont icon-huanhang" @click="autoChangeLine"></i>
+        <i class="el-icon-delete" @click="clear"></i>
 
       </div>
       <div class="right" ref="frame">
@@ -63,7 +58,7 @@ export default {
     }
   },
   methods: {
-    autoScroll(){
+    autoScroll() {
       this.autoScrollToBottom = !this.autoScrollToBottom
       if (this.autoScrollToBottom) {
         this.$nextTick(() => {
@@ -158,51 +153,49 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+
 .frame {
   display: flex;
-  /*width: 600px;*/
   height: 200px;
   border-radius: 2px;
-  /*background-color: blanchedalmond;*/
-  /*color: #42b983;*/
   border: black 1px solid;
 
+  .left {
+    width: 30px;
+    font-size: 30px;
+    border-right: #8c939d 1px solid;
+    background-color: #EDEBEB;
+    display: flex;
+    flex-direction: column;
+
+    i {
+      font-size: 20px;
+      text-align: center;
+      font-weight: 900;
+      padding: 4px 0;
+      color: #151313;
+    }
+
+    i:hover {
+      background-color: #ababa7;
+    }
+
+    .active {
+      background-color: #ababa7;
+    }
+  }
+
+  .right {
+    overflow-y: scroll;
+    width: 100%;
+    background-color: #FBF7F7;
+
+    p {
+      margin: 3px;
+    }
+  }
 }
 
-.left {
-  width: 30px;
-  font-size: 30px;
-  border-right: #8c939d 1px solid;
-  background-color: #EDEBEB;
-  display: flex;
-  flex-direction: column;
-}
 
-.left i {
-  font-size: 20px;
-  text-align: center;
-  font-weight: 900;
-  padding: 4px 0;
-}
-
-.left i:hover {
-  background-color: #D6D5CF;
-}
-
-.left .active {
-  background-color: #D6D5CF;
-}
-
-.right {
-  /*background-color: #d9ecff;*/
-  overflow-y: scroll;
-  width: 100%;
-  background-color: #FBF7F7;
-}
-
-.right p {
-  /*background-color: #FAF9F5;*/
-  margin: 3px;
-}
 </style>
