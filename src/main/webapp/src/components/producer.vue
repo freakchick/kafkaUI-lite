@@ -2,13 +2,13 @@
   <div>
     <h5> 生产消息</h5>
 
-    <div class="frame" >
+    <div class="frame">
       <div class="left">
         <i class="el-icon-delete" @click="clear"></i>
       </div>
       <div class="right" ref="history">
         <p v-for="item in messages" class="history">
-          <i class="el-icon-circle-check"></i> &nbsp;&nbsp;{{ item }}</p>
+          <i class="el-icon-circle-check success"></i> &nbsp;&nbsp;{{ item }}</p>
       </div>
     </div>
 
@@ -18,7 +18,7 @@
               @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory" maxlength="3000"
               show-word-limit>
     </el-input>
-    <el-button @click="produce"><i class="iconfont icon-Send"></i>  发送</el-button>
+    <el-button @click="produce"><i class="iconfont icon-Send"></i> 发送</el-button>
   </div>
 </template>
 
@@ -69,12 +69,12 @@ export default {
         this.$refs.history.scrollTop = 10000;
       })
     },
-    processHistory() {
-      this.history.push(this.message)
+    processHistory(message) {
+      this.history.push(message)
       if (this.history.length > 5) {
         this.history = this.history.slice(-5)
       }
-      this.cursor = this.history.length -1
+      this.cursor = this.history.length - 1
     },
     produce() {
       if (this.broker == null || this.broker == '' || this.topic == null || this.topic == '') {
@@ -86,15 +86,26 @@ export default {
         return
       }
 
+      if (this.message == '' || this.message == null){
+        this.$message({
+          showClose: true,
+          message: '禁止发送空消息',
+          type: 'error'
+        });
+        return
+      }
+
+      const m = this.message
+      this.message = null
       this.axios.post("/produce", {
         "broker": this.broker,
         "topic": this.topic,
-        "message": this.message,
+        "message": m,
         "batch": this.batch
       }).then((response) => {
-        this.messages.push(this.message)
-        this.processHistory()
-        this.message = null
+        this.messages.push(m)
+        this.processHistory(m)
+
         this.scroll()
       }).catch((error) => {
       })
@@ -143,6 +154,12 @@ export default {
 
     p {
       margin: 3px;
+      background-color: #f8e3bd;
+
+      .success {
+        color: #42b983;
+        font-weight: 900;
+      }
     }
   }
 }

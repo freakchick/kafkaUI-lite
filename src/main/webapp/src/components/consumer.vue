@@ -22,8 +22,9 @@
       </div>
       <div class="right" ref="frame">
         <p v-for="item in message" class="history">
-          <i class="iconfont icon-jiedian-shell"></i>{{ item }}</p>
-        <p><i class="el-icon-loading" v-if="on" style="color: #13ce66"></i></p>
+          <i class="iconfont icon-jiedian-shell shell"></i>
+          {{ item }}</p>
+        <p><i class="el-icon-loading" v-if="on" ></i></p>
       </div>
     </div>
   </div>
@@ -175,6 +176,7 @@ export default {
       font-weight: 900;
       padding: 4px 0;
       color: #151313;
+
     }
 
     i:hover {
@@ -188,11 +190,18 @@ export default {
 
   .right {
     overflow-y: scroll;
+    overflow-wrap:break-word;
     width: 100%;
     background-color: #FBF7F7;
 
     p {
       margin: 3px;
+      background-color: #f8e3bd;
+      .shell{
+        font-weight: 900;
+        background-color: #8c8b8b;
+        margin-right: 3px;
+      }
     }
   }
 }
