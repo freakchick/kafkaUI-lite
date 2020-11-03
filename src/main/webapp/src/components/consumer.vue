@@ -15,16 +15,17 @@
     <!--        <el-switch v-model="on" active-text="开始消费" inactive-text="停止" active-color="#13ce66"-->
     <!--                   inactive-color="#ff4949" @change="start"></el-switch>-->
 
-    <div class="frame" ref="frame">
+    <div class="frame">
       <div class="left">
         <i class="iconfont icon-start" v-if="!on" @click="start" style="color:#12b812"></i>
         <i class="iconfont  icon-stopiconcopy" v-if="on" @click="stop" style="color: #f83b3b"></i>
-        <i :class='["iconfont icon-dibu", {"active" :autoScrollToBottom }]' @click="autoScroll" style="color: #514c4c"></i>
+        <i :class='["iconfont icon-dibu", {"active" :autoScrollToBottom }]' @click="autoScroll"
+           style="color: #514c4c"></i>
         <i class="iconfont icon-huanhang" @click="autoChangeLine" style="color: #4c4747"></i>
         <i class="el-icon-delete" @click="clear" style="color: #f64646"></i>
 
       </div>
-      <div class="right">
+      <div class="right" ref="frame">
         <p v-for="item in message" class="history">
           <i class="iconfont icon-jiedian-shell"></i>{{ item }}</p>
         <p><i class="el-icon-loading" v-if="on" style="color: #13ce66"></i></p>
@@ -45,16 +46,30 @@ export default {
       message: [],
       websocket: null,
       disabled: false,
-      autoScrollToBottom: false
+      autoScrollToBottom: true
     }
   },
   created() {
     this.getAddress()
   },
   props: ["topic", "broker"],
+  watch: {
+    message() {
+      if (this.autoScrollToBottom) {
+        this.$nextTick(() => {
+          this.$refs.frame.scrollTop = this.$refs.frame.scrollHeight
+        })
+      }
+    }
+  },
   methods: {
-    autoScroll() {
+    autoScroll(){
       this.autoScrollToBottom = !this.autoScrollToBottom
+      if (this.autoScrollToBottom) {
+        this.$nextTick(() => {
+          this.$refs.frame.scrollTop = this.$refs.frame.scrollHeight
+        })
+      }
     },
     autoChangeLine() {
 
