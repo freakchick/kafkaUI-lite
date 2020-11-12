@@ -5,6 +5,7 @@ import Config from '../components/config'
 import operate from '../components/operate'
 import manage from '../components/manage'
 import zkConfig from '../components/zk/config'
+import redisConfig from '../components/redis/config'
 
 
 Vue.use(VueRouter)
@@ -17,6 +18,7 @@ const routes = [
             {path: '/operate', name: 'operate', component: operate},
             {path: '/manage', name: 'manage', component: manage},
             {path: '/zk/config', name: 'zkConfig', component: zkConfig},
+            {path: '/redis/config', name: 'redisConfig', component: redisConfig}
         ]
     },
     {

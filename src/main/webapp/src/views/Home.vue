@@ -36,7 +36,12 @@
               </el-menu-item>
             </el-submenu>
           </el-submenu>
-          <el-menu-item index="3">redis</el-menu-item>
+          <el-submenu index="3">
+            <template slot="title">redis</template>
+            <el-menu-item index="3-1">
+              <router-link to="/redis/config" class="menu-item">配置</router-link>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
 
       </el-header>
