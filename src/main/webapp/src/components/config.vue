@@ -20,7 +20,7 @@
                 <el-form-item label="名称">
                     <el-input v-model="name"></el-input>
                 </el-form-item>
-                <el-form-item label="broker地址">
+                <el-form-item label="地址">
                     <el-input v-model="broker"></el-input>
                 </el-form-item>
             </el-form>
@@ -37,7 +37,7 @@
         name: "config",
         data() {
             return {
-                broker: null,
+                broker: '127.0.0.1:9092',
                 sources: [],
                 name: null,
                 dialogFormVisible: false

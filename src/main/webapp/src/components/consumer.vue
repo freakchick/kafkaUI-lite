@@ -16,15 +16,16 @@
         <i class="iconfont icon-start" v-if="!on" @click="start" style="color:#12b812"></i>
         <i class="iconfont  icon-stopiconcopy" v-if="on" @click="stop" style="color: #f83b3b"></i>
         <i :class='["iconfont icon-dibu", {"active" :autoScrollToBottom }]' @click="autoScroll"></i>
-        <i class="iconfont icon-huanhang" @click="autoChangeLine"></i>
+        <i :class='["iconfont icon-huanhang", {"active" :autoBreak }]' @click="autoChangeLine"></i>
         <i class="el-icon-delete" @click="clear"></i>
 
       </div>
       <div class="right" ref="frame">
-        <p v-for="item in message" class="history">
+        <p v-for="item in message" :class="['history', {'autoBreak':autoBreak}]">
           <i class="iconfont icon-jiedian-shell shell"></i>
-          {{ item }}</p>
-        <p><i class="el-icon-loading" v-if="on" ></i></p>
+          {{ item }}
+        </p>
+        <p><i class="el-icon-loading" v-if="on"></i></p>
       </div>
     </div>
   </div>
@@ -42,7 +43,8 @@ export default {
       message: [],
       websocket: null,
       disabled: false,
-      autoScrollToBottom: true
+      autoScrollToBottom: true,
+      autoBreak:true
     }
   },
   created() {
@@ -68,7 +70,7 @@ export default {
       }
     },
     autoChangeLine() {
-
+      this.autoBreak = !this.autoBreak
     },
     clear() {
       this.message = []
@@ -190,19 +192,27 @@ export default {
 
   .right {
     overflow-y: scroll;
-    overflow-wrap:break-word;
+
     width: 100%;
     background-color: #FBF7F7;
 
-    p {
+    .history {
       margin: 3px;
       background-color: #f8e3bd;
-      .shell{
+
+      .shell {
         font-weight: 900;
         background-color: #8c8b8b;
         margin-right: 3px;
       }
+
     }
+
+    .autoBreak {
+      overflow-wrap: break-word;
+    }
+
+
   }
 }
 

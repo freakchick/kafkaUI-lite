@@ -8,10 +8,10 @@ import {
     // Dropdown,
     // DropdownMenu,
     // DropdownItem,
-    // Menu,
-    // Submenu,
-    // MenuItem,
-    // MenuItemGroup,
+    Menu,
+    Submenu,
+    MenuItem,
+    MenuItemGroup,
     Input,
     InputNumber,
     Radio,
@@ -87,11 +87,11 @@ Vue.use(Dialog);
 Vue.use(Autocomplete);
 Vue.use(Dropdown);
 Vue.use(DropdownMenu);
-Vue.use(DropdownItem);
+Vue.use(DropdownItem);*/
 Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItem);
-Vue.use(MenuItemGroup);*/
+Vue.use(MenuItemGroup);
 Vue.use(Input);
 Vue.use(InputNumber);
 Vue.use(Radio);
