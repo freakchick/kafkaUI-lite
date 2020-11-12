@@ -37,7 +37,7 @@
 </template>
 
 <script>
-import kafkaSelect from '@/components/kafkaSelect.vue'
+import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
 
 export default {
   name: "manage",

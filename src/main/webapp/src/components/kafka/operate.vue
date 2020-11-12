@@ -20,9 +20,9 @@
 </template>
 
 <script>
-    import consumer from '@/components/consumer.vue'
-    import producer from '@/components/producer.vue'
-    import kafkaSelect from '@/components/kafkaSelect.vue'
+    import consumer from '@/components/kafka/consumer.vue'
+    import producer from '@/components/kafka/producer.vue'
+    import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
 
     export default {
         name: "operate",

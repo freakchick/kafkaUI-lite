@@ -41,6 +41,9 @@
             <el-menu-item index="3-1">
               <router-link to="/redis/config" class="menu-item">配置</router-link>
             </el-menu-item>
+            <el-menu-item index="3-2">
+              <router-link to="/redis/manage" class="menu-item">管理</router-link>
+            </el-menu-item>
           </el-submenu>
         </el-menu>
 

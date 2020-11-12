@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Config from '../components/config'
-import operate from '../components/operate'
-import manage from '../components/manage'
+import Config from '../components/kafka/config'
+import operate from '../components/kafka/operate'
+import manage from '../components/kafka/manage'
 import zkConfig from '../components/zk/config'
 import redisConfig from '../components/redis/config'
 
