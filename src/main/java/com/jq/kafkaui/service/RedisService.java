@@ -2,7 +2,7 @@ package com.jq.kafkaui.service;
 
 import com.jq.kafkaui.dao.RedisSourceDao;
 import com.jq.kafkaui.domain.RedisSource;
-import com.jq.kafkaui.util.RedisPool;
+import com.jq.kafkaui.util.RedisUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -37,7 +37,7 @@ public class RedisService {
     public Set<String> getAllKeys(Integer sourceId, int db) {
         RedisSource redisSource = sourceDao.selectById(sourceId);
 
-        RedisPool redisPool = new RedisPool();
+        RedisUtil redisPool = new RedisUtil();
         Jedis client = redisPool.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
         Set<String> allKeys = redisPool.getAllKeys(client);
         return allKeys;

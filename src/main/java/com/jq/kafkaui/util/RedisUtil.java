@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 
-public class RedisPool {
+public class RedisUtil {
 
     public Jedis getClient(String ip, int port, String password, int db) {
         JedisPoolConfig jcon = new JedisPoolConfig();

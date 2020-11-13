@@ -5,7 +5,11 @@
       <el-option v-for="item in sources" :key="item.id" :label="item.name" :value="item.address"></el-option>
     </el-select>
 
-    <el-tree :data="nodes" :props="defaultProps" @node-click="handleNodeClick"></el-tree>
+    <el-tree :data="nodes"  @node-click="handleNodeClick"></el-tree>
+
+    <div>
+      <span>{{data}}</span>
+    </div>
   </div>
 
 </template>
@@ -16,7 +20,8 @@ export default {
     return {
       sources: [{"id": 1, "name": "local zk", "address": "127.0.0.1:2181"}],
       address: null,
-      nodes: null
+      nodes: null,
+      data:null
     }
   },
   methods: {
@@ -37,6 +42,10 @@ export default {
     },
     handleNodeClick(data) {
       console.log(data)
+      this.axios.post("/zookeeper/getData", {"address": this.address,"path":data['path']}).then((response) => {
+        this.data = response.data
+      }).catch((error) => {
+      })
     }
   },
   created() {

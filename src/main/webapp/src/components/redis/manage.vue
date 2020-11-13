@@ -56,7 +56,7 @@ export default {
       this.getAllkeys()
     },
     selectKey() {
-
+      this.getData()
     },
     getAllkeys() {
       this.axios.post("/redis/getAllKeys", {"sourceId": this.sourceId, "db": this.db}).then((response) => {

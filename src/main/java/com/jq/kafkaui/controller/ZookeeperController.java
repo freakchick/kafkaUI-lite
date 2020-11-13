@@ -44,4 +44,10 @@ public class ZookeeperController {
     public List<JSONObject> getAllNodes(String address){
         return zkService.getAllNodes(address);
     }
+
+    @RequestMapping("/getData")
+    public String getData(String address,String path){
+        return zkService.getData(address,path);
+    }
+
 }

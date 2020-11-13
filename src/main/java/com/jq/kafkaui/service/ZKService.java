@@ -37,4 +37,9 @@ public class ZKService {
         ZKProcessor zkProcessor = new ZKProcessor(address);
         return zkProcessor.getAllNode();
     }
+
+    public String getData(String address, String path) {
+        ZKProcessor zkProcessor = new ZKProcessor(address);
+        return zkProcessor.getValue(path);
+    }
 }

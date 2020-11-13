@@ -58,7 +58,7 @@ export default {
       this.deleteSource(row.id)
     },
     getAllSource() {
-      this.axios.post("/zookeeper/getSource").then((response) => {
+      this.axios.post("/zookeeper/getAllSource").then((response) => {
         this.sources = response.data
       }).catch((error) => {
       })
