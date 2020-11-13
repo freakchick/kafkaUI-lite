@@ -40,7 +40,7 @@ import {
     // Tabs,
     // TabPane,
     // Tag,
-    // Tree,
+    Tree,
     // Alert,
     // Slider,
     // Icon,
@@ -126,11 +126,12 @@ Vue.use(BreadcrumbItem);
 
 Vue.use(Form);
 Vue.use(FormItem);
+Vue.use(Tree);
 /*
 Vue.use(Tabs);
 Vue.use(TabPane);
 Vue.use(Tag);
-Vue.use(Tree);
+
 Vue.use(Alert);
 Vue.use(Slider);
 Vue.use(Icon);

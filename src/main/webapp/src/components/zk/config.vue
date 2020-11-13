@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-table :data="tableData" stripe border>
+    <el-table :data="sources" stripe border>
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
       <el-table-column prop="address" label="地址" width="180"></el-table-column>
       <el-table-column label="操作">
@@ -37,9 +37,38 @@ export default {
   data() {
     return {
       address: '127.0.0.1:2181',
-      tableData: [],
+      sources: [],
       name: null,
       dialogFormVisible: false
+    }
+  },
+  created() {
+    this.getAllSource()
+  },
+  methods: {
+    deleteSource(id) {
+      this.axios.post("/zookeeper/deleteSource/" + id).then((response) => {
+        this.sources = response.data
+        this.getAllSource()
+      }).catch((error) => {
+      })
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+      this.deleteSource(row.id)
+    },
+    getAllSource() {
+      this.axios.post("/zookeeper/getSource").then((response) => {
+        this.sources = response.data
+      }).catch((error) => {
+      })
+    },
+    add() {
+      this.axios.post("/zookeeper/add", {"name": this.name, "address": this.address}).then((response) => {
+        this.sources = response.data
+        this.getAllSource()
+      }).catch((error) => {
+      })
     }
   }
 }

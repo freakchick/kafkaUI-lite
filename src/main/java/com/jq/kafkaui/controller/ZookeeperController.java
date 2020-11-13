@@ -1,48 +1,47 @@
 package com.jq.kafkaui.controller;
 
-import com.jq.kafkaui.domain.RedisSource;
-import com.jq.kafkaui.service.RedisService;
+import com.alibaba.fastjson.JSONObject;
+import com.jq.kafkaui.domain.ZKSource;
+import com.jq.kafkaui.service.ZKService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-import java.util.Set;
 
 /**
  * @program: kafkaUI
  * @description:
  * @author: jiangqiang
- * @create: 2020-11-12 17:38
+ * @create: 2020-11-13 15:26
  **/
-
 @RestController
-@RequestMapping("/api/redis")
-public class RedisController {
+@RequestMapping("/api/zookeeper")
+public class ZookeeperController {
 
     @Autowired
-    RedisService redisService;
+    ZKService zkService;
 
     @RequestMapping("/getAllSource")
-    public List<RedisSource> getAllSource() {
-        return redisService.getAllSource();
+    public List<ZKSource> getAllSource() {
+        return zkService.getAllSource();
     }
 
     @RequestMapping("/deleteSource/{id}")
     public String deleteSource(@PathVariable Integer id) {
-        redisService.deleteSource(id);
+        zkService.deleteSource(id);
         return "success";
     }
 
     @RequestMapping("/add")
-    public String addSource(RedisSource source) {
-        redisService.addSource(source);
+    public String addSource(ZKSource source) {
+        zkService.addSource(source);
         return "success";
     }
 
-    @RequestMapping("/getAllKeys")
-    public Set<String> getAllKeys(Integer sourceId, Integer db) {
-        return redisService.getAllKeys(sourceId, db);
+    @RequestMapping("/getAllNodes")
+    public List<JSONObject> getAllNodes(String address){
+        return zkService.getAllNodes(address);
     }
 }

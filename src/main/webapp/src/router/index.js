@@ -5,7 +5,9 @@ import Config from '../components/kafka/config'
 import operate from '../components/kafka/operate'
 import manage from '../components/kafka/manage'
 import zkConfig from '../components/zk/config'
+import zkManage from '../components/zk/manage'
 import redisConfig from '../components/redis/config'
+import redisManage from '../components/redis/manage'
 
 
 Vue.use(VueRouter)
@@ -18,7 +20,9 @@ const routes = [
             {path: '/operate', name: 'operate', component: operate},
             {path: '/manage', name: 'manage', component: manage},
             {path: '/zk/config', name: 'zkConfig', component: zkConfig},
-            {path: '/redis/config', name: 'redisConfig', component: redisConfig}
+            {path: '/zk/manage', name: 'zkManage', component: zkManage},
+            {path: '/redis/config', name: 'redisConfig', component: redisConfig},
+            {path: '/redis/manage', name: 'redisManage', component: redisManage}
         ]
     },
     {

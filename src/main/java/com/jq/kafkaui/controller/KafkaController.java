@@ -42,13 +42,19 @@ public class KafkaController {
     }
 
     @RequestMapping("/getSource")
-    public List<Source> getSource() {
+    public List<Source> getAllSource() {
         return kafkaService.getAllSource();
     }
 
     @RequestMapping("/deleteSource/{id}")
     public String deleteSource(@PathVariable Integer id) {
         kafkaService.deleteSource(id);
+        return "success";
+    }
+
+    @RequestMapping("/add")
+    public String addSource(Source source) {
+        kafkaService.add(source);
         return "success";
     }
 
@@ -65,11 +71,7 @@ public class KafkaController {
         }
     }
 
-    @RequestMapping("/add")
-    public String addSource(Source source) {
-        kafkaService.add(source);
-        return "success";
-    }
+
 
     @RequestMapping("/produce")
     public String addSource(String broker, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {

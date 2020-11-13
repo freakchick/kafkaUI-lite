@@ -22,6 +22,9 @@ public interface RedisSourceDao {
             @Result(property = "id", column = "id")})
     List<RedisSource> getAll();
 
+    @Select("SELECT * FROM redis_source where id = #{id}")
+    RedisSource selectById(Integer id);
+
     @Insert({"insert into redis_source (name, ip,port,password) values (#{name}, #{ip}, #{port}, #{password})"})
     void insert(RedisSource source);
 

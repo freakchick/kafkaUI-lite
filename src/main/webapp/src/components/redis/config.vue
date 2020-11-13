@@ -1,8 +1,9 @@
 <template>
   <div>
-    <el-table :data="tableData" stripe border>
+    <el-table :data="sources" stripe border>
       <el-table-column prop="name" label="名称" width="180"></el-table-column>
-      <el-table-column prop="address" label="地址" width="180"></el-table-column>
+      <el-table-column prop="ip" label="ip" width="180"></el-table-column>
+      <el-table-column prop="port" label="端口" width="180"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
@@ -43,10 +44,44 @@ export default {
     return {
       ip: '127.0.0.1',
       port: 6379,
-      password:null,
-      tableData: [],
+      password: null,
+      sources: [],
       name: null,
       dialogFormVisible: false
+    }
+  },
+  created() {
+    this.getAllSource()
+  },
+  methods: {
+    deleteSource(id) {
+      this.axios.post("/redis/deleteSource/" + id).then((response) => {
+        this.sources = response.data
+        this.getAllSource()
+      }).catch((error) => {
+      })
+    },
+    handleDelete(index, row) {
+      console.log(index, row);
+      this.deleteSource(row.id)
+    },
+    getAllSource() {
+      this.axios.post("/redis/getAllSource").then((response) => {
+        this.sources = response.data
+      }).catch((error) => {
+      })
+    },
+    add() {
+      this.axios.post("/redis/add", {
+        "name": this.name,
+        "ip": this.ip,
+        "port": this.port,
+        "password": this.password
+      }).then((response) => {
+        this.sources = response.data
+        this.getAllSource()
+      }).catch((error) => {
+      })
     }
   }
 }
