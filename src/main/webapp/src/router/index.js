@@ -2,7 +2,8 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Config from '../components/kafka/config'
-import operate from '../components/kafka/operate'
+import produce from '../components/kafka/operate/produce'
+import consume from '../components/kafka/operate/consume'
 import manage from '../components/kafka/manage'
 import zkConfig from '../components/zk/config'
 import zkManage from '../components/zk/manage'
@@ -17,7 +18,8 @@ const routes = [
         path: '/', name: 'Home', component: Home,
         children: [
             {path: '/config', name: 'Config', component: Config},
-            {path: '/operate', name: 'operate', component: operate},
+            {path: '/kafka/produce', name: 'produce', component: produce},
+            {path: '/kafka/consume', name: 'consume', component: consume},
             {path: '/manage', name: 'manage', component: manage},
             {path: '/zk/config', name: 'zkConfig', component: zkConfig},
             {path: '/zk/manage', name: 'zkManage', component: zkManage},

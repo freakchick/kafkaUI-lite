@@ -28,14 +28,13 @@
             <el-menu-item index="2-2">
               <router-link to="/manage" class="menu-item">管理</router-link>
             </el-menu-item>
-            <el-menu-item index="2-3">
-              <router-link to="/operate" class="menu-item">操作</router-link>
-            </el-menu-item>
             <el-submenu index="2-4">
               <template slot="title">操作</template>
-              <el-menu-item index="2-4-1">生产</el-menu-item>
+              <el-menu-item index="2-4-1">
+                <router-link to="/kafka/produce" class="menu-item">生产</router-link>
+              </el-menu-item>
               <el-menu-item index="2-4-2">
-                <router-link to="/operate" class="menu-item">消费</router-link>
+                <router-link to="/kafka/consume" class="menu-item">消费</router-link>
               </el-menu-item>
             </el-submenu>
           </el-submenu>
