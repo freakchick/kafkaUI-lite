@@ -13,8 +13,14 @@
 
 
     <span>数据：</span>
+    <div v-if="keyType != null">数据类型：{{ keyType }}</div>
     <div v-if="keyType == 'string'">{{ value }}</div>
-    <div v-if="keyType == 'hash'">{{ value }}</div>
+    <div v-if="keyType == 'hash'">
+      <div v-for="key in Object.keys(value)">
+        <span class="cell">{{ key }}</span>
+        <span class="cell">{{ value[key] }}</span>
+      </div>
+    </div>
     <div v-if="keyType == 'set'">{{ value }}</div>
     <div v-if="keyType == 'list'">{{ value }}</div>
 
@@ -28,11 +34,11 @@ export default {
     return {
       sources: [],
       dbs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      keys: ['key1','key2'],
+      keys: ['key1', 'key2'],
       key: null,
       db: null,
       sourceId: null,
-      keyType: 'string',
+      keyType: null,
       value: null
 
     }
@@ -41,13 +47,13 @@ export default {
     this.getAllSource()
   },
   methods: {
-    getAllSource(){
+    getAllSource() {
       this.axios.post("/redis/getAllSource/").then((response) => {
         this.sources = response.data
       }).catch((error) => {
       })
     },
-    selectSource(){
+    selectSource() {
       this.db = null
       this.key = null
     },
@@ -56,6 +62,7 @@ export default {
       this.getAllkeys()
     },
     selectKey() {
+      console.log("selectKey");
       this.getData()
     },
     getAllkeys() {
@@ -65,16 +72,16 @@ export default {
       })
     },
     getData() {
-      this.axios.post("/redis/getData", {"sourceId": sourceId, "db": db, "key": key}).then((response) => {
+      this.axios.post("/redis/getData", {
+        "sourceId": this.sourceId,
+        "db": this.db,
+        "key": this.key
+      }).then((response) => {
         this.keyType = response.data.type
-        const data = response.data.value
-        if (Object.prototype.toString.call(data) === "[object Array]") {
-          console.log('value是数组');
-        } else if (Object.prototype.toString.call(data) === '[object Object]') {
-          console.log('value是对象');
-        } else if (Object.prototype.toString.call(data) === '[object String]') {
-          console.log('value是string')
-        }
+        this.value = response.data.value
+
+        console.log(Object.keys(this.value))
+
       }).catch((error) => {
       })
     }
@@ -83,5 +90,9 @@ export default {
 </script>
 
 <style scoped>
-
+.cell {
+  display: inline-block;
+  border: 1px solid #82848a;
+  padding: 5px;
+}
 </style>

@@ -1,5 +1,6 @@
 package com.jq.kafkaui.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.RedisSource;
 import com.jq.kafkaui.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.Set;
  **/
 
 @RestController
-@RequestMapping("/api/redis")
+@RequestMapping("/redis")
 public class RedisController {
 
     @Autowired
@@ -44,5 +45,11 @@ public class RedisController {
     @RequestMapping("/getAllKeys")
     public Set<String> getAllKeys(Integer sourceId, Integer db) {
         return redisService.getAllKeys(sourceId, db);
+    }
+
+    @RequestMapping("/getData")
+    public JSONObject getData(Integer sourceId, Integer db,String key) {
+        JSONObject data = redisService.getData(sourceId, db, key);
+        return data;
     }
 }

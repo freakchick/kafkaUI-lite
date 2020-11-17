@@ -17,7 +17,7 @@ import java.util.List;
  * @create: 2020-11-13 15:26
  **/
 @RestController
-@RequestMapping("/api/zookeeper")
+@RequestMapping("/zookeeper")
 public class ZookeeperController {
 
     @Autowired
