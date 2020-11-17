@@ -43,6 +43,7 @@
                 this.axios.post("/getTopics", {"brokers": this.broker}).then((response) => {
                     this.topics = response.data
                 }).catch((error) => {
+                  this.$message.error("查询所有topic失败")
                 })
             },
 
