@@ -1,18 +1,18 @@
 <template>
   <div>
-    <el-select v-model="sourceId" placeholder="选择redis" @change="selectSource">
+    <el-select v-model="sourceId" placeholder="选择redis" @change="selectSource" class="select">
       <el-option v-for="item in sources" :key="item.name" :label="item.name" :value="item.id"></el-option>
     </el-select>
-    <el-select v-model="db" placeholder="选择db" @change="selectDb" :disabled="sourceId == null">
+    <el-select v-model="db" placeholder="选择db" @change="selectDb" :disabled="sourceId == null" class="select">
       <el-option v-for="item in dbs" :key="item" :label="'db'+item" :value="item"></el-option>
     </el-select>
 
-    <el-select v-model="key" placeholder="选择key" @change="selectKey" :disabled="db == null">
+    <el-select v-model="key" placeholder="选择key" @change="selectKey" :disabled="db == null" class="select">
       <el-option v-for="item in keys" :key="item" :label="item" :value="item"></el-option>
     </el-select>
 
 
-    <span>数据：</span>
+    <div>数据：</div>
     <div v-if="keyType != null">数据类型：{{ keyType }}</div>
     <div v-if="keyType == 'string'">{{ value }}</div>
     <div v-if="keyType == 'hash'">
@@ -34,7 +34,7 @@ export default {
     return {
       sources: [],
       dbs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      keys: ['key1', 'key2'],
+      keys: [],
       key: null,
       db: null,
       sourceId: null,
@@ -94,5 +94,10 @@ export default {
   display: inline-block;
   border: 1px solid #82848a;
   padding: 5px;
+}
+.select{
+  padding-right: 5px;
+  padding-bottom: 5px;
+  width: 200px;
 }
 </style>
