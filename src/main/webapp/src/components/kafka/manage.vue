@@ -1,11 +1,12 @@
 <template>
   <div>
-    <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
+    <kafkaSelect @kafkaChange="kafkaChange" style="margin-bottom: 5px"></kafkaSelect>
 
-    <h3>所有topic：</h3>
-    <el-table :data="tableData" stripe border>
-      <el-table-column prop="name" label="topic"></el-table-column>
-    </el-table>
+    <div style="margin: 5px 0">
+      <el-table :data="tableData" stripe border height="300">
+        <el-table-column prop="name" label="所有topic"></el-table-column>
+      </el-table>
+    </div>
 
     <el-button @click="dialogFormVisible = true">创建topic</el-button>
     <el-dialog title="创建topic" :visible.sync="dialogFormVisible" width="500px">
@@ -15,11 +16,11 @@
         </el-form-item>
         <el-form-item label="分区数量">
           <el-input-number v-model="topic.partition" :min="1" label="请输入分区数量"></el-input-number>
-<!--          <el-input v-model="topic.partition" placeholder="请输入分区数量"></el-input>-->
+          <!--          <el-input v-model="topic.partition" placeholder="请输入分区数量"></el-input>-->
         </el-form-item>
         <el-form-item label="副本数量">
           <el-input-number v-model="topic.replica" :min="1" label="请输入分区数量"></el-input-number>
-<!--          <el-input v-model="topic.replica" placeholder="请输入副本数量"></el-input>-->
+          <!--          <el-input v-model="topic.replica" placeholder="请输入副本数量"></el-input>-->
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -29,9 +30,7 @@
     </el-dialog>
 
 
-
-
-<!--    <el-button @click="addTopic">添加</el-button>-->
+    <!--    <el-button @click="addTopic">添加</el-button>-->
 
   </div>
 </template>

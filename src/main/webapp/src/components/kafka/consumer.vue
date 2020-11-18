@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2> 消费消息</h2>
     <el-form label-width="100px" width="200px">
       <el-form-item label="groupId：">
         <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
@@ -160,7 +159,7 @@ export default {
 
 .frame {
   display: flex;
-  height: 200px;
+  height: 400px;
   border-radius: 2px;
   border: black 1px solid;
 

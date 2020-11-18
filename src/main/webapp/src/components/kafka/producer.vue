@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h5> 生产消息</h5>
 
     <div class="frame">
       <div class="left">
@@ -18,7 +17,7 @@
               @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory" maxlength="3000"
               show-word-limit>
     </el-input>
-    <el-button @click="produce"><i class="iconfont icon-Send"></i> 发送</el-button>
+    <el-button @click="produce" style="margin: 5px 0"><i class="iconfont icon-Send"></i> 发送</el-button>
   </div>
 </template>
 
