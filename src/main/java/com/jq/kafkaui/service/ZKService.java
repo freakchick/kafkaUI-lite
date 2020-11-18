@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.dao.ZKSourceDao;
 import com.jq.kafkaui.domain.ZKSource;
 import com.jq.kafkaui.util.ZKProcessor;
+import org.apache.curator.framework.CuratorFramework;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,19 @@ public class ZKService {
     public String getData(String address, String path) {
         ZKProcessor zkProcessor = new ZKProcessor(address);
         return zkProcessor.getValue(path);
+    }
+
+    public List<JSONObject> getRootNodes(String address) throws Exception {
+        ZKProcessor zkProcessor = new ZKProcessor(address);
+        CuratorFramework client = zkProcessor.getClient();
+        List<JSONObject> allSon = zkProcessor.getAllSon(client, "/");
+        return allSon;
+    }
+
+    public List<JSONObject> getNodes(String address, String path) throws Exception {
+        ZKProcessor zkProcessor = new ZKProcessor(address);
+        CuratorFramework client = zkProcessor.getClient();
+        List<JSONObject> allSon = zkProcessor.getAllSon(client, path);
+        return allSon;
     }
 }

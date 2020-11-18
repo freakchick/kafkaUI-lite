@@ -45,6 +45,16 @@ public class ZookeeperController {
         return zkService.getAllNodes(address);
     }
 
+    @RequestMapping("/getRootNodes")
+    public List<JSONObject> getRootNodes(String address) throws Exception {
+        return zkService.getRootNodes(address);
+    }
+
+    @RequestMapping("/getNodes")
+    public List<JSONObject> getNodes(String address,String path) throws Exception {
+        return zkService.getNodes(address,path);
+    }
+
     @RequestMapping("/getData")
     public String getData(String address,String path){
         return zkService.getData(address,path);

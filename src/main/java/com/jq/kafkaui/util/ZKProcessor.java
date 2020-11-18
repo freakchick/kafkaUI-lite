@@ -58,6 +58,25 @@ public class ZKProcessor {
 
     }
 
+    //获取zk一个节点下的所有子节点
+    public List<JSONObject> getAllSon(CuratorFramework client, String path) throws Exception {
+
+        List<JSONObject> list = new ArrayList<>();
+        List<String> children = client.getChildren().forPath(path);
+        for (String s : children) {
+            JSONObject obj = new JSONObject(true);
+            obj.put("label", s);
+            String thisPath = path + (path.equals("/") ? "" : "/") + s;
+            obj.put("path", thisPath);
+            byte[] bytes = client.getData().forPath(thisPath);
+            if (bytes != null)
+                obj.put("value", new String(bytes));
+            list.add(obj);
+        }
+        return list;
+
+    }
+
     //获取zk上的所有数据，返回json string
     public List<JSONObject> getAllNode() {
         CuratorFramework client = getClient();
