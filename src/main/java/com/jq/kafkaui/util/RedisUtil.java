@@ -18,7 +18,7 @@ public class RedisUtil {
         jcon.setMaxIdle(50);
         jcon.setTestOnBorrow(true);
         jcon.setTestOnReturn(true);
-        JedisPool jp = new JedisPool(jcon, ip, port, 30000, password, db);
+        JedisPool jp = new JedisPool(jcon, ip, port, 100, password, db);
         Jedis jedis = jp.getResource();
         return jedis;
     }
@@ -47,7 +47,12 @@ public class RedisUtil {
     }
 
     public static void main(String[] args) {
-
+        RedisUtil redisUtil = new RedisUtil();
+        Jedis jedis = redisUtil.getClient("192.168.33.201", 6379, "123456", 6);
+        redisUtil.getAllKeys(jedis);
+//        jedis.lpush("list","aa");
+//        jedis.lpush("list","bb");
+//        jedis.lrange("list", 0, -1);
     }
 
 }
