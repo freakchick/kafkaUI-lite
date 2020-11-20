@@ -10,53 +10,38 @@
             @select="handleSelect"
             background-color="#545c64"
             text-color="#fff"
-            active-text-color="#ffd04b">
+            active-text-color="#ffd04b"
+            router>
           <el-submenu index="1">
             <template slot="title">zookeeper</template>
-            <el-menu-item index="1-1">
-              <router-link to="/zk/config" class="menu-item">配置</router-link>
-            </el-menu-item>
-            <el-menu-item index="1-2">
-              <router-link to="/zk/manage" class="menu-item">管理</router-link>
-            </el-menu-item>
+            <el-menu-item index="/zk/config">配置</el-menu-item>
+            <el-menu-item index="/zk/manage">管理</el-menu-item>
           </el-submenu>
           <el-submenu index="2">
             <template slot="title">kafka</template>
-            <el-menu-item index="2-1">
-              <router-link to="/config" class="menu-item">配置</router-link>
-            </el-menu-item>
-            <el-menu-item index="2-2">
-              <router-link to="/manage" class="menu-item">管理</router-link>
-            </el-menu-item>
+            <el-menu-item index="/config">配置</el-menu-item>
+            <el-menu-item index="/manage">管理</el-menu-item>
             <el-submenu index="2-4">
               <template slot="title">操作</template>
-              <el-menu-item index="2-4-1">
-                <router-link to="/kafka/produce" class="menu-item">生产</router-link>
-              </el-menu-item>
-              <el-menu-item index="2-4-2">
-                <router-link to="/kafka/consume" class="menu-item">消费</router-link>
-              </el-menu-item>
+              <el-menu-item index="/kafka/produce">生产</el-menu-item>
+              <el-menu-item index="/kafka/consume">消费</el-menu-item>
             </el-submenu>
           </el-submenu>
           <el-submenu index="3">
             <template slot="title">redis</template>
-            <el-menu-item index="3-1">
-              <router-link to="/redis/config" class="menu-item">配置</router-link>
-            </el-menu-item>
-            <el-menu-item index="3-2">
-              <router-link to="/redis/manage" class="menu-item">管理</router-link>
-            </el-menu-item>
+            <el-menu-item index="/redis/config">配置</el-menu-item>
+            <el-menu-item index="/redis/manage">管理</el-menu-item>
           </el-submenu>
         </el-menu>
 
       </el-header>
       <el-main>
-<!--        <el-breadcrumb separator-class="el-icon-arrow-right">-->
-<!--          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
-<!--          <el-breadcrumb-item>活动管理</el-breadcrumb-item>-->
-<!--          <el-breadcrumb-item>活动列表</el-breadcrumb-item>-->
-<!--          <el-breadcrumb-item>活动详情</el-breadcrumb-item>-->
-<!--        </el-breadcrumb>-->
+        <!--        <el-breadcrumb separator-class="el-icon-arrow-right">-->
+        <!--          <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>-->
+        <!--          <el-breadcrumb-item>活动管理</el-breadcrumb-item>-->
+        <!--          <el-breadcrumb-item>活动列表</el-breadcrumb-item>-->
+        <!--          <el-breadcrumb-item>活动详情</el-breadcrumb-item>-->
+        <!--        </el-breadcrumb>-->
         <router-view></router-view>
       </el-main>
       <!--      <el-footer>Footer</el-footer>-->
@@ -85,7 +70,7 @@ export default {
 
 <style scoped>
 .menu-item {
-color:#ffffff;
+  color: #ffffff;
 
 
 }
