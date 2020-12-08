@@ -12,7 +12,7 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios);
 import qs from 'qs'
 
-axios.defaults.baseURL = '/api'
+// axios.defaults.baseURL = '/api'
 
 axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'}
 //全局拦截post请求的参数，用qs序列化
