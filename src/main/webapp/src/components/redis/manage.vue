@@ -7,12 +7,13 @@
       <el-option v-for="item in dbs" :key="item" :label="'db'+item" :value="item"></el-option>
     </el-select>
 
-    <el-select v-model="key" placeholder="选择key" @change="selectKey" :disabled="db == null" class="select">
+    <el-select v-model="key" filterable placeholder="选择key" @change="selectKey" :disabled="db == null" class="select">
       <el-option v-for="item in keys" :key="item" :label="item" :value="item"></el-option>
     </el-select>
 
 
     <div>数据：</div>
+    <el-button @click="getData" style="margin-top: 5px">刷新数据</el-button>
     <div v-if="keyType != null">数据类型：{{ keyType }}</div>
     <div v-if="keyType == 'string'">{{ value }}</div>
     <div v-if="keyType == 'hash'">

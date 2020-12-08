@@ -5,7 +5,7 @@
                 <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
             </el-form-item>
             <el-form-item label="topic">
-                <el-select v-model="topic" placeholder="选择topic" clearable>
+                <el-select v-model="topic" filterable placeholder="选择topic" clearable>
                     <el-option v-for="item in topics" :key="item.name" :label="item.name"
                                :value="item.name"></el-option>
                 </el-select>
