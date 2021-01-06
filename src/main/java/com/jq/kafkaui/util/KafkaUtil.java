@@ -158,4 +158,11 @@ public class KafkaUtil {
 //        describeTopics(list);
     }
 
+    public static void deleteTopic(String broker, String name) {
+        AdminClient adminClient = createAdminClientByProperties(broker);
+        List<String> list = Collections.emptyList();
+        list.add(name);
+        adminClient.deleteTopics(list);
+        adminClient.close();
+    }
 }

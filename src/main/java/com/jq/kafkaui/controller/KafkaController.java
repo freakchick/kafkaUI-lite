@@ -72,6 +72,17 @@ public class KafkaController {
     }
 
 
+    @RequestMapping("/deleteTopic")
+    public String deleteTopic(String broker, String name) {
+        try {
+            KafkaUtil.deleteTopic(broker, name);
+            return "success";
+        } catch (Exception e) {
+            e.printStackTrace();
+            return "fail";
+        }
+    }
+
 
     @RequestMapping("/produce")
     public String addSource(String broker, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {
@@ -86,6 +97,7 @@ public class KafkaController {
             Future<RecordMetadata> send = producer.send(new ProducerRecord<>(topic, message));
             send.get();
         }
+        producer.close();
         return "success";
     }
 }
