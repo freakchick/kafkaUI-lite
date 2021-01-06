@@ -137,7 +137,7 @@ export default {
       })
     },
     getAddress() {
-      this.axios.post("/getIp").then((response) => {
+      this.axios.post("/kafka/getIp").then((response) => {
         console.log(response.data);
         this.address = response.data
       }).catch((error) => {
