@@ -3,12 +3,12 @@
     <kafkaSelect @kafkaChange="kafkaChange" style="margin-bottom: 5px"></kafkaSelect>
 
     <div style="margin: 5px 0">
-      <el-table :data="tableData" stripe border height="300">
+      <el-table :data="tableData" stripe border height="600">
         <el-table-column prop="name" label="所有topic"></el-table-column>
       </el-table>
     </div>
 
-    <el-button @click="dialogFormVisible = true">创建topic</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true">创建topic</el-button>
     <el-dialog title="创建topic" :visible.sync="dialogFormVisible" width="500px">
       <el-form label-width="80px">
         <el-form-item label="topic名称">
@@ -58,7 +58,7 @@ export default {
   },
   methods: {
     getTopics() {
-      this.axios.post("/getTopics", {"brokers": this.broker}).then((response) => {
+      this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
         this.tableData = response.data
       }).catch((error) => {
       })
@@ -69,7 +69,7 @@ export default {
     },
     addTopic() {
       this.topic['broker'] = this.broker
-      this.axios.post("/createTopic", this.topic).then((response) => {
+      this.axios.post("/kafka/createTopic", this.topic).then((response) => {
         this.getTopics()
       }).catch((error) => {
       })

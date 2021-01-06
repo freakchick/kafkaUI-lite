@@ -8,9 +8,9 @@
             class="el-menu-demo"
             mode="horizontal"
             @select="handleSelect"
-            background-color="#545c64"
+            background-color="#00a0e9"
             text-color="#fff"
-            active-text-color="#ffd04b"
+            active-text-color="#01293b"
             router>
           <el-submenu index="1">
             <template slot="title">zookeeper</template>

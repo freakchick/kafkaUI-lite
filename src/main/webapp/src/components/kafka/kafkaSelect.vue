@@ -19,7 +19,7 @@ export default {
   },
   methods: {
     getAllSource() {
-      this.axios.post("/getSource").then((response) => {
+      this.axios.post("/kafka/getSource").then((response) => {
         this.sources = response.data
         console.log(this.sources[0])
         if (this.sources.length > 0) {

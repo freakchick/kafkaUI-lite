@@ -87,6 +87,8 @@ public class ZKProcessor {
             return children;
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            client.close();
         }
         return null;
     }

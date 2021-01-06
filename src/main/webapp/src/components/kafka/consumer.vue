@@ -1,14 +1,32 @@
 <template>
   <div>
-    <el-form label-width="100px" width="200px">
-      <el-form-item label="groupId：">
+    <el-row>
+      <el-col :span="3">
+        <span style="line-height: 40px">消费group:</span>
+      </el-col>
+      <el-col :span="12">
+
         <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
-      </el-form-item>
-      <el-form-item label="消费模式：">
+      </el-col>
+    </el-row>
+
+    <el-row>
+      <el-col :span="12">
+        消费模式：
         <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息</el-radio>
         <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>
-      </el-form-item>
-    </el-form>
+      </el-col>
+    </el-row>
+
+<!--    <el-form label-width="100px" width="200px">-->
+<!--      <el-form-item label="groupId：">-->
+<!--        <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>-->
+<!--      </el-form-item>-->
+<!--      <el-form-item label="消费模式：">-->
+<!--        <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息</el-radio>-->
+<!--        <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>-->
+<!--      </el-form-item>-->
+<!--    </el-form>-->
 
     <div class="frame">
       <div class="left">

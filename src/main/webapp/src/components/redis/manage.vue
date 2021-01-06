@@ -13,7 +13,7 @@
 
 
     <div>数据：</div>
-    <el-button @click="getData" style="margin-top: 5px">刷新数据</el-button>
+    <el-button type="primary" @click="getData" style="margin-top: 5px">刷新数据</el-button>
     <div v-if="keyType != null">数据类型：{{ keyType }}</div>
     <div v-if="keyType == 'string'">{{ value }}</div>
     <div v-if="keyType == 'hash'">
@@ -96,7 +96,8 @@ export default {
   border: 1px solid #82848a;
   padding: 5px;
 }
-.select{
+
+.select {
   padding-right: 5px;
   padding-bottom: 5px;
   width: 200px;

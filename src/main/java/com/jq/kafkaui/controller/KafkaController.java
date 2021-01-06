@@ -24,6 +24,7 @@ import java.util.concurrent.Future;
  * @create: 2020-10-28 20:06
  **/
 @RestController
+@RequestMapping("/kafka")
 public class KafkaController {
 
     @Autowired

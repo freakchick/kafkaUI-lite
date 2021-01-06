@@ -1,19 +1,18 @@
 <template>
   <div>
-    <el-form label-width="80px">
-      <el-form-item label="kafka">
+    <el-row style="padding-bottom: 10px">
+      <el-col :span="12">
+        kafka:
         <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
-      </el-form-item>
-      <el-form-item label="topic">
+      </el-col>
+      <el-col :span="12">
+        topic:
         <el-select v-model="topic" filterable placeholder="选择topic" clearable>
-          <el-option v-for="item in topics" :key="item.name" :label="item.name"
-                     :value="item.name"></el-option>
+          <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
         </el-select>
-      </el-form-item>
-    </el-form>
+      </el-col>
+    </el-row>
 
-
-    <!--        <producer :broker="broker" :topic="topic"></producer>-->
     <consumer :broker="broker" :topic="topic"></consumer>
 
   </div>
@@ -40,7 +39,7 @@ export default {
     getTopics(broker) {
       this.broker = broker
       console.log(broker);
-      this.axios.post("/getTopics", {"brokers": this.broker}).then((response) => {
+      this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
         this.topics = response.data
       }).catch((error) => {
         this.$message.error("查询所有topic失败")

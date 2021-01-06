@@ -43,6 +43,7 @@ public class RedisService {
         RedisUtil redisPool = new RedisUtil();
         Jedis client = redisPool.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
         Set<String> allKeys = redisPool.getAllKeys(client);
+        client.close();
         return allKeys;
     }
 
@@ -79,6 +80,7 @@ public class RedisService {
             jo.put("value", data);
 
         }
+        jedis.close();
         return jo;
 
     }

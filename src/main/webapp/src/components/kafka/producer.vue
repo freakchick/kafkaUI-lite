@@ -1,6 +1,19 @@
 <template>
   <div>
 
+    <el-tooltip class="item" effect="dark" content="上键：向上翻输入历史; 下键：向下翻输入历史; ctrl + enter : 发送消息" placement="top-start">
+      <i class="iconfont icon-jianpan"></i>
+    </el-tooltip>
+
+    <el-input type="textarea" v-model="message" size="medium" rows="6"
+              placeholder="请输入消息内容"
+              @keyup.enter.native="keyDown"
+              @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory" maxlength="3000"
+              show-word-limit>
+    </el-input>
+    <el-button type="primary" @click="produce" style="margin: 5px 0"><i class="iconfont icon-Send"></i> 发送</el-button>
+
+
     <div class="frame">
       <div class="left">
         <i class="el-icon-delete" @click="clear"></i>
@@ -11,14 +24,9 @@
       </div>
     </div>
 
-    <el-checkbox v-model="batch">多行內容切分成多条消息批量发送</el-checkbox>
+<!--    <el-checkbox v-model="batch">多行內容切分成多条消息批量发送</el-checkbox>-->
 
-    <el-input type="textarea" v-model="message" size="medium" rows="4" @keyup.enter.native="keyDown"
-              @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory" maxlength="3000"
-              show-word-limit>
-    </el-input>
-    <el-button @click="produce" style="margin: 5px 0"><i class="iconfont icon-Send"></i> 发送</el-button>
-  </div>
+     </div>
 </template>
 
 <script>
@@ -96,7 +104,7 @@ export default {
 
       const m = this.message
       this.message = null
-      this.axios.post("/produce", {
+      this.axios.post("/kafka/produce", {
         "broker": this.broker,
         "topic": this.topic,
         "message": m,
@@ -117,7 +125,7 @@ export default {
 
 .frame {
   display: flex;
-  height: 200px;
+  height: 400px;
   border-radius: 2px;
   border: black 1px solid;
 

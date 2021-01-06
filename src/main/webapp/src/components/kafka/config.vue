@@ -1,7 +1,7 @@
 <template>
   <div>
     <el-table :data="sources" stripe border>
-      <el-table-column prop="name" label="名称" width="180"></el-table-column>
+      <el-table-column prop="name" label="集群名称" width="180"></el-table-column>
       <el-table-column prop="broker" label="地址" width="180"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
@@ -13,7 +13,7 @@
     </el-table>
 
 
-    <el-button @click="dialogFormVisible = true" style="margin-top: 5px">添加</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true" style="margin-top: 5px">添加集群</el-button>
 
     <el-dialog title="添加kafka地址" :visible.sync="dialogFormVisible" width="600px">
       <el-form label-width="80px">
@@ -48,7 +48,7 @@ export default {
   },
   methods: {
     deleteSource(id) {
-      this.axios.post("/deleteSource/" + id).then((response) => {
+      this.axios.post("/kafka/deleteSource/" + id).then((response) => {
         this.sources = response.data
         this.getAllSource()
       }).catch((error) => {
@@ -60,13 +60,13 @@ export default {
       this.deleteSource(row.id)
     },
     getAllSource() {
-      this.axios.post("/getSource").then((response) => {
+      this.axios.post("/kafka/getSource").then((response) => {
         this.sources = response.data
       }).catch((error) => {
       })
     },
     add() {
-      this.axios.post("/add", {"name": this.name, "broker": this.broker}).then((response) => {
+      this.axios.post("/kafka/add", {"name": this.name, "broker": this.broker}).then((response) => {
         this.sources = response.data
         this.getAllSource()
       }).catch((error) => {
