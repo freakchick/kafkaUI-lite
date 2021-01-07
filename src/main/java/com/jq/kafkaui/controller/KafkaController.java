@@ -61,16 +61,12 @@ public class KafkaController {
     @RequestMapping("/createTopic")
     public String createTopic(String broker, String name,
                               @RequestParam(defaultValue = "1") Integer partition,
-                              @RequestParam(defaultValue = "1") Integer replica) {
-        try {
-            KafkaUtil.createTopic(broker, name, partition, replica);
-            return "success";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "fail";
-        }
-    }
+                              @RequestParam(defaultValue = "1") Integer replica) throws Exception {
 
+        KafkaUtil.createTopic(broker, name, partition, replica);
+        return "success";
+
+    }
 
     @RequestMapping("/deleteTopic")
     public String deleteTopic(String broker, String topic) {
@@ -82,7 +78,6 @@ public class KafkaController {
             return "fail";
         }
     }
-
 
     @RequestMapping("/produce")
     public String addSource(String broker, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {

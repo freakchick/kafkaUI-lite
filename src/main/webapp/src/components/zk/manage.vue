@@ -5,8 +5,8 @@
     </el-select>
 
       <el-table :data="curentNode" border style="margin-top: 5px">
-        <el-table-column prop="path" label="path" width="250"></el-table-column>
-        <el-table-column prop="value" label="data" ></el-table-column>
+        <el-table-column prop="path" label="节点"></el-table-column>
+        <el-table-column prop="value" label="数据" ></el-table-column>
 
       </el-table>
 
@@ -87,7 +87,7 @@ export default {
 
 .tree {
   margin-top: 5px;
-  border: 1px solid #42b983;
+  border: 1px solid #00a0e9;
 
 }
 </style>

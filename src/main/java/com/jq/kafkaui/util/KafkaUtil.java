@@ -1,5 +1,6 @@
 package com.jq.kafkaui.util;
 
+import com.alibaba.fastjson.JSON;
 import com.jq.kafkaui.domain.Topic;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -153,7 +154,7 @@ public class KafkaUtil {
         list.add("jiang");
         list.add("1iang");
 //        createTopic(list);
-//        listTopicsWithOptions();
+        listTopicsWithOptions("47.92.117.90:9092");
 
 //        describeTopics(list);
     }

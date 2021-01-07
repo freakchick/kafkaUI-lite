@@ -12,6 +12,8 @@
             <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)">
               <el-button size="mini" type="danger" slot="reference">删除</el-button>
             </el-popconfirm>
+
+            <el-button size="mini" type="primary" @click="detail">详情</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -66,6 +68,9 @@ export default {
   created() {
   },
   methods: {
+    detail(){
+      console.log("ddd")
+    },
     getTopics() {
       this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
         this.tableData = response.data
@@ -80,6 +85,7 @@ export default {
     addTopic() {
       this.topic['broker'] = this.broker
       this.axios.post("/kafka/createTopic", this.topic).then((response) => {
+        this.$message.success("创建topic成功")
         this.getTopics()
       }).catch((error) => {
         this.$message.error("创建topic失败")
