@@ -22,19 +22,19 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ## 使用说明
 ### kafka
 #### 添加kafka环境
-![](https://s3.ax1x.com/2021/01/07/smfQSO.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/config.jpg)
 
 #### 消费消息
-![](https://s3.ax1x.com/2021/01/07/smfKfK.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107214919.jpg)
 
 #### 创建topic
-![](https://s3.ax1x.com/2021/01/07/smfuY6.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/config.jpg)
 
 #### 发送消息
-![](https://s3.ax1x.com/2021/01/07/smfnFx.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/config.jpg)
 
 #### 查看所有topic
-![](https://s3.ax1x.com/2021/01/07/smfeT1.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/config.jpg)
 
 #### 查看所有kafka集群
-![](https://s3.ax1x.com/2021/01/07/smfZwR.jpg)
+![](hhttps://freakchicken.gitee.io/kafka-ui-lite/config.jpg)
