@@ -1,9 +1,9 @@
 <template>
   <div>
     <el-table :data="sources" stripe border>
-      <el-table-column prop="name" label="名称" width="180"></el-table-column>
-      <el-table-column prop="ip" label="ip" width="180"></el-table-column>
-      <el-table-column prop="port" label="端口" width="180"></el-table-column>
+      <el-table-column prop="name" label="名称"></el-table-column>
+      <el-table-column prop="ip" label="ip"></el-table-column>
+      <el-table-column prop="port" label="端口"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>

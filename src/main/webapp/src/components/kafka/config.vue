@@ -1,8 +1,8 @@
 <template>
   <div>
     <el-table :data="sources" stripe border>
-      <el-table-column prop="name" label="集群名称" width="180"></el-table-column>
-      <el-table-column prop="broker" label="地址" width="180"></el-table-column>
+      <el-table-column prop="name" label="集群名称"></el-table-column>
+      <el-table-column prop="broker" label="地址"></el-table-column>
       <el-table-column label="操作">
         <template slot-scope="scope">
           <el-button size="mini" type="danger"
