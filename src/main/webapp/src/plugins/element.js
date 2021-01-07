@@ -32,6 +32,7 @@ import {
     // TimeSelect,
     // TimePicker,
     Popover,
+    Popconfirm,
     Tooltip,
     Breadcrumb,
     BreadcrumbItem,
@@ -116,7 +117,7 @@ Vue.use(DatePicker);
 Vue.use(TimeSelect);
 Vue.use(TimePicker);*/
 Vue.use(Popover);
-
+Vue.use(Popconfirm );
 
 Vue.use(Tooltip);
 Vue.use(Breadcrumb);

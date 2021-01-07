@@ -160,7 +160,7 @@ public class KafkaUtil {
 
     public static void deleteTopic(String broker, String name) {
         AdminClient adminClient = createAdminClientByProperties(broker);
-        List<String> list = Collections.emptyList();
+        List<String> list = new ArrayList<>();
         list.add(name);
         adminClient.deleteTopics(list);
         adminClient.close();

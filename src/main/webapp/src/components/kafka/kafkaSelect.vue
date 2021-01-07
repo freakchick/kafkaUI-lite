@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="broker" placeholder="选择kafka" @change="selectkafka" >
+  <el-select v-model="broker" placeholder="选择kafka" @change="selectkafka">
     <el-option v-for="item in sources" :key="item.name" :label="item.name" :value="item.broker"></el-option>
   </el-select>
 </template>
@@ -27,6 +27,7 @@ export default {
           this.selectkafka()
         }
       }).catch((error) => {
+        this.$message.error("查询所有kafka环境失败")
       })
     },
     selectkafka() {

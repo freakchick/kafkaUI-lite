@@ -1,10 +1,19 @@
 <template>
   <div>
+
+
     <kafkaSelect @kafkaChange="kafkaChange" style="margin-bottom: 5px"></kafkaSelect>
 
     <div style="margin: 5px 0">
       <el-table :data="tableData" stripe border height="600">
-        <el-table-column prop="name" label="所有topic"></el-table-column>
+        <el-table-column prop="name" label="topic"></el-table-column>
+        <el-table-column label="操作">
+          <template slot-scope="scope">
+            <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)">
+              <el-button size="mini" type="danger" slot="reference">删除</el-button>
+            </el-popconfirm>
+          </template>
+        </el-table-column>
       </el-table>
     </div>
 
@@ -61,6 +70,7 @@ export default {
       this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
         this.tableData = response.data
       }).catch((error) => {
+        this.$message.error("查询所有topic失败")
       })
     },
     kafkaChange(broker) {
@@ -72,6 +82,16 @@ export default {
       this.axios.post("/kafka/createTopic", this.topic).then((response) => {
         this.getTopics()
       }).catch((error) => {
+        this.$message.error("创建topic失败")
+      })
+    },
+    deleteConfirm(topic) {
+      this.axios.post("/kafka/deleteTopic",
+          {"broker": this.broker, "topic": topic}).then((response) => {
+        this.$message.success("删除topic成功")
+        this.getTopics()
+      }).catch((error) => {
+        this.$message.error("删除topic失败")
       })
     }
   },

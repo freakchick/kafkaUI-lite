@@ -7,7 +7,7 @@
       </el-col>
       <el-col :span="12">
         topic:
-        <el-select v-model="topic" filterable placeholder="选择topic" clearable>
+        <el-select v-model="topic" filterable placeholder="选择topic" clearable >
           <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
         </el-select>
       </el-col>

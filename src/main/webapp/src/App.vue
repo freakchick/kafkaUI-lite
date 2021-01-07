@@ -48,7 +48,7 @@ img {
   -moz-osx-font-smoothing: grayscale;
   /*display: flex;*/
   /*justify-content: center;*/
-  width: 700px;
+  width: 900px;
   margin: 0 auto;
 
 }

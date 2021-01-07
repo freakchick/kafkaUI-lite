@@ -73,9 +73,9 @@ public class KafkaController {
 
 
     @RequestMapping("/deleteTopic")
-    public String deleteTopic(String broker, String name) {
+    public String deleteTopic(String broker, String topic) {
         try {
-            KafkaUtil.deleteTopic(broker, name);
+            KafkaUtil.deleteTopic(broker, topic);
             return "success";
         } catch (Exception e) {
             e.printStackTrace();

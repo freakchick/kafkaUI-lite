@@ -1,16 +1,16 @@
 <template>
   <div>
-    <el-row>
+    <el-row style="margin: 5px 0">
       <el-col :span="3">
         <span style="line-height: 40px">消费group:</span>
       </el-col>
-      <el-col :span="12">
+      <el-col :span="9">
 
         <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
       </el-col>
     </el-row>
 
-    <el-row>
+    <el-row style="margin: 5px 0">
       <el-col :span="12">
         消费模式：
         <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息</el-radio>
@@ -193,13 +193,14 @@ export default {
       font-size: 20px;
       text-align: center;
       font-weight: 900;
-      padding: 4px 0;
+      margin: 1px;
       color: #151313;
-
+      border-radius: 4px;
     }
 
     i:hover {
-      background-color: #ababa7;
+      background-color: #cacac6;
+
     }
 
     .active {
