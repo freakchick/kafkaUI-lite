@@ -44,6 +44,7 @@ export default {
       this.axios.post("/zookeeper/getNodes", {"address": this.address, "path": node.data.path}).then((response) => {
         resolve(response.data);
       }).catch((error) => {
+        this.$message.error("查询子节点失败")
       })
 
     },
@@ -52,12 +53,14 @@ export default {
       this.axios.post("/zookeeper/getAllSource").then((response) => {
         this.sources = response.data
       }).catch((error) => {
+        this.$message.error("查询所有zk环境失败")
       })
     },
     selectSource() {
       this.axios.post("/zookeeper/getRootNodes", {"address": this.address}).then((response) => {
         this.nodes = response.data
       }).catch((error) => {
+        this.$message.error("查询根节点失败")
       })
     },
     getAllNode() {

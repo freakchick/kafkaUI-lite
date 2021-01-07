@@ -51,6 +51,7 @@
                     this.sources = response.data
                     this.getAllSource()
                 }).catch((error) => {
+                  this.$message.error("删除zk环境失败")
                 })
             },
             handleDelete(index, row) {
