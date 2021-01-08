@@ -52,4 +52,10 @@ public class RedisController {
         JSONObject data = redisService.getData(sourceId, db, key);
         return data;
     }
+
+    @RequestMapping("/connect")
+    public boolean connect(RedisSource source) {
+        boolean connect = redisService.connect(source);
+        return connect;
+    }
 }

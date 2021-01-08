@@ -1,6 +1,7 @@
 package com.jq.kafkaui.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jq.kafkaui.domain.RedisSource;
 import com.jq.kafkaui.domain.ZKSource;
 import com.jq.kafkaui.service.ZKService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -58,6 +59,12 @@ public class ZookeeperController {
     @RequestMapping("/getData")
     public String getData(String address,String path){
         return zkService.getData(address,path);
+    }
+
+    @RequestMapping("/connect")
+    public boolean connect(String address) {
+        boolean connect = zkService.connect(address);
+        return connect;
     }
 
 }

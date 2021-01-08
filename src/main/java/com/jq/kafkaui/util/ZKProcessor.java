@@ -26,11 +26,11 @@ public class ZKProcessor {
      * @return
      */
     public CuratorFramework getClient() {
-        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 3);
+        RetryPolicy retryPolicy = new ExponentialBackoffRetry(1000, 1);
         CuratorFramework client = CuratorFrameworkFactory.builder()
                 .connectString(url)
-                .sessionTimeoutMs(5000)  // 会话超时时间
-                .connectionTimeoutMs(5000) // 连接超时时间
+                .sessionTimeoutMs(1000)  // 会话超时时间
+                .connectionTimeoutMs(1000) // 连接超时时间
                 .retryPolicy(retryPolicy)
                 .build();
         client.start();

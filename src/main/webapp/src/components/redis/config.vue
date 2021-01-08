@@ -31,6 +31,7 @@
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="connect">连接测试</el-button>
         <el-button type="primary" @click="dialogFormVisible = false;add()">确 定</el-button>
       </div>
     </el-dialog>
@@ -57,8 +58,11 @@ export default {
     deleteSource(id) {
       this.axios.post("/redis/deleteSource/" + id).then((response) => {
         this.sources = response.data
+        this.$message.success("删除redis环境成功")
         this.getAllSource()
+
       }).catch((error) => {
+        this.$message.error("删除redis环境失败")
       })
     },
     handleDelete(index, row) {
@@ -69,6 +73,7 @@ export default {
       this.axios.post("/redis/getAllSource").then((response) => {
         this.sources = response.data
       }).catch((error) => {
+        this.$message.error("查询所有redis环境失败")
       })
     },
     add() {
@@ -79,8 +84,25 @@ export default {
         "password": this.password
       }).then((response) => {
         this.sources = response.data
+        this.$message.success("添加redis环境成功")
         this.getAllSource()
       }).catch((error) => {
+        this.$message.error("添加redis环境失败")
+      })
+    },
+    connect() {
+      this.axios.post("/redis/connect", {
+        "name": this.name,
+        "ip": this.ip,
+        "port": this.port,
+        "password": this.password
+      }).then((response) => {
+        if (response.data)
+          this.$message.success("连接成功")
+        else
+          this.$message.error("连接失败")
+      }).catch((error) => {
+        this.$message.error("连接测试失败")
       })
     }
   }

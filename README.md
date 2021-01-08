@@ -14,7 +14,7 @@
 ## 安装教程
 
 1.  依赖java环境，需要先安装jdk
-2.  下载地址: https://pan.baidu.com/s/1YYVXFUtVUMFVBt9YKD49Hw 提取码: miix
+2.  下载地址: https://gitee.com/freakchicken/kafka-ui-lite/releases
 2.  启动命令：java -jar kafkaUI.jar 一键启动
 4.  如果是多网卡机器，启动需要指定ip
 

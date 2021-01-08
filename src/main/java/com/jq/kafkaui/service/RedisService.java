@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.dao.RedisSourceDao;
 import com.jq.kafkaui.domain.RedisSource;
 import com.jq.kafkaui.util.RedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import redis.clients.jedis.Jedis;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
  * @create: 2020-11-12 17:39
  **/
 @Service
+@Slf4j
 public class RedisService {
 
     @Autowired
@@ -82,6 +84,20 @@ public class RedisService {
         }
         jedis.close();
         return jo;
+
+    }
+
+    public boolean connect(RedisSource redisSource) {
+        RedisUtil redisUtil = new RedisUtil();
+        try {
+
+            Jedis jedis = redisUtil.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), 0);
+            jedis.close();
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return false;
+        }
 
     }
 }
