@@ -49,10 +49,10 @@ export default {
   methods: {
     deleteSource(id) {
       this.axios.post("/kafka/deleteSource/" + id).then((response) => {
-        this.sources = response.data
+        this.$message.success("删除kafka环境成功")
         this.getAllSource()
       }).catch((error) => {
-        this.$message.error("删除数据源失败")
+        this.$message.error("删除kafka环境失败")
       })
     },
     handleDelete(index, row) {
@@ -63,13 +63,15 @@ export default {
       this.axios.post("/kafka/getSource").then((response) => {
         this.sources = response.data
       }).catch((error) => {
+        this.$message.error("查询所有kafka环境失败")
       })
     },
     add() {
       this.axios.post("/kafka/add", {"name": this.name, "broker": this.broker}).then((response) => {
-        this.sources = response.data
+        this.$message.success("添加kafka环境成功")
         this.getAllSource()
       }).catch((error) => {
+        this.$message.error("添加kafka环境失败")
       })
     }
   }

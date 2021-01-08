@@ -14,7 +14,7 @@
 
 
     <div v-show="rediskey != null">
-      <el-button type="primary" round icon="el-icon-refresh-right" @click="getData" style="margin-top: 5px">刷新数据
+      <el-button type="primary" circle size="mini" icon="el-icon-refresh-right" @click="getData" style="margin-top: 5px">
       </el-button>
       <div class="type">数据类型：{{ keyType }}</div>
       <div class="type">key：{{ rediskey }}</div>

@@ -57,7 +57,6 @@ export default {
   methods: {
     deleteSource(id) {
       this.axios.post("/redis/deleteSource/" + id).then((response) => {
-        this.sources = response.data
         this.$message.success("删除redis环境成功")
         this.getAllSource()
 
@@ -83,7 +82,6 @@ export default {
         "port": this.port,
         "password": this.password
       }).then((response) => {
-        this.sources = response.data
         this.$message.success("添加redis环境成功")
         this.getAllSource()
       }).catch((error) => {

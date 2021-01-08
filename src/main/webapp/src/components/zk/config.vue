@@ -49,14 +49,12 @@ export default {
   methods: {
     deleteSource(id) {
       this.axios.post("/zookeeper/deleteSource/" + id).then((response) => {
-        this.sources = response.data
         this.getAllSource()
       }).catch((error) => {
         this.$message.error("删除zk环境失败")
       })
     },
     handleDelete(index, row) {
-      console.log(index, row);
       this.deleteSource(row.id)
     },
     getAllSource() {
@@ -68,7 +66,6 @@ export default {
     },
     add() {
       this.axios.post("/zookeeper/add", {"name": this.name, "address": this.address}).then((response) => {
-        this.sources = response.data
         this.getAllSource()
       }).catch((error) => {
         this.$message.error("添加zk环境失败")
