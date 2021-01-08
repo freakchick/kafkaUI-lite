@@ -2,24 +2,30 @@
   <div>
 
 
-    <kafkaSelect @kafkaChange="kafkaChange" style="margin-bottom: 5px"></kafkaSelect>
-
-    <div style="margin: 5px 0">
+    <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
+    <div>
+      <el-button type="primary" @click="dialogFormVisible = true">创建topic</el-button>
+    </div>
+    <div>
       <el-table :data="tableData" stripe border height="600">
         <el-table-column prop="name" label="topic"></el-table-column>
         <el-table-column label="操作">
           <template slot-scope="scope">
             <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)">
-              <el-button size="mini" type="danger" slot="reference">删除</el-button>
+              <el-button size="mini" circle type="danger" slot="reference">
+                <i class="el-icon-delete"></i>
+              </el-button>
             </el-popconfirm>
 
-            <el-button size="mini" type="primary" @click="detail">详情</el-button>
+            <el-button size="mini" circle type="primary" @click="getTopicDetail(scope.row.name)">
+              <i class="iconfont icon-detail"></i>
+            </el-button>
           </template>
         </el-table-column>
       </el-table>
     </div>
 
-    <el-button type="primary" @click="dialogFormVisible = true">创建topic</el-button>
+
     <el-dialog title="创建topic" :visible.sync="dialogFormVisible" width="500px">
       <el-form label-width="80px">
         <el-form-item label="topic名称">
@@ -68,9 +74,6 @@ export default {
   created() {
   },
   methods: {
-    detail(){
-      console.log("ddd")
-    },
     getTopics() {
       this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
         this.tableData = response.data
@@ -99,6 +102,15 @@ export default {
       }).catch((error) => {
         this.$message.error("删除topic失败")
       })
+    },
+    getTopicDetail(topic) {
+      this.axios.post("/kafka/getTopicDetail",
+          {"broker": this.broker, "topic": topic}).then((response) => {
+        console.log(response.data)
+        this.$message.success(response.data)
+      }).catch((error) => {
+        this.$message.error("失败")
+      })
     }
   },
   components: {
@@ -108,5 +120,11 @@ export default {
 </script>
 
 <style scoped>
+i {
+  font-size: 14px;
+}
 
+div {
+  margin: 5px 0;
+}
 </style>

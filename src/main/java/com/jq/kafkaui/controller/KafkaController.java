@@ -4,6 +4,7 @@ import com.jq.kafkaui.domain.Source;
 import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
+import org.apache.kafka.clients.admin.TopicDescription;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -77,6 +78,12 @@ public class KafkaController {
             e.printStackTrace();
             return "fail";
         }
+    }
+
+    @RequestMapping("/getTopicDetail")
+    public TopicDescription getTopicDetail(String broker, String topic) throws Exception {
+
+        return KafkaUtil.getTopicDetail(broker, topic);
     }
 
     @RequestMapping("/produce")

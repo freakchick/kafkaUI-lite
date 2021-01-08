@@ -1,6 +1,6 @@
 package com.jq.kafkaui.util;
 
-import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.Topic;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -150,13 +150,7 @@ public class KafkaUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        List<String> list = new ArrayList<>();
-        list.add("jiang");
-        list.add("1iang");
-//        createTopic(list);
-        listTopicsWithOptions("47.92.117.90:9092");
-
-//        describeTopics(list);
+       getTopicDetail("47.92.117.90:9092","jiangq");
     }
 
     public static void deleteTopic(String broker, String name) {
@@ -165,5 +159,32 @@ public class KafkaUtil {
         list.add(name);
         adminClient.deleteTopics(list);
         adminClient.close();
+    }
+
+    public static TopicDescription getTopicDetail(String broker, String topic) throws Exception {
+        AdminClient adminClient = createAdminClientByProperties(broker);
+        List<String> list = new ArrayList<>();
+        list.add(topic);
+        DescribeTopicsResult result = adminClient.describeTopics(list);
+        Map<String, TopicDescription> map = result.all().get();
+        TopicDescription topicDescription = map.get(topic);
+
+        JSONObject res = new JSONObject();
+        res.put("isInternal", topicDescription.isInternal());
+        List<JSONObject> collect = topicDescription.partitions().stream().map(t -> {
+            JSONObject p = new JSONObject();
+
+            p.put("partition", t.partition());
+            p.put("leader", t.leader());
+            p.put("replicas", t.replicas());
+
+            return p;
+
+        }).collect(Collectors.toList());
+        res.put("partitions", collect);
+
+        System.out.println(res.toJSONString());
+        adminClient.close();
+        return topicDescription;
     }
 }
