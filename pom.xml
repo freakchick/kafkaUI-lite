@@ -100,7 +100,7 @@
     </dependencies>
 
     <build>
-        <finalName>kafkaUI</finalName>
+        <finalName>kafkaUI-${version}</finalName>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
