@@ -4,24 +4,25 @@
       <el-option v-for="item in sources" :key="item.id" :label="item.name" :value="item.address"></el-option>
     </el-select>
 
-    <el-table :data="currentNode" border style="margin: 5px 0">
-      <el-table-column prop="path" label="节点"></el-table-column>
+    <el-table :data="currentNode" border>
+      <el-table-column prop="path" label="当前节点"></el-table-column>
       <el-table-column label="数据">
         <template slot-scope="scope">
           <el-input v-model="scope.row.value" type="textarea" autosize :disabled="!editable" ref="input">
           </el-input>
-          <el-button style="margin: 5px 0" size="mini" round type="primary" v-if="editable"
-                     @click="update(scope.row)">提交</el-button>
+          <el-button size="mini" round type="primary" v-if="editable"
+                     @click="update(scope.row)">提交
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
-
-    <el-button size="mini" type="primary" @click="clickAdd" circle icon="el-icon-circle-plus-outline"></el-button>
-    <el-button size="mini" type="danger" @click="clickRemove" circle icon="el-icon-delete"></el-button>
-    <el-button size="mini" type="warning" @click="clickEdit" circle icon="el-icon-edit"></el-button>
-    <el-button size="mini" type="primary" @click="refresh" circle icon="el-icon-refresh-right"></el-button>
-
-    <div class="tree" v-show="nodes!=null">
+    <div>
+      <el-button size="mini" type="primary" @click="clickAdd" circle icon="el-icon-circle-plus-outline"></el-button>
+      <el-button size="mini" type="danger" @click="clickRemove" circle icon="el-icon-delete"></el-button>
+      <el-button size="mini" type="warning" @click="clickEdit" circle icon="el-icon-edit"></el-button>
+      <el-button size="mini" type="primary" @click="refresh" circle icon="el-icon-refresh-right"></el-button>
+    </div>
+    <div class="tree">
       <el-tree :data="nodes" :load="loadNode" highlight-current lazy @node-click="handleNodeClick"></el-tree>
     </div>
 
@@ -94,7 +95,7 @@ export default {
         this.$message.error("查询所有zk环境失败")
       })
     },
-    getRootNodes(){
+    getRootNodes() {
       this.nodes = null
       this.axios.post("/zookeeper/getRootNodes", {"address": this.address}).then((response) => {
         this.nodes = response.data
@@ -115,17 +116,21 @@ export default {
 
     },
     clickEdit() {
-      if (this.createNode.path == null){
+      if (this.createNode.path == null) {
         this.$message.error("请先选择节点")
         return
       }
-      this.editable = true
-      this.$refs.input.focus
+      this.editable = !this.editable
     },
     update(row) {
       console.log(row)
+
       this.axios.post("/zookeeper/setData",
-          {"address": this.address, "path": row.path, "data": row.value}).then((response) => {
+          {
+            "address": this.address,
+            "path": row.path,
+            "data": row.value.trim().length == 0 ? null : row.value.trim()
+          }).then((response) => {
         this.$message.success("修改数据成功")
         this.editable = false
       }).catch((error) => {
@@ -136,8 +141,15 @@ export default {
       this.dialogFormVisible = true
     },
     add() {
+      if (this.createNode.data.trim().length == 0) {
+
+      }
       this.axios.post("/zookeeper/createNode",
-          {"address": this.address, "path": this.createNode.path, "data": this.createNode.data}).then((response) => {
+          {
+            "address": this.address,
+            "path": this.createNode.path,
+            "data": this.createNode.data.trim().length == 0 ? null : this.createNode.data.trim()
+          }).then((response) => {
         this.$message.success("添加节点成功")
         this.getRootNodes()
         this.editable = false
@@ -146,13 +158,13 @@ export default {
       })
     },
     clickRemove() {
-      if (this.createNode.path == null){
+      if (this.createNode.path == null) {
         this.$message.error("请先选择节点")
         return
       }
       this.dialogFlag = true
     },
-    removeNode(){
+    removeNode() {
       this.axios.post("/zookeeper/removeNode",
           {"address": this.address, "path": this.createNode.path}).then((response) => {
         this.$message.success("删除节点成功")
@@ -173,13 +185,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.select {
-  margin-bottom: 5px;
+.tree {
+  border: 1px solid #00a0e9;
 }
 
-.tree {
-  margin-top: 5px;
-  border: 1px solid #00a0e9;
-
+div {
+  margin: 5px 0;
 }
 </style>
