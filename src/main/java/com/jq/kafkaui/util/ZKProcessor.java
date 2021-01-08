@@ -1,6 +1,5 @@
 package com.jq.kafkaui.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import javafx.scene.control.TreeItem;
@@ -8,6 +7,7 @@ import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
 import org.apache.curator.retry.ExponentialBackoffRetry;
+import org.apache.zookeeper.CreateMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +73,7 @@ public class ZKProcessor {
                 obj.put("value", new String(bytes));
             list.add(obj);
         }
+
         return list;
 
     }
@@ -87,32 +88,44 @@ public class ZKProcessor {
             return children;
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             client.close();
         }
         return null;
     }
 
     //删除zk上的某个节点
-    public void removeNode(String path) {
-        try {
-            CuratorFramework client = getClient();
-            client.delete().guaranteed().deletingChildrenIfNeeded().forPath(path);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void removeNode(String path) throws Exception {
+
+        CuratorFramework client = getClient();
+        client.delete().guaranteed().deletingChildrenIfNeeded().forPath(path);
+        client.close();
     }
 
     public String getValue(String path) {
-        System.out.println(path);
         CuratorFramework client = getClient();
         try {
+
             byte[] bytes = client.getData().forPath(path);
             return new String(bytes);
         } catch (Exception e) {
             e.printStackTrace();
+        }finally {
+            client.close();
         }
         return null;
+    }
+
+    public void setValue(String path, String data) throws Exception {
+        CuratorFramework client = getClient();
+        client.setData().forPath(path, data.getBytes("utf-8"));
+        client.close();
+    }
+
+    public void createNode(String path, String data) throws Exception {
+        CuratorFramework client = getClient();
+        client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, data.getBytes("utf-8"));
+        client.close();
     }
 
     //递归调用

@@ -1,7 +1,6 @@
 package com.jq.kafkaui.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jq.kafkaui.domain.RedisSource;
 import com.jq.kafkaui.domain.ZKSource;
 import com.jq.kafkaui.service.ZKService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +41,7 @@ public class ZookeeperController {
     }
 
     @RequestMapping("/getAllNodes")
-    public List<JSONObject> getAllNodes(String address){
+    public List<JSONObject> getAllNodes(String address) {
         return zkService.getAllNodes(address);
     }
 
@@ -52,13 +51,31 @@ public class ZookeeperController {
     }
 
     @RequestMapping("/getNodes")
-    public List<JSONObject> getNodes(String address,String path) throws Exception {
-        return zkService.getNodes(address,path);
+    public List<JSONObject> getNodes(String address, String path) throws Exception {
+        return zkService.getNodes(address, path);
     }
 
     @RequestMapping("/getData")
-    public String getData(String address,String path){
-        return zkService.getData(address,path);
+    public String getData(String address, String path) {
+        return zkService.getData(address, path);
+    }
+
+    @RequestMapping("/setData")
+    public boolean setData(String address, String path, String data) throws Exception {
+        zkService.setData(address, path, data);
+        return true;
+    }
+
+    @RequestMapping("/createNode")
+    public boolean createNode(String address, String path, String data) throws Exception {
+        zkService.createNode(address, path, data);
+        return true;
+    }
+
+    @RequestMapping("/removeNode")
+    public boolean createNode(String address, String path) throws Exception {
+        zkService.removeNode(address, path);
+        return true;
     }
 
     @RequestMapping("/connect")

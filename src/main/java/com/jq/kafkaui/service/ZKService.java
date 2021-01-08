@@ -52,6 +52,7 @@ public class ZKService {
         ZKProcessor zkProcessor = new ZKProcessor(address);
         CuratorFramework client = zkProcessor.getClient();
         List<JSONObject> allSon = zkProcessor.getAllSon(client, "/");
+        client.close();
         return allSon;
     }
 
@@ -59,6 +60,7 @@ public class ZKService {
         ZKProcessor zkProcessor = new ZKProcessor(address);
         CuratorFramework client = zkProcessor.getClient();
         List<JSONObject> allSon = zkProcessor.getAllSon(client, path);
+        client.close();
         return allSon;
     }
 
@@ -67,8 +69,6 @@ public class ZKService {
         try {
             ZKProcessor zkProcessor = new ZKProcessor(address);
             client = zkProcessor.getClient();
-            ExistsBuilder existsBuilder = client.checkExists();
-            CuratorFrameworkState state = client.getState();
             List<JSONObject> allSon = zkProcessor.getAllSon(client, "/");
             return true;
         } catch (Exception e) {
@@ -77,5 +77,20 @@ public class ZKService {
         } finally {
             client.close();
         }
+    }
+
+    public void setData(String address, String path, String data) throws Exception {
+        ZKProcessor zkProcessor = new ZKProcessor(address);
+        zkProcessor.setValue(path, data);
+    }
+
+    public void createNode(String address, String path, String data) throws Exception {
+        ZKProcessor zkProcessor = new ZKProcessor(address);
+        zkProcessor.createNode(path, data);
+    }
+
+    public void removeNode(String address, String path) throws Exception {
+        ZKProcessor zkProcessor = new ZKProcessor(address);
+        zkProcessor.removeNode(path);
     }
 }
