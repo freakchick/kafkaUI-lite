@@ -8,7 +8,14 @@
         </div>
         <div>
             <el-table :data="tableData" stripe border>
-                <el-table-column prop="name" label="topic"></el-table-column>
+                <el-table-column prop="name" label="topic名称"></el-table-column>
+                <el-table-column  label="类型">
+                    <template slot-scope="scope">
+                        <div v-if="scope.row.internal">系统topic</div>
+                        <div v-else>用户topic</div>
+
+                    </template>
+                </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
                         <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)">

@@ -12,4 +12,5 @@ import lombok.Data;
 public class Topic {
 
     String name;
+    boolean isInternal;
 }

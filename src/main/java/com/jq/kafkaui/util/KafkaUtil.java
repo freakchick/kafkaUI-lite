@@ -46,19 +46,17 @@ public class KafkaUtil {
 
         // 列出所有的topic
         ListTopicsResult result = adminClient.listTopics(options);
+        Collection<TopicListing> topicListings = result.listings().get();
 
+        List<Topic> collect = topicListings.stream().map(t -> {
+            Topic topic = new Topic();
+            topic.setName(t.name());
+            topic.setInternal(t.isInternal());
+            return topic;
+        }).collect(Collectors.toList());
 
-            Set<String> topicNames = result.names().get();
-            List<Topic> collect = topicNames.stream().map(t -> {
-                Topic topic = new Topic();
-                topic.setName(t);
-                return topic;
-            }).collect(Collectors.toList());
         adminClient.close();
         return collect;
-
-
-
 
     }
 
@@ -172,7 +170,7 @@ public class KafkaUtil {
 
         JSONObject res = new JSONObject();
         res.put("isInternal", topicDescription.isInternal());
-        res.put("name",topicDescription.name());
+        res.put("name", topicDescription.name());
         List<JSONObject> collect = topicDescription.partitions().stream().map(t -> {
             JSONObject p = new JSONObject();
             Node leader = t.leader();
@@ -184,7 +182,8 @@ public class KafkaUtil {
 
             List<String> isr = t.isr().stream().map(r -> {
                 return r.toString();
-            }).collect(Collectors.toList());;
+            }).collect(Collectors.toList());
+            ;
 
             p.put("partition", t.partition());
             p.put("leader", t.leader().toString());
