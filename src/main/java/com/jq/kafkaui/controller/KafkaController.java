@@ -1,5 +1,6 @@
 package com.jq.kafkaui.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.Source;
 import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.service.KafkaService;
@@ -32,7 +33,7 @@ public class KafkaController {
     KafkaService kafkaService;
 
     @RequestMapping("/getTopics")
-    public List<Topic> getTopics(String brokers) {
+    public List<Topic> getTopics(String brokers) throws Exception {
         List<Topic> list = KafkaUtil.listTopicsWithOptions(brokers);
         return list;
     }
@@ -81,7 +82,7 @@ public class KafkaController {
     }
 
     @RequestMapping("/getTopicDetail")
-    public TopicDescription getTopicDetail(String broker, String topic) throws Exception {
+    public JSONObject getTopicDetail(String broker, String topic) throws Exception {
 
         return KafkaUtil.getTopicDetail(broker, topic);
     }

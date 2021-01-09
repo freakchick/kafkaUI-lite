@@ -2,13 +2,16 @@ package com.jq.kafkaui.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.Topic;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.common.Node;
 import org.apache.kafka.common.config.ConfigResource;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
  * @author: jiangqiang
  * @create: 2020-10-28 20:05
  **/
+@Slf4j
 public class KafkaUtil {
 
     public static AdminClient createAdminClientByProperties(String brokers) {
@@ -32,7 +36,7 @@ public class KafkaUtil {
         return AdminClient.create(prop);
     }
 
-    public static List<Topic> listTopicsWithOptions(String brokers) {
+    public static List<Topic> listTopicsWithOptions(String brokers) throws Exception {
         // 创建AdminClient客户端对象
         AdminClient adminClient = createAdminClientByProperties(brokers);
 
@@ -43,21 +47,18 @@ public class KafkaUtil {
         // 列出所有的topic
         ListTopicsResult result = adminClient.listTopics(options);
 
-        try {
+
             Set<String> topicNames = result.names().get();
             List<Topic> collect = topicNames.stream().map(t -> {
                 Topic topic = new Topic();
                 topic.setName(t);
                 return topic;
             }).collect(Collectors.toList());
-            return collect;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return null;
-        } finally {
+        adminClient.close();
+        return collect;
 
-            adminClient.close();
-        }
+
+
 
     }
 
@@ -150,7 +151,7 @@ public class KafkaUtil {
     }
 
     public static void main(String[] args) throws Exception {
-       getTopicDetail("47.92.117.90:9092","jiangq");
+        getTopicDetail("47.92.117.90:9092", "jiangq");
     }
 
     public static void deleteTopic(String broker, String name) {
@@ -161,7 +162,7 @@ public class KafkaUtil {
         adminClient.close();
     }
 
-    public static TopicDescription getTopicDetail(String broker, String topic) throws Exception {
+    public static JSONObject getTopicDetail(String broker, String topic) throws Exception {
         AdminClient adminClient = createAdminClientByProperties(broker);
         List<String> list = new ArrayList<>();
         list.add(topic);
@@ -171,12 +172,24 @@ public class KafkaUtil {
 
         JSONObject res = new JSONObject();
         res.put("isInternal", topicDescription.isInternal());
+        res.put("name",topicDescription.name());
         List<JSONObject> collect = topicDescription.partitions().stream().map(t -> {
             JSONObject p = new JSONObject();
+            Node leader = t.leader();
+            log.info(leader.toString());
+
+            List<String> replicas = t.replicas().stream().map(r -> {
+                return r.toString();
+            }).collect(Collectors.toList());
+
+            List<String> isr = t.isr().stream().map(r -> {
+                return r.toString();
+            }).collect(Collectors.toList());;
 
             p.put("partition", t.partition());
-            p.put("leader", t.leader());
-            p.put("replicas", t.replicas());
+            p.put("leader", t.leader().toString());
+            p.put("replicas", replicas);
+            p.put("isr", isr);
 
             return p;
 
@@ -185,6 +198,6 @@ public class KafkaUtil {
 
         System.out.println(res.toJSONString());
         adminClient.close();
-        return topicDescription;
+        return res;
     }
 }
