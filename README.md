@@ -42,7 +42,16 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107214957.jpg)
 
 #### 管理topic
-![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_alltopics_20210110120710.png)
+![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_topic_manage_20210110184715.jpg)
+
+#### 管理集群
+![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_cluster_manage_20210110184640.jpg)
+
+#### 管理group
+![](https://freakchicken.gitee.io/kafka-ui-lite/group_manage_20210110184621.jpg)
+
+#### 查看group消费偏移量详情
+![](https://freakchicken.gitee.io/kafka-ui-lite/group_detail_20210110184557.jpg)
 
 #### 创建topic
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215016.jpg)
