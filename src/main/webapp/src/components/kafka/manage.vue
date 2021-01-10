@@ -22,8 +22,8 @@
                         <el-button size="mini" circle type="primary" @click="getTopicDetail(scope.row.name)">
                             <i class="iconfont icon-detail"></i>
                         </el-button>
-                        <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)" v-if="!scope.row.internal">
-                            <el-button size="mini" circle type="danger" slot="reference" style="margin: 5px" >
+                        <el-popconfirm title="确定删除吗？" @confirm="deleteConfirm(scope.row.name)" v-if="!scope.row.internal">
+                            <el-button size="mini" circle type="danger" slot="reference" style="margin: 5px"  >
                                 <i class="el-icon-delete"></i>
                             </el-button>
                         </el-popconfirm>
