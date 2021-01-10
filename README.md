@@ -45,3 +45,8 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 #### 创建topic
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215016.jpg)
 
+## 联系作者：
+### wechat：
+
+
+### 捐赠：

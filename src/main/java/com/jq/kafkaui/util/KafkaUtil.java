@@ -5,9 +5,12 @@ import com.jq.kafkaui.domain.Topic;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
+import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.Node;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.config.ConfigResource;
 
 import java.util.*;
@@ -198,5 +201,38 @@ public class KafkaUtil {
         System.out.println(res.toJSONString());
         adminClient.close();
         return res;
+    }
+
+    public static Collection<Node> broker(String broker) throws Exception{
+        AdminClient client = createAdminClientByProperties(broker);
+        DescribeClusterResult describeClusterResult = client.describeCluster();
+        Collection<Node> nodes = describeClusterResult.nodes().get();
+        return nodes;
+
+    }
+
+    public static Collection<Node> group(String broker) throws Exception{
+        AdminClient client = createAdminClientByProperties(broker);
+        ListConsumerGroupsResult result = client.listConsumerGroups();
+
+        Collection<ConsumerGroupListing> consumerGroupListings = result.all().get();
+        consumerGroupListings.stream().forEach(t->{
+            String groupId = t.groupId();
+            ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(groupId);
+            try {
+                Map<TopicPartition, OffsetAndMetadata> topicPartitionOffsetAndMetadataMap = listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata().get();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
+
+        });
+
+
+
+
+        return null;
+
     }
 }
