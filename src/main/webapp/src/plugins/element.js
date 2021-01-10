@@ -3,6 +3,7 @@ import Vue from 'vue'
 
 import {
     // Pagination,
+    Link,
     Dialog,
     // Autocomplete,
     // Dropdown,
@@ -83,6 +84,7 @@ import {
 } from 'element-ui';
 
 // Vue.use(Pagination);
+Vue.use(Link);
 Vue.use(Dialog);
 /*
 Vue.use(Autocomplete);

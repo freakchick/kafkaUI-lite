@@ -177,7 +177,8 @@ export default {
 
 .frame {
   display: flex;
-  height: 400px;
+  height: 500px;
+  max-height: 700px;
   border-radius: 2px;
   border: black 1px solid;
 

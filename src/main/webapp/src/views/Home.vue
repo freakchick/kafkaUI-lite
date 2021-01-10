@@ -12,11 +12,6 @@
             text-color="#fff"
             active-text-color="#01293b"
             router>
-          <el-submenu index="1">
-            <template slot="title">zookeeper</template>
-            <el-menu-item index="/zk/config">配置</el-menu-item>
-            <el-menu-item index="/zk/manage">管理</el-menu-item>
-          </el-submenu>
           <el-submenu index="2">
             <template slot="title">kafka</template>
             <el-menu-item index="/config">配置</el-menu-item>
@@ -27,10 +22,23 @@
               <el-menu-item index="/kafka/consume">消费</el-menu-item>
             </el-submenu>
           </el-submenu>
+          <el-submenu index="1">
+            <template slot="title">zookeeper</template>
+            <el-menu-item index="/zk/config">配置</el-menu-item>
+            <el-menu-item index="/zk/manage">管理</el-menu-item>
+          </el-submenu>
+
           <el-submenu index="3">
             <template slot="title">redis</template>
             <el-menu-item index="/redis/config">配置</el-menu-item>
             <el-menu-item index="/redis/manage">管理</el-menu-item>
+          </el-submenu>
+
+          <el-submenu index="4">
+            <template slot="title">关于</template>
+            <el-menu-item index="/about/donate">捐赠</el-menu-item>
+<!--            <el-menu-item index="/about/opensource"></el-menu-item>-->
+<!--            <el-menu-item index="/about/contact">联系作者</el-menu-item>-->
           </el-submenu>
         </el-menu>
 

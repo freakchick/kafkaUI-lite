@@ -9,6 +9,7 @@ import zkConfig from '../components/zk/config'
 import zkManage from '../components/zk/manage'
 import redisConfig from '../components/redis/config'
 import redisManage from '../components/redis/manage'
+import donate from '../components/about/donate'
 
 
 Vue.use(VueRouter)
@@ -24,7 +25,8 @@ const routes = [
             {path: '/zk/config', name: 'zkConfig', component: zkConfig},
             {path: '/zk/manage', name: 'zkManage', component: zkManage},
             {path: '/redis/config', name: 'redisConfig', component: redisConfig},
-            {path: '/redis/manage', name: 'redisManage', component: redisManage}
+            {path: '/redis/manage', name: 'redisManage', component: redisManage},
+            {path: '/about/donate', name: 'donate', component: donate}
         ]
     }/*,
     {
