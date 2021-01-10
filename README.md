@@ -5,6 +5,8 @@
 - 可以在界面生产消息、消费消息、创建管理topic
 - 可以支持管理多个kafka集群
 - 部署简便，**不需要连数据库，只有一个jar包启动即可**
+- 支持zookeeper ui界面化操作
+- 支持redis ui界面化操作
 
 ## 软件架构
 - 采用B/S架构，springboot + vue.js 前后端分离开发
