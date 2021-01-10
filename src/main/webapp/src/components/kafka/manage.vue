@@ -18,15 +18,17 @@
                 </el-table-column>
                 <el-table-column label="操作">
                     <template slot-scope="scope">
-                        <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)">
-                            <el-button size="mini" circle type="danger" slot="reference" style="margin: 0 5px">
-                                <i class="el-icon-delete"></i>
-                            </el-button>
-                        </el-popconfirm>
 
                         <el-button size="mini" circle type="primary" @click="getTopicDetail(scope.row.name)">
                             <i class="iconfont icon-detail"></i>
                         </el-button>
+                        <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)" v-if="!scope.row.internal">
+                            <el-button size="mini" circle type="danger" slot="reference" style="margin: 5px" >
+                                <i class="el-icon-delete"></i>
+                            </el-button>
+                        </el-popconfirm>
+
+
                     </template>
                 </el-table-column>
             </el-table>

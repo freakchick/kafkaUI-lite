@@ -67,8 +67,8 @@ public class ZookeeperController {
     }
 
     @RequestMapping("/createNode")
-    public boolean createNode(String address, String path, String data) throws Exception {
-        zkService.createNode(address, path, data);
+    public boolean createNode(String address, String path, String data,Boolean recursion) throws Exception {
+        zkService.createNode(address, path, data,recursion);
         return true;
     }
 

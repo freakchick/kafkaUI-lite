@@ -84,9 +84,9 @@ public class ZKService {
         zkProcessor.setValue(path, data);
     }
 
-    public void createNode(String address, String path, String data) throws Exception {
+    public void createNode(String address, String path, String data,boolean recursion) throws Exception {
         ZKProcessor zkProcessor = new ZKProcessor(address);
-        zkProcessor.createNode(path, data);
+        zkProcessor.createNode(path, data, recursion);
     }
 
     public void removeNode(String address, String path) throws Exception {

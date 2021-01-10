@@ -110,7 +110,7 @@ public class ZKProcessor {
             return new String(bytes);
         } catch (Exception e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             client.close();
         }
         return null;
@@ -122,9 +122,13 @@ public class ZKProcessor {
         client.close();
     }
 
-    public void createNode(String path, String data) throws Exception {
+    public void createNode(String path, String data, boolean recursion) throws Exception {
         CuratorFramework client = getClient();
-        client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, data.getBytes("utf-8"));
+        if (recursion) {
+            client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, data.getBytes("utf-8"));
+        } else {
+            client.create().withMode(CreateMode.PERSISTENT).forPath(path, data.getBytes("utf-8"));
+        }
         client.close();
     }
 
