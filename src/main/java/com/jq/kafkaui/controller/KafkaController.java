@@ -5,7 +5,6 @@ import com.jq.kafkaui.domain.Source;
 import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
-import org.apache.kafka.clients.admin.TopicDescription;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -99,5 +99,28 @@ public class KafkaController {
         }
         producer.close();
         return "success";
+    }
+
+    @RequestMapping("/cluster/info")
+    public List<JSONObject> getClusterInfo(String broker) throws Exception {
+        List<JSONObject> collection = KafkaUtil.clusterInfo(broker);
+        return collection;
+    }
+
+    @RequestMapping("/group/all")
+    public List<JSONObject> getAllGroups(String broker) throws Exception {
+        List<JSONObject> allGroups = KafkaUtil.getAllGroups(broker);
+        return allGroups;
+    }
+
+    @RequestMapping("/group/detail")
+    public Collection<List<JSONObject>> getGroupDetail(String broker, String group) throws Exception {
+        Collection<List<JSONObject>> groupInfo = KafkaUtil.getGroupInfo(broker, group);
+        return groupInfo;
+    }
+
+    @RequestMapping("/group/delete")
+    public void deleteGroup(String broker, String group) throws Exception {
+        KafkaUtil.deleteGroup(broker, group);
     }
 }

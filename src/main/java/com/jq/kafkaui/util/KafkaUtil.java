@@ -152,7 +152,7 @@ public class KafkaUtil {
     }
 
     public static void main(String[] args) throws Exception {
-        getTopicDetail("47.92.117.90:9092", "jiangq");
+
     }
 
     public static void deleteTopic(String broker, String name) {
@@ -203,20 +203,78 @@ public class KafkaUtil {
         return res;
     }
 
-    public static Collection<Node> broker(String broker) throws Exception{
+    public static List<JSONObject> clusterInfo(String broker) throws Exception {
         AdminClient client = createAdminClientByProperties(broker);
         DescribeClusterResult describeClusterResult = client.describeCluster();
         Collection<Node> nodes = describeClusterResult.nodes().get();
-        return nodes;
+        List<JSONObject> collect = nodes.stream().map(node -> {
+            JSONObject jo = new JSONObject();
+            jo.put("host", node.host());
+            jo.put("port", node.port());
+            jo.put("idStr", node.idString());
+            jo.put("id", node.id());
+            return jo;
+        }).collect(Collectors.toList());
+        return collect;
 
     }
 
-    public static Collection<Node> group(String broker) throws Exception{
+    public static List<JSONObject> getAllGroups(String broker) throws Exception {
+        AdminClient client = createAdminClientByProperties(broker);
+        ListConsumerGroupsResult listConsumerGroupsResult = client.listConsumerGroups();
+        Collection<ConsumerGroupListing> consumerGroupListings = listConsumerGroupsResult.all().get();
+        List<JSONObject> collect = consumerGroupListings.stream().map(t -> {
+
+            JSONObject jo = new JSONObject();
+            jo.put("name", t.groupId());
+            return jo;
+        }).collect(Collectors.toList());
+        return collect;
+
+    }
+
+    public static Collection<List<JSONObject>> getGroupInfo(String broker, String group) throws Exception {
+        AdminClient client = createAdminClientByProperties(broker);
+        ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(group);
+
+        Map<TopicPartition, OffsetAndMetadata> topicPartitionOffsetAndMetadataMap = listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata().get();
+        Collection<OffsetAndMetadata> values = topicPartitionOffsetAndMetadataMap.values();
+
+        Set<TopicPartition> topicPartitions = topicPartitionOffsetAndMetadataMap.keySet();
+
+        Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
+            OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
+            long offset = offsetAndMetadata.offset();
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("topic", t.topic());
+            jsonObject.put("partition", t.partition());
+            jsonObject.put("offset", offset);
+            return jsonObject;
+        }).collect(Collectors.groupingBy(t -> {
+            return t.getString("topic");
+        }));
+        Collection<List<JSONObject>> values1 = collect.values();
+        client.close();
+        return values1;
+
+    }
+
+    public static void deleteGroup(String broker, String group) throws Exception {
+        AdminClient client = createAdminClientByProperties(broker);
+        List<String> list = new ArrayList<>();
+        list.add(group);
+        DeleteConsumerGroupsResult deleteConsumerGroupsResult = client.deleteConsumerGroups(list);
+        Void aVoid = deleteConsumerGroupsResult.all().get();
+        client.close();
+
+    }
+
+    public static Collection<Node> group(String broker) throws Exception {
         AdminClient client = createAdminClientByProperties(broker);
         ListConsumerGroupsResult result = client.listConsumerGroups();
 
         Collection<ConsumerGroupListing> consumerGroupListings = result.all().get();
-        consumerGroupListings.stream().forEach(t->{
+        consumerGroupListings.stream().forEach(t -> {
             String groupId = t.groupId();
             ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(groupId);
             try {
@@ -228,9 +286,6 @@ public class KafkaUtil {
             }
 
         });
-
-
-
 
         return null;
 
