@@ -25,7 +25,7 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 
 
 ## 使用说明
-### kafka
+### kafka操作
 
 #### 查看所有kafka集群
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215027.jpg)
@@ -44,6 +44,24 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 
 #### 创建topic
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215016.jpg)
+
+
+### zookeeper操作
+#### 添加zk集群
+![](https://freakchicken.gitee.io/kafka-ui-lite/zk_add_source_20210110121408.png)
+
+#### 查看所有zk集群
+![](https://freakchicken.gitee.io/kafka-ui-lite/zk_source_20210110121439.png)
+
+#### 添加节点
+![](https://freakchicken.gitee.io/kafka-ui-lite/zk_add_node_20210110121530.png)
+
+#### 查看节点数据
+![](https://freakchicken.gitee.io/kafka-ui-lite/zkmanage_20210110121509.png)
+
+
+
+
 
 ## 联系作者：
 ### wechat：
