@@ -40,10 +40,13 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107214957.jpg)
 
 #### 管理topic
-![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215009.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_alltopics_20210110120710.png)
 
 #### 创建topic
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215016.jpg)
+
+#### 查看topic分区详情
+![](https://freakchicken.gitee.io/kafka-ui-lite/topic_partiton_detail_20210110120758.png)
 
 
 ### zookeeper操作
