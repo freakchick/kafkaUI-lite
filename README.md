@@ -79,8 +79,12 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 
 ## 联系作者：
 ### wechat：
+<div style="text-align: center"> 
+<img src="https://freakchicken.gitee.io/kafka-ui-lite/wechat.jpg" width = "30%" />
+</div>
 
-![](https://freakchicken.gitee.io/kafka-ui-lite/wechat.jpg)
 
 ### 捐赠：
-![](https://freakchicken.gitee.io/kafka-ui-lite/wechatpay.jpg)
+<div style="text-align: center"> 
+<img src="https://freakchicken.gitee.io/kafka-ui-lite/wechatpay.jpg" width = "30%" />
+</div>
