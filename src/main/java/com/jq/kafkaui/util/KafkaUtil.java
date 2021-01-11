@@ -56,7 +56,7 @@ public class KafkaUtil {
             topic.setName(t.name());
             topic.setInternal(t.isInternal());
             return topic;
-        }).collect(Collectors.toList());
+        }).sorted(Comparator.comparing(t -> t.getName())).collect(Collectors.toList());
 
         adminClient.close();
         return collect;
@@ -206,6 +206,7 @@ public class KafkaUtil {
     public static List<JSONObject> clusterInfo(String broker) throws Exception {
         AdminClient client = createAdminClientByProperties(broker);
         DescribeClusterResult describeClusterResult = client.describeCluster();
+
         Collection<Node> nodes = describeClusterResult.nodes().get();
         List<JSONObject> collect = nodes.stream().map(node -> {
             JSONObject jo = new JSONObject();

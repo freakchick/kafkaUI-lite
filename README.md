@@ -85,6 +85,7 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 
 
 ### 捐赠：
+如果您喜欢此项目，请给作者捐助5块钱去买生姜洗发水，来保留为数不多的头发
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/kafka-ui-lite/wechatpay.jpg" width = "30%" />
 </div>

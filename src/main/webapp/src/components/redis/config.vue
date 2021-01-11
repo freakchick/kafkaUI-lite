@@ -12,7 +12,7 @@
     </el-table>
 
 
-    <el-button type="primary" @click="dialogFormVisible = true" style="margin-top: 5px">添加</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true" style="margin-top: 5px">添加环境</el-button>
 
     <el-dialog title="添加redis地址" :visible.sync="dialogFormVisible" width="600px">
       <el-form label-width="80px">

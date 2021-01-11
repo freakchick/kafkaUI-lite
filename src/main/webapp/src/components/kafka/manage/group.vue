@@ -2,7 +2,7 @@
     <div>
         <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
-        <el-table :data="tableData" stripe border>
+        <el-table :data="tableData" stripe border >
             <el-table-column prop="name" label="group名称"></el-table-column>
 
             <el-table-column label="操作">
@@ -51,7 +51,7 @@
                 this.axios.post("/kafka/group/all", {"broker": this.broker}).then((response) => {
                     this.tableData = response.data
                 }).catch((error) => {
-                    this.$message.error("查询所有topic失败")
+                    this.$message.error("查询所有group失败")
                 })
             },
             kafkaChange(broker) {

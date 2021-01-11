@@ -5,7 +5,7 @@
             <el-button type="primary" @click="dialogFormVisible = true">创建topic</el-button>
         </div>
         <div>
-            <el-table :data="tableData" stripe border>
+            <el-table :data="tableData" stripe border max-height="700">
                 <el-table-column prop="name" label="topic名称"></el-table-column>
                 <el-table-column  label="类型">
                     <template slot-scope="scope">
@@ -58,8 +58,20 @@
             <el-table :data="partitions" stripe border max-height="500" size="small">
                 <el-table-column property="partition" label="分区号" width="80"></el-table-column>
                 <el-table-column property="leader" label="leader分区"></el-table-column>
-                <el-table-column property="replicas" label="副本"></el-table-column>
-                <el-table-column property="isr" label="isr"></el-table-column>
+                <el-table-column label="所有副本">
+
+                  <template slot-scope="scope">
+                    <list :data-list="scope.row.replicas"></list>
+
+                  </template>
+                </el-table-column>
+                <el-table-column label="isr副本">
+
+
+                  <template slot-scope="scope">
+                    <list :data-list="scope.row.isr"></list>
+                  </template>
+                </el-table-column>
             </el-table>
         </el-dialog>
 
@@ -68,6 +80,7 @@
 
 <script>
     import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
+    import list from '@/components/common/list.vue'
 
     export default {
         name: "topic",
@@ -130,12 +143,12 @@
                     this.topicDetal = response.data
                     this.dialogTableVisible = true
                 }).catch((error) => {
-                    this.$message.error("失败")
+                    this.$message.error("查询topic分区详情失败")
                 })
             }
         },
         components: {
-            kafkaSelect
+            kafkaSelect,list
         }
     }
 </script>
@@ -144,7 +157,9 @@
     i {
         font-size: 14px;
     }
-
+    li{
+      border-bottom: 1px solid #000000;
+    }
     div {
         margin: 5px 0;
     }
