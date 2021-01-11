@@ -58,4 +58,9 @@ public class RedisController {
         boolean connect = redisService.connect(source);
         return connect;
     }
+
+    @RequestMapping("/addKey")
+    public void addKey(Integer sourceId, Integer db,String key,String type,String value) {
+        redisService.addKey(sourceId,db,key,type,value);
+    }
 }
