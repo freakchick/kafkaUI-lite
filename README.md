@@ -1,12 +1,11 @@
 # kafkaUI-lite
 
 ## 介绍
-- 史上最轻便好用的kafka ui界面工具，提供了对kafka的界面化操作
-- 可以在界面生产消息、消费消息、创建管理topic
-- 可以支持管理多个kafka集群
+- 史上最轻便好用的kafka ui界面客户端工具，提供了对kafka的界面化操作
+- 可以在界面生产消息、消费消息、管理topic、管理group;可以支持管理多个kafka集群
 - 部署简便，**不需要连数据库，只有一个jar包启动即可**
-- 支持zookeeper ui界面化操作
-- 支持redis ui界面化操作
+- 支持zookeeper ui界面化操作;支持多环境管理
+- 支持redis ui界面化操作;支持多环境管理
 
 ## 软件架构
 - 采用B/S架构，springboot + vue.js 前后端分离开发
@@ -45,7 +44,7 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_topic_manage_20210110184715.jpg)
 
 #### 管理集群
-![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_cluster_manage_20210110184640.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_cluster_20210112144820.jpg)
 
 #### 管理group
 ![](https://freakchicken.gitee.io/kafka-ui-lite/group_manage_20210110184621.jpg)
@@ -57,7 +56,7 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215016.jpg)
 
 #### 查看topic分区详情
-![](https://freakchicken.gitee.io/kafka-ui-lite/topic_partiton_detail_20210110120758.png)
+![](https://freakchicken.gitee.io/kafka-ui-lite/topic_detail_20210112144638.jpg)
 
 
 ### zookeeper操作
@@ -73,9 +72,26 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 #### 查看节点数据
 ![](https://freakchicken.gitee.io/kafka-ui-lite/zkmanage_20210110121509.png)
 
+### redis操作
+#### 添加redis环境
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_source_20210112143453.jpg)
 
+#### 查看所有redis环境
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_sources_20210112143546.jpg)
 
+#### 添加redis key
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_hash_20210112143738.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_string_20210112143815.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_list_20210112143759.jpg)
 
+#### 查看数据
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_string_detail_20210112143708.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_set_detail_20210112143642.jpg)
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_hash_detail_20210112143618.jpg)
+
+#### 删除redis key
+
+![](https://freakchicken.gitee.io/kafka-ui-lite/redis_delete_key_20210112143842.jpg)
 
 ## 联系作者：
 ### wechat：
