@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.dao.RedisSourceDao;
 import com.jq.kafkaui.domain.RedisSource;
+import com.jq.kafkaui.domain.Result;
 import com.jq.kafkaui.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -113,13 +114,13 @@ public class RedisService {
 
     }
 
-    public void addKey(Integer sourceId, Integer db, String key, String type, String value) {
+    public Result addKey(Integer sourceId, Integer db, String key, String type, String value) {
         RedisSource redisSource = redisSourceDao.selectById(sourceId);
         RedisUtil redisUtil = new RedisUtil();
 
         Jedis jedis = redisUtil.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
         if (jedis.exists(key)) {
-            return;
+            return Result.fail("key已存在，不可添加，添加可能覆盖数据");
         }
         if ("string".equals(type)) {
             jedis.set(key, value);
@@ -140,6 +141,15 @@ public class RedisService {
             redisUtil.hashSet(jedis, key, map);
         }
 
+        redisUtil.closeConnction(jedis);
+        return Result.success("添加redis key 成功");
+    }
+
+    public void deleteKey(Integer sourceId, Integer db, String key) {
+        RedisSource redisSource = redisSourceDao.selectById(sourceId);
+        RedisUtil redisUtil = new RedisUtil();
+        Jedis jedis = redisUtil.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
+        jedis.del(key);
         redisUtil.closeConnction(jedis);
     }
 }

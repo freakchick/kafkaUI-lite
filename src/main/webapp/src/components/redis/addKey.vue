@@ -122,7 +122,12 @@ export default {
         "type": this.addedKeyType,
         "value": data
       }).then((response) => {
-        this.$message.success("添加redis key成功")
+        if (response.data.success) {
+          this.$message.success(response.data.message)
+          this.$emit('addSuccess');
+        } else {
+          this.$message.error(response.data.message)
+        }
 
       }).catch((error) => {
         this.$message.error("添加redis key失败")

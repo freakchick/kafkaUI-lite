@@ -41,7 +41,7 @@ import {
     FormItem,
     Tabs,
     TabPane,
-    // Tag,
+    Tag,
     Tree,
     // Alert,
     // Slider,
@@ -131,7 +131,7 @@ Vue.use(Tree);
 //
 Vue.use(Tabs);
 Vue.use(TabPane);
-// Vue.use(Tag);
+Vue.use(Tag);
 //
 // Vue.use(Alert);
 // Vue.use(Slider);

@@ -2,7 +2,9 @@ package com.jq.kafkaui.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.RedisSource;
+import com.jq.kafkaui.domain.Result;
 import com.jq.kafkaui.service.RedisService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +19,7 @@ import java.util.Set;
  * @author: jiangqiang
  * @create: 2020-11-12 17:38
  **/
-
+@Slf4j
 @RestController
 @RequestMapping("/redis")
 public class RedisController {
@@ -48,7 +50,7 @@ public class RedisController {
     }
 
     @RequestMapping("/getData")
-    public JSONObject getData(Integer sourceId, Integer db,String key) {
+    public JSONObject getData(Integer sourceId, Integer db, String key) {
         JSONObject data = redisService.getData(sourceId, db, key);
         return data;
     }
@@ -60,7 +62,19 @@ public class RedisController {
     }
 
     @RequestMapping("/addKey")
-    public void addKey(Integer sourceId, Integer db,String key,String type,String value) {
-        redisService.addKey(sourceId,db,key,type,value);
+    public Result addKey(Integer sourceId, Integer db, String key, String type, String value) {
+        try {
+
+            Result result = redisService.addKey(sourceId, db, key, type, value);
+            return result;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return Result.fail(e.getMessage());
+        }
+    }
+
+    @RequestMapping("/deleteKey")
+    public void deleteKey(Integer sourceId, Integer db, String key) {
+        redisService.deleteKey(sourceId, db, key);
     }
 }
