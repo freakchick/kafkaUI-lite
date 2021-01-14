@@ -29,7 +29,7 @@ import {
     ButtonGroup,
     Table,
     TableColumn,
-    // DatePicker,
+    DatePicker,
     // TimeSelect,
     // TimePicker,
     Popover,
@@ -114,10 +114,10 @@ Vue.use(Button);
 Vue.use(ButtonGroup);
 Vue.use(Table);
 Vue.use(TableColumn);
-/*
+
 Vue.use(DatePicker);
-Vue.use(TimeSelect);
-Vue.use(TimePicker);*/
+// Vue.use(TimeSelect);
+// Vue.use(TimePicker);
 Vue.use(Popover);
 Vue.use(Popconfirm );
 

@@ -13,21 +13,8 @@
       </el-col>
     </el-row>
 
-<!--    <el-form label-width="80px">-->
-<!--      <el-form-item label="kafka:">-->
-<!--        <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="topic:">-->
-<!--        <el-select v-model="topic" filterable placeholder="选择topic" clearable>-->
-<!--          <el-option v-for="item in topics" :key="item.name" :label="item.name"-->
-<!--                     :value="item.name"></el-option>-->
-<!--        </el-select>-->
-<!--      </el-form-item>-->
-<!--    </el-form>-->
-
 
     <producer :broker="broker" :topic="topic"></producer>
-    <!--        <consumer :broker="broker" :topic="topic"></consumer>-->
 
   </div>
 </template>

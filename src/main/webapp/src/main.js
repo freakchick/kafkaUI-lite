@@ -12,6 +12,9 @@ import VueAxios from 'vue-axios'
 Vue.use(VueAxios, axios);
 import qs from 'qs'
 
+import VueClipboard from 'vue-clipboard2'
+Vue.use(VueClipboard)
+
 // axios.defaults.baseURL = '/api'
 
 axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'}

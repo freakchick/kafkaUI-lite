@@ -12,8 +12,8 @@
             text-color="#fff"
             active-text-color="#01293b"
             router>
-          <el-submenu index="2">
-            <template slot="title">kafka</template>
+          <el-submenu index="1">
+            <template slot="title"><i class="iconfont icon-kafka icon"/>kafka</template>
             <el-menu-item index="/config">配置</el-menu-item>
             <el-menu-item index="/manage">管理</el-menu-item>
             <el-submenu index="2-4">
@@ -22,23 +22,32 @@
               <el-menu-item index="/kafka/consume">消费</el-menu-item>
             </el-submenu>
           </el-submenu>
-          <el-submenu index="1">
-            <template slot="title">zookeeper</template>
+          <el-submenu index="2">
+            <template slot="title"><i class="iconfont icon-Zookeeper icon"/>zookeeper</template>
             <el-menu-item index="/zk/config">配置</el-menu-item>
             <el-menu-item index="/zk/manage">管理</el-menu-item>
           </el-submenu>
 
           <el-submenu index="3">
-            <template slot="title">redis</template>
+            <template slot="title"><i class="iconfont icon-redis icon"/>redis</template>
             <el-menu-item index="/redis/config">配置</el-menu-item>
             <el-menu-item index="/redis/manage">管理</el-menu-item>
           </el-submenu>
-
           <el-submenu index="4">
+            <template slot="title"><i class="iconfont icon-hbase icon"/>hbase</template>
+            <el-menu-item index="">开发中......</el-menu-item>
+<!--            <el-menu-item index="/hbase/manage">管理</el-menu-item>-->
+          </el-submenu>
+          <el-submenu index="8">
+            <template slot="title">工具</template>
+            <el-menu-item index="/tool/json">JSON</el-menu-item>
+            <el-menu-item index="/tool/time">时间戳</el-menu-item>
+          </el-submenu>
+          <el-submenu index="9">
             <template slot="title">关于</template>
             <el-menu-item index="/about/donate">捐赠</el-menu-item>
-<!--            <el-menu-item index="/about/opensource"></el-menu-item>-->
-<!--            <el-menu-item index="/about/contact">联系作者</el-menu-item>-->
+            <!--            <el-menu-item index="/about/opensource"></el-menu-item>-->
+            <!--            <el-menu-item index="/about/contact">联系作者</el-menu-item>-->
           </el-submenu>
         </el-menu>
 
@@ -77,8 +86,9 @@ export default {
 </script>
 
 <style scoped>
-.menu-item {
+.icon {
   color: #ffffff;
+  font-size: 18px;
 
 
 }

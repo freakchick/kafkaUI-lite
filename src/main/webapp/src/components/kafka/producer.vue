@@ -7,8 +7,9 @@
 
     <el-input type="textarea" v-model="message" size="medium" rows="6"
               placeholder="请输入消息内容"
+              :autosize="{ minRows: 6, maxRows: 15 }"
               @keyup.enter.native="keyDown"
-              @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory" maxlength="3000"
+              @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory"
               show-word-limit>
     </el-input>
     <el-button type="primary" @click="produce" style="margin: 5px 0"><i class="iconfont icon-Send"></i> 发送</el-button>
