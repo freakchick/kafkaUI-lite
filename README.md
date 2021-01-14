@@ -30,79 +30,79 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ### kafka操作
 
 #### 查看所有kafka集群
-![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215027.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215027.jpg)
 
 #### 添加kafka环境
-![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215038.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215038.jpg)
 
 #### 消费消息
-![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107214919.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107214919.jpg)
 
 #### 生产消息
-![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107214957.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107214957.jpg)
 
 #### 管理topic
-![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_topic_manage_20210110184715.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/kafka_topic_manage_20210110184715.jpg)
 
 #### 管理集群
-![](https://freakchicken.gitee.io/kafka-ui-lite/kafka_cluster_20210112144820.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/kafka_cluster_20210112144820.jpg)
 
 #### 管理group
-![](https://freakchicken.gitee.io/kafka-ui-lite/group_manage_20210110184621.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/group_manage_20210110184621.jpg)
 
 #### 查看group消费偏移量详情
-![](https://freakchicken.gitee.io/kafka-ui-lite/group_detail_20210110184557.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/group_detail_20210110184557.jpg)
 
 #### 创建topic
-![](https://freakchicken.gitee.io/kafka-ui-lite/Dingtalk_20210107215016.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215016.jpg)
 
 #### 查看topic分区详情
-![](https://freakchicken.gitee.io/kafka-ui-lite/topic_detail_20210112144638.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/topic_detail_20210112144638.jpg)
 
 
 ### zookeeper操作
 #### 添加zk集群
-![](https://freakchicken.gitee.io/kafka-ui-lite/zk_add_source_20210110121408.png)
+![](https://freakchicken.gitee.io/images/kafkaui/zk_add_source_20210110121408.png)
 
 #### 查看所有zk集群
-![](https://freakchicken.gitee.io/kafka-ui-lite/zk_source_20210110121439.png)
+![](https://freakchicken.gitee.io/images/kafkaui/zk_source_20210110121439.png)
 
 #### 添加节点
-![](https://freakchicken.gitee.io/kafka-ui-lite/zk_add_node_20210110121530.png)
+![](https://freakchicken.gitee.io/images/kafkaui/zk_add_node_20210110121530.png)
 
 #### 查看节点数据
-![](https://freakchicken.gitee.io/kafka-ui-lite/zkmanage_20210110121509.png)
+![](https://freakchicken.gitee.io/images/kafkaui/zkmanage_20210110121509.png)
 
 ### redis操作
 #### 添加redis环境
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_source_20210112143453.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_add_source_20210112143453.jpg)
 
 #### 查看所有redis环境
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_sources_20210112143546.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_sources_20210112143546.jpg)
 
 #### 添加redis key
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_hash_20210112143738.jpg)
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_string_20210112143815.jpg)
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_add_list_20210112143759.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_add_hash_20210112143738.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_add_string_20210112143815.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_add_list_20210112143759.jpg)
 
 #### 查看数据
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_string_detail_20210112143708.jpg)
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_set_detail_20210112143642.jpg)
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_hash_detail_20210112143618.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_string_detail_20210112143708.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_set_detail_20210112143642.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_hash_detail_20210112143618.jpg)
 
 #### 删除redis key
 
-![](https://freakchicken.gitee.io/kafka-ui-lite/redis_delete_key_20210112143842.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/redis_delete_key_20210112143842.jpg)
 
 ## 联系作者：
 ### wechat：
 <div style="text-align: center"> 
-<img src="https://freakchicken.gitee.io/kafka-ui-lite/wechat.jpg" width = "30%" />
+<img src="https://freakchicken.gitee.io/images/kafkaui/wechat.jpg" width = "30%" />
 </div>
 
 
 ### 捐赠：
 如果您喜欢此项目，请给作者捐助5块钱去买生姜洗发水，来保留为数不多的头发
 <div style="text-align: center"> 
-<img src="https://freakchicken.gitee.io/kafka-ui-lite/wechatpay.jpg" width = "30%" />
+<img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg" width = "30%" />
 </div>

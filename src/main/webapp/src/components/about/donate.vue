@@ -1,7 +1,7 @@
 <template>
     <div>
         <div>
-            <img src="https://freakchicken.gitee.io/kafka-ui-lite/wechatpay.jpg">
+            <img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg">
 
         </div>
         <div>
