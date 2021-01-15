@@ -3,7 +3,12 @@
     <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
     <el-table :data="tableData" stripe border>
-      <el-table-column prop="id" label="broker id"></el-table-column>
+      <el-table-column prop="id" label="broker id">
+        <template slot-scope="scope">
+          <span style="margin-right: 5px">{{scope.row.id}}</span>
+          <el-tag type="danger" v-if="scope.row.controller" effect="dark" size="mini">controller</el-tag>
+        </template>
+      </el-table-column>
       <el-table-column prop="host" label="host"></el-table-column>
       <el-table-column prop="port" label="端口"></el-table-column>
       <!--            <el-table-column  label="类型">-->

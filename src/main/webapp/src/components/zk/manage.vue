@@ -128,6 +128,7 @@ export default {
       this.currentNode = []
       this.currentNode.push(data)
       this.createNode.path = data.path
+      this.editable = false
 
     },
     clickEdit() {

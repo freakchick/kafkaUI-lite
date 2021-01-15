@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="broker" placeholder="选择kafka" @change="selectkafka" style="margin-bottom: 5px" clearable>
+  <el-select v-model="broker" placeholder="选择kafka" @change="selectkafka" style="margin-bottom: 5px">
     <el-option v-for="item in sources" :key="item.name" :label="item.name" :value="item.broker"></el-option>
   </el-select>
 </template>
@@ -31,8 +31,9 @@ export default {
       })
     },
     selectkafka() {
-      // console.log(this.broker)
-      this.$emit('kafkaChange', this.broker);
+      console.log(this.broker)
+      if (this.broker != null && this.broker != '')
+        this.$emit('kafkaChange', this.broker);
     }
   }
 }

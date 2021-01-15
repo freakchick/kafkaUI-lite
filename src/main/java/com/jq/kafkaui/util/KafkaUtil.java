@@ -8,9 +8,9 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
-import org.apache.kafka.common.ConsumerGroupState;
 import org.apache.kafka.common.Node;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.acl.AclOperation;
 import org.apache.kafka.common.config.ConfigResource;
 
 import java.util.*;
@@ -98,6 +98,9 @@ public class KafkaUtil {
 
         // 获取topic的配置信息
         DescribeConfigsResult result = adminClient.describeConfigs(configResources);
+//        adminClient.describeAcls();
+
+        Map<ConfigResource, Config> configResourceConfigMap = adminClient.describeConfigs(Collections.singleton(new ConfigResource(ConfigResource.Type.BROKER, "56"))).all().get();
 
         // 解析topic的配置信息
         Map<ConfigResource, Config> resourceConfigMap = result.all().get();
@@ -152,7 +155,10 @@ public class KafkaUtil {
     }
 
     public static void main(String[] args) throws Exception {
-
+//        ArrayList<String> list = new ArrayList<>();
+//        list.add("test2");
+//        describeConfigTopics(list, "spark02:6667");
+        clusterInfo("spark02:6667");
     }
 
     public static void deleteTopic(String broker, String name) {
@@ -206,7 +212,7 @@ public class KafkaUtil {
     public static List<JSONObject> clusterInfo(String broker) throws Exception {
         AdminClient client = createAdminClientByProperties(broker);
         DescribeClusterResult describeClusterResult = client.describeCluster();
-
+        Node controller = describeClusterResult.controller().get();
         Collection<Node> nodes = describeClusterResult.nodes().get();
         List<JSONObject> collect = nodes.stream().map(node -> {
             JSONObject jo = new JSONObject();
@@ -214,6 +220,11 @@ public class KafkaUtil {
             jo.put("port", node.port());
             jo.put("idStr", node.idString());
             jo.put("id", node.id());
+            if (node.id() == controller.id()) {
+                jo.put("controller", true);
+            } else {
+                jo.put("controller", false);
+            }
             return jo;
         }).collect(Collectors.toList());
         return collect;
