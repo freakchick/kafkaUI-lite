@@ -1,7 +1,7 @@
 package com.jq.kafkaui.controller;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jq.kafkaui.domain.Source;
+import com.jq.kafkaui.domain.KafkaSource;
 import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
@@ -44,8 +44,13 @@ public class KafkaController {
     }
 
     @RequestMapping("/getSource")
-    public List<Source> getAllSource() {
+    public List<KafkaSource> getAllSource() {
         return kafkaService.getAllSource();
+    }
+
+    @RequestMapping("/getAllSourceAuth")
+    public List<KafkaSource> getSourceAuth() {
+        return kafkaService.getAllSourceAuth();
     }
 
     @RequestMapping("/deleteSource/{id}")
@@ -55,7 +60,7 @@ public class KafkaController {
     }
 
     @RequestMapping("/add")
-    public String addSource(Source source) {
+    public String addSource(KafkaSource source) {
         kafkaService.add(source);
         return "success";
     }
@@ -122,5 +127,10 @@ public class KafkaController {
     @RequestMapping("/group/delete")
     public void deleteGroup(String broker, String group) throws Exception {
         KafkaUtil.deleteGroup(broker, group);
+    }
+
+    @RequestMapping("/auth")
+    public void auth(String param) throws Exception {
+        kafkaService.auth(param);
     }
 }

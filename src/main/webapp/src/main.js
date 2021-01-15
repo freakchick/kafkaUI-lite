@@ -13,6 +13,7 @@ Vue.use(VueAxios, axios);
 import qs from 'qs'
 
 import VueClipboard from 'vue-clipboard2'
+import store from './store'
 Vue.use(VueClipboard)
 
 // axios.defaults.baseURL = '/api'
@@ -29,5 +30,6 @@ axios.interceptors.request.use(config => {
 
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')

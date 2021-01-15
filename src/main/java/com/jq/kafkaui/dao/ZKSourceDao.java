@@ -1,6 +1,5 @@
 package com.jq.kafkaui.dao;
 
-import com.jq.kafkaui.domain.Source;
 import com.jq.kafkaui.domain.ZKSource;
 import org.apache.ibatis.annotations.*;
 

@@ -10,7 +10,7 @@ import zkManage from '../components/zk/manage'
 import redisConfig from '../components/redis/config'
 import redisManage from '../components/redis/manage'
 import donate from '../components/about/donate'
-
+import authority from '../components/about/authority'
 import json from '../components/tool/json'
 import time from '../components/tool/time'
 
@@ -29,6 +29,7 @@ const routes = [
             {path: '/redis/config', name: 'redisConfig', component: redisConfig},
             {path: '/redis/manage', name: 'redisManage', component: redisManage},
             {path: '/about/donate', name: 'donate', component: donate},
+            {path: '/about/authority', name: 'authority', component: authority},
             {path: '/tool/json', name: 'json', component: json},
             {path: '/tool/time', name: 'time', component: time}
         ]

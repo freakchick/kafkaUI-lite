@@ -2,7 +2,7 @@
   <div>
     <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
     <div>
-      <el-button type="primary" @click="dialogFormVisible = true" size="small">创建topic</el-button>
+      <el-button type="primary" @click="dialogFormVisible = true" size="small" v-if="flag()">创建topi333c</el-button>
     </div>
     <div>
       <el-table :data="tableData" stripe border max-height="650" size="small">
@@ -104,6 +104,7 @@ export default {
     }
   },
   created() {
+
   },
   methods: {
     getTopics() {
@@ -145,6 +146,11 @@ export default {
       }).catch((error) => {
         this.$message.error("查询topic分区详情失败")
       })
+    },
+    flag(){
+      let a= this.$store.getters.getKafkaAuth('2')
+      console.log(a)
+      return true
     }
   },
   components: {
