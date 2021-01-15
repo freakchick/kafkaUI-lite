@@ -107,8 +107,27 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 ### 编译打包
 
+- maven打包会自动把前端安装依赖并编译打包，
+
 ```
-maven clean package
+mvn clean package
+```
+
+### 启动
+#### 前端启动：
+- src/main/webapp 目录下 **npm run serve**
+
+####后端启动
+- 启动主类com.jq.kafkaui.KafkaUIApplication
+
+### 前端访问地址：
+```
+http://localhost:8181
+```
+
+### 后端接口访问地址：
+```
+http://localhost:8889
 ```
 
 ## 联系作者：
