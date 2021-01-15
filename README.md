@@ -15,7 +15,7 @@
 
 ## 安装教程
 
-1.  依赖java环境，需要先安装jdk
+1.  依赖java环境，需要先安装jdk8+
 2.  下载地址: https://gitee.com/freakchicken/kafka-ui-lite/releases
 2.  启动命令：java -jar kafkaUI.jar 一键启动
 4.  如果是多网卡机器，启动需要指定ip
@@ -93,6 +93,23 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 #### 删除redis key
 
 ![](https://freakchicken.gitee.io/images/kafkaui/redis_delete_key_20210112143842.jpg)
+
+## 开发指南
+### 环境依赖
+
+- 安装jdk8+
+- 安装node.js
+- 安装cnpm (maven 会调用cnpm 系统命令)
+
+```
+npm install -g cnpm --registry=https://registry.npm.taobao.org
+```
+
+### 编译打包
+
+```
+maven clean package
+```
 
 ## 联系作者：
 ### wechat：
