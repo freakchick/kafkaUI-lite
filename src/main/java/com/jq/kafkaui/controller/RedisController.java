@@ -32,6 +32,11 @@ public class RedisController {
         return redisService.getAllSource();
     }
 
+    @RequestMapping("/getAllSourceAuth")
+    public List<RedisSource> getAllSourceAuth() {
+        return redisService.getAllSourceAuth();
+    }
+
     @RequestMapping("/deleteSource/{id}")
     public String deleteSource(@PathVariable Integer id) {
         redisService.deleteSource(id);
@@ -76,5 +81,10 @@ public class RedisController {
     @RequestMapping("/deleteKey")
     public void deleteKey(Integer sourceId, Integer db, String key) {
         redisService.deleteKey(sourceId, db, key);
+    }
+
+    @RequestMapping("/auth")
+    public void auth(String param) throws Exception {
+        redisService.auth(param);
     }
 }

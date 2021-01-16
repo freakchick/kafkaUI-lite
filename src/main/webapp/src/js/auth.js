@@ -26,6 +26,18 @@ function initKafka(that) {
   })
 }
 
+function initRedis(that) {
+  that.axios.post("/redis/getAllSourceAuth").then((response) => {
+    let obj = {}
+    for (let item of response.data) {
+      obj[item.id] = item.auth
+    }
+    that.$store.commit('setRedisAuth', obj)
+  }).catch((error) => {
+    that.$message.error("查询所有redis权限失败")
+  })
+}
+
 export {
-  initZK, initKafka
+  initZK, initKafka, initRedis
 }
