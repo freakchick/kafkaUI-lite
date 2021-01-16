@@ -133,7 +133,7 @@
         addedHashValue: [],
         addedListValue: [],
         show2: false,
-        auth: {}
+        auth: {add: true, update: true, remove: true}
       }
     },
     created() {

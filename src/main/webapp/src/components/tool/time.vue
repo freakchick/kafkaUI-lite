@@ -3,7 +3,7 @@
     <h3>日期<i class="el-icon-right"></i>时间戳</h3>
     <div style="margin: 10px 0">
       <el-date-picker v-model="value" type="datetime" style="margin-right: 5px" placeholder="yyyy-MM-dd hh:mm:ss"></el-date-picker>
-      <el-button type="primary" plain @click="transform" style="margin-right: 5px" icon="el-icon-d-arrow-right"></el-button>
+      <el-button type="primary" @click="transform" style="margin-right: 5px" icon="el-icon-d-arrow-right"></el-button>
 
       <el-input class="text" v-model="timestamp">
 
@@ -25,7 +25,7 @@
         <el-option label="s" value="s"></el-option>
       </el-select>
 
-      <el-button @click="toDate" type="primary" plain style="margin:0 5px" icon="el-icon-d-arrow-right"></el-button>
+      <el-button @click="toDate" type="primary"  style="margin:0 5px" icon="el-icon-d-arrow-right"></el-button>
       <el-input class="text" v-model="dateString"></el-input>
     </div>
   </div>
