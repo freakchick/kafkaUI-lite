@@ -7,7 +7,7 @@
 
       </el-tab-pane>
       <el-tab-pane label="zookeeper" name="cluster">
-
+        <zk-auth></zk-auth>
       </el-tab-pane>
       <el-tab-pane label="redis" name="group">
 
@@ -18,19 +18,19 @@
 
 <script>
 import kafkaAuth from '@/components/about/auth/kafkaAuth'
+import zkAuth from '@/components/about/auth/zkAuth'
 
 export default {
   name: "authority",
   data() {
     return {
-      kafkaSources: []
     }
   },
   methods: {},
   created() {
 
   },
-  components: {kafkaAuth}
+  components: {kafkaAuth,zkAuth}
 }
 </script>
 

@@ -22,38 +22,38 @@
 </template>
 
 <script>
-export default {
-  name: "kafkaAuth",
-  data() {
-    return {
-      kafkaSources: []
-    }
-  },
-  methods: {
-    getAllKafkaSource() {
-      this.axios.post("/kafka/getAllSourceAuth").then((response) => {
-        this.kafkaSources = response.data
-      }).catch((error) => {
-        this.$message.error("查询所有kafka环境失败")
-      })
-    },
-    save() {
-      let p = {}
-      for (let item of this.kafkaSources) {
-        p[item.id] = item.auth
+  export default {
+    name: "kafkaAuth",
+    data() {
+      return {
+        kafkaSources: []
       }
+    },
+    methods: {
+      getAllKafkaSource() {
+        this.axios.post("/kafka/getAllSourceAuth").then((response) => {
+          this.kafkaSources = response.data
+        }).catch((error) => {
+          this.$message.error("查询所有kafka环境失败")
+        })
+      },
+      save() {
+        let p = {}
+        for (let item of this.kafkaSources) {
+          p[item.id] = item.auth
+        }
 
-      this.axios.post("/kafka/auth", {"param": JSON.stringify(p)}).then((response) => {
-        this.$message.success("授权成功")
-      }).catch((error) => {
-        this.$message.error("授权失败")
-      })
+        this.axios.post("/kafka/auth", {"param": JSON.stringify(p)}).then((response) => {
+          this.$message.success("授权成功")
+        }).catch((error) => {
+          this.$message.error("授权失败")
+        })
+      }
+    },
+    created() {
+      this.getAllKafkaSource()
     }
-  },
-  created() {
-    this.getAllKafkaSource()
   }
-}
 </script>
 
 <style scoped>

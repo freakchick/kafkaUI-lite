@@ -65,162 +65,162 @@
 </template>
 
 <script>
-export default {
-  data() {
-    return {
-      sources: [],
-      sourceId:null,
-      auth:{add:true,update:true,remove:true},
-      // address: null,
-      nodes: null,
-      currentNode: [],
-      data: null,
-      editable: false,
-      dialogFormVisible: false, dialogFlag: false,
-      createNode: {"path": null, "data": null},
-      recursion: true //是否递归创建父节点
-    }
-  },
-  methods: {
-
-    // 异步树叶子节点懒加载逻辑
-    loadNode(node, resolve) {
-      // 一级节点处理
-
-      // 其余节点处理
-      if (node.level >= 1) {
-        // 注意！把resolve传到你自己的异步中去
-        this.getChildren(node, resolve);
+  export default {
+    data() {
+      return {
+        sources: [],
+        sourceId: null,
+        auth: {add: true, update: true, remove: true},
+        // address: null,
+        nodes: null,
+        currentNode: [],
+        data: null,
+        editable: false,
+        dialogFormVisible: false, dialogFlag: false,
+        createNode: {"path": null, "data": null},
+        recursion: true //是否递归创建父节点
       }
     },
-    getChildren(node, resolve) {
-      this.axios.post("/zookeeper/getNodes", {
-        "sourceId": this.sourceId ,
-        "path": node.data.path
-      }).then((response) => {
-        resolve(response.data);
-      }).catch((error) => {
-        this.$message.error("查询子节点失败")
-      })
+    methods: {
 
-    },
+      // 异步树叶子节点懒加载逻辑
+      loadNode(node, resolve) {
+        // 一级节点处理
 
-    getAllSource() {
-      this.axios.post("/zookeeper/getAllSource").then((response) => {
-        this.sources = response.data
-      }).catch((error) => {
-        this.$message.error("查询所有zk环境失败")
-      })
-    },
-    change(){
-      this.auth = this.$store.getters.getZKAuth(this.sourceId)
-      console.log('===',this.auth)
-      this.getRootNodes()
+        // 其余节点处理
+        if (node.level >= 1) {
+          // 注意！把resolve传到你自己的异步中去
+          this.getChildren(node, resolve);
+        }
+      },
+      getChildren(node, resolve) {
+        this.axios.post("/zookeeper/getNodes", {
+          "sourceId": this.sourceId,
+          "path": node.data.path
+        }).then((response) => {
+          resolve(response.data);
+        }).catch((error) => {
+          this.$message.error("查询子节点失败")
+        })
 
-    },
-    getRootNodes() {
-      this.nodes = null
-      this.axios.post("/zookeeper/getRootNodes", {"sourceId": this.sourceId}).then((response) => {
-        this.nodes = response.data
-      }).catch((error) => {
-        this.$message.error("查询根节点失败")
-      })
-    },
-    getAllNode() {
-      this.axios.post("/zookeeper/getAllNodes", {"sourceId": this.sourceId}).then((response) => {
-        this.nodes = response.data
-      }).catch((error) => {
-      })
-    },
-    handleNodeClick(data) {
-      this.currentNode = []
-      this.currentNode.push(data)
-      this.createNode.path = data.path
-      this.editable = false
+      },
 
-    },
-    clickEdit() {
-      if (this.createNode.path == null) {
-        this.$message.error("请先选择节点")
-        return
-      }
-      this.editable = !this.editable
-    },
-    update(row) {
-      console.log(row)
+      getAllSource() {
+        this.axios.post("/zookeeper/getAllSource").then((response) => {
+          this.sources = response.data
+        }).catch((error) => {
+          this.$message.error("查询所有zk环境失败")
+        })
+      },
+      change() {
+        this.auth = this.$store.getters.getZKAuth(this.sourceId)
+        console.log('===', this.auth)
+        this.getRootNodes()
 
-      this.axios.post("/zookeeper/setData",
+      },
+      getRootNodes() {
+        this.nodes = null
+        this.axios.post("/zookeeper/getRootNodes", {"sourceId": this.sourceId}).then((response) => {
+          this.nodes = response.data
+        }).catch((error) => {
+          this.$message.error("查询根节点失败")
+        })
+      },
+      getAllNode() {
+        this.axios.post("/zookeeper/getAllNodes", {"sourceId": this.sourceId}).then((response) => {
+          this.nodes = response.data
+        }).catch((error) => {
+        })
+      },
+      handleNodeClick(data) {
+        this.currentNode = []
+        this.currentNode.push(data)
+        this.createNode.path = data.path
+        this.editable = false
+
+      },
+      clickEdit() {
+        if (this.createNode.path == null) {
+          this.$message.error("请先选择节点")
+          return
+        }
+        this.editable = !this.editable
+      },
+      update(row) {
+        console.log(row)
+
+        this.axios.post("/zookeeper/setData",
           {
-            "sourceId": this.sourceId ,
+            "sourceId": this.sourceId,
             "path": row.path,
             "data": row.value.trim().length == 0 ? null : row.value.trim()
           }).then((response) => {
-        this.$message.success("修改数据成功")
-        this.editable = false
-      }).catch((error) => {
-        this.$message.error("修改数据失败")
-      })
-    },
-    clickAdd() {
-      this.dialogFormVisible = true
-    },
-    add() {
+          this.$message.success("修改数据成功")
+          this.editable = false
+        }).catch((error) => {
+          this.$message.error("修改数据失败")
+        })
+      },
+      clickAdd() {
+        this.dialogFormVisible = true
+      },
+      add() {
 
-      this.axios.post("/zookeeper/createNode",
+        this.axios.post("/zookeeper/createNode",
           {
-            "sourceId": this.sourceId ,
+            "sourceId": this.sourceId,
             "path": this.createNode.path,
             "data": this.createNode.data,
             "recursion": this.recursion
           }).then((response) => {
-        this.$message.success("添加节点成功")
-        this.refresh()
-        this.editable = false
-      }).catch((error) => {
-        this.$message.error("添加节点失败")
-      })
-    },
-    clickRemove() {
-      if (this.createNode.path == null) {
-        this.$message.error("请先选择节点")
-        return
-      }
-      this.dialogFlag = true
-    },
-    removeNode() {
-      this.axios.post("/zookeeper/removeNode",
-          {"sourceId": this.sourceId , "path": this.createNode.path}).then((response) => {
-        this.$message.success("删除节点成功")
-        this.refresh()
-      }).catch((error) => {
-        this.$message.error("删除节点失败")
-      })
-    },
+          this.$message.success("添加节点成功")
+          this.refresh()
+          this.editable = false
+        }).catch((error) => {
+          this.$message.error("添加节点失败")
+        })
+      },
+      clickRemove() {
+        if (this.createNode.path == null) {
+          this.$message.error("请先选择节点")
+          return
+        }
+        this.dialogFlag = true
+      },
+      removeNode() {
+        this.axios.post("/zookeeper/removeNode",
+          {"sourceId": this.sourceId, "path": this.createNode.path}).then((response) => {
+          this.$message.success("删除节点成功")
+          this.refresh()
+        }).catch((error) => {
+          this.$message.error("删除节点失败")
+        })
+      },
 
-    refresh() {
-      this.currentNode = []
-      this.getRootNodes()
+      refresh() {
+        this.currentNode = []
+        this.getRootNodes()
+      }
+    },
+    created() {
+      this.getAllSource()
     }
-  },
-  created() {
-    this.getAllSource()
   }
-}
 </script>
 
-<style scoped >
-.tree {
-  border: 1px solid #00a0e9;
-  /*height: 500px;*/
-  max-height: 600px;
-  overflow: auto;
-}
+<style scoped>
+  .tree {
+    border: 1px solid #00a0e9;
+    /*height: 500px;*/
+    max-height: 600px;
+    overflow: auto;
+  }
 
-div {
-  margin: 5px 0;
-}
+  div {
+    margin: 5px 0;
+  }
 
-i {
-  font-size: 14px;
-}
+  i {
+    font-size: 14px;
+  }
 </style>

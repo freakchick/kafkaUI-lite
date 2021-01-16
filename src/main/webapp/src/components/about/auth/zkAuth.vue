@@ -19,38 +19,38 @@
 </template>
 
 <script>
-export default {
-  name: "zkAuth",
-  data() {
-    return {
-      sources: []
-    }
-  },
-  methods: {
-    getAllZKSource() {
-      this.axios.post("/zookeeper/getAllSourceAuth").then((response) => {
-        this.sources = response.data
-      }).catch((error) => {
-        this.$message.error("查询所有zk环境失败")
-      })
-    },
-    save() {
-      let p = {}
-      for (let item of this.sources) {
-        p[item.id] = item.auth
+  export default {
+    name: "zkAuth",
+    data() {
+      return {
+        sources: []
       }
+    },
+    methods: {
+      getAllZKSource() {
+        this.axios.post("/zookeeper/getAllSourceAuth").then((response) => {
+          this.sources = response.data
+        }).catch((error) => {
+          this.$message.error("查询所有zk环境失败")
+        })
+      },
+      save() {
+        let p = {}
+        for (let item of this.sources) {
+          p[item.id] = item.auth
+        }
 
-      this.axios.post("/zookeeper/auth", {"param": JSON.stringify(p)}).then((response) => {
-        this.$message.success("授权成功")
-      }).catch((error) => {
-        this.$message.error("授权失败")
-      })
+        this.axios.post("/zookeeper/auth", {"param": JSON.stringify(p)}).then((response) => {
+          this.$message.success("授权成功")
+        }).catch((error) => {
+          this.$message.error("授权失败")
+        })
+      }
+    },
+    created() {
+      this.getAllZKSource()
     }
-  },
-  created() {
-    this.getAllZKSource()
   }
-}
 </script>
 
 <style scoped>
