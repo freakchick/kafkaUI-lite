@@ -13,15 +13,15 @@
     </el-select>
 
     <div>
-      <el-button size="small" type="primary" @click="clickAdd" circle>
+      <el-button size="small" type="primary" @click="clickAdd" circle :disabled="!auth.add">
         <i class="el-icon-circle-plus-outline" title="添加redis key"></i>
       </el-button>
-      <el-button size="small" type="danger" @click="clickDelete" circle>
+      <el-button size="small" type="danger" @click="clickDelete" circle :disabled="!auth.remove">
         <i class="el-icon-delete" title="删除redis key"></i>
       </el-button>
-<!--      <el-button size="small" type="warning" @click="" circle>-->
-<!--        <i class="el-icon-edit"></i>-->
-<!--      </el-button>-->
+      <!--      <el-button size="small" type="warning" @click="" circle>-->
+      <!--        <i class="el-icon-edit"></i>-->
+      <!--      </el-button>-->
       <el-button size="small" type="primary" @click="getData" circle>
         <i class="el-icon-refresh-right" title="刷新数据"></i>
       </el-button>
@@ -47,24 +47,24 @@
         <el-table :data="value" stripe border max-height="600" size="mini">
           <el-table-column label="hash key">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.key" ></el-input>
+              <el-input v-model="scope.row.key"></el-input>
             </template>
           </el-table-column>
           <el-table-column label="value">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.value" ></el-input>
+              <el-input v-model="scope.row.value"></el-input>
             </template>
           </el-table-column>
-<!--          <el-table-column label="操作">-->
-<!--            <template slot-scope="scope">-->
-<!--              <el-button size="mini" type="danger" circle icon="el-icon-delete"-->
-<!--                         @click="handleDelete(scope.$index, scope.row)">-->
-<!--              </el-button>-->
-<!--              <el-button size="mini" type="warning" @click="" circle>-->
-<!--                <i class="el-icon-edit"></i>-->
-<!--              </el-button>-->
-<!--            </template>-->
-<!--          </el-table-column>-->
+          <!--          <el-table-column label="操作">-->
+          <!--            <template slot-scope="scope">-->
+          <!--              <el-button size="mini" type="danger" circle icon="el-icon-delete"-->
+          <!--                         @click="handleDelete(scope.$index, scope.row)">-->
+          <!--              </el-button>-->
+          <!--              <el-button size="mini" type="warning" @click="" circle>-->
+          <!--                <i class="el-icon-edit"></i>-->
+          <!--              </el-button>-->
+          <!--            </template>-->
+          <!--          </el-table-column>-->
         </el-table>
 
       </div>
@@ -72,7 +72,7 @@
         <el-table :data="value" stripe border size="mini" max-height="600">
           <el-table-column label="members">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.value" ></el-input>
+              <el-input v-model="scope.row.value"></el-input>
             </template>
           </el-table-column>
         </el-table>
@@ -82,7 +82,7 @@
         <el-table :data="value" stripe border size="mini" max-height="600">
           <el-table-column label="value">
             <template slot-scope="scope">
-              <el-input v-model="scope.row.value" ></el-input>
+              <el-input v-model="scope.row.value"></el-input>
             </template>
           </el-table-column>
         </el-table>
@@ -111,141 +111,143 @@
 </template>
 
 <script>
-import addKey from '@/components/redis/addKey'
+  import addKey from '@/components/redis/addKey'
 
-export default {
-  name: "manage",
-  data() {
-    return {
-      sources: [],
-      dbs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
-      keys: [],
-      rediskey: null,
-      db: null,
-      sourceId: null,
-      keyType: null,
-      value: null,
-      hashValue: [],
-      listValue: [],
-      dialogFormVisible: false,
-      addedKey: null,
-      addedKeyType: "string",
-      addedHashValue: [],
-      addedListValue: [],
-      show2:false
-    }
-  },
-  created() {
-    this.getAllSource()
-  },
-  methods: {
-    getAllSource() {
-      this.axios.post("/redis/getAllSource/").then((response) => {
-        this.sources = response.data
-      }).catch((error) => {
-        this.$message.error("查询所有redis环境失败")
-      })
-    },
-    selectSource() {
-      this.db = null
-      this.rediskey = null
-    },
-    selectDb() {
-      this.rediskey = null
-      this.hashValue = []
-      this.getAllkeys()
-      console.log(this.rediskey)
-    },
-    selectKey() {
-      console.log("selectKey");
-      this.getData()
-    },
-    getAllkeys() {
-      this.axios.post("/redis/getAllKeys", {"sourceId": this.sourceId, "db": this.db}).then((response) => {
-        this.keys = response.data
-      }).catch((error) => {
-        this.$message.error("查询所有key失败")
-      })
-    },
-    getData() {
-      this.axios.post("/redis/getData", {
-        "sourceId": this.sourceId,
-        "db": this.db,
-        "key": this.rediskey
-      }).then((response) => {
-        this.keyType = response.data.type
-        this.value = response.data.value
-      }).catch((error) => {
-        this.$message.error("查询redis数据失败")
-      })
-    },
-    setData() {
-
-    },
-    clickAdd() {
-      if (this.sourceId == null || this.db == null) {
-        this.$message.error("请先选择redis环境和db号")
-        return
+  export default {
+    name: "manage",
+    data() {
+      return {
+        sources: [],
+        dbs: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+        keys: [],
+        rediskey: null,
+        db: null,
+        sourceId: null,
+        keyType: null,
+        value: null,
+        hashValue: [],
+        listValue: [],
+        dialogFormVisible: false,
+        addedKey: null,
+        addedKeyType: "string",
+        addedHashValue: [],
+        addedListValue: [],
+        show2: false,
+        auth: {}
       }
-      this.dialogFormVisible = true
     },
-    clickDelete(){
-      if (this.sourceId == null || this.db == null) {
-        this.$message.error("请先选择redis环境和db号")
-        return
-      }
-      this.show2 = true
+    created() {
+      this.getAllSource()
     },
-    addRedisKey() {
-      this.$refs.add.commit(this.sourceId, this.db)
-    },
-    deleteRedisKey(){
-      this.axios.post("/redis/deleteKey", {
-        "sourceId": this.sourceId,
-        "db": this.db,
-        "key": this.rediskey
-      }).then((response) => {
+    methods: {
+      getAllSource() {
+        this.axios.post("/redis/getAllSource/").then((response) => {
+          this.sources = response.data
+        }).catch((error) => {
+          this.$message.error("查询所有redis环境失败")
+        })
+      },
+      selectSource() {
+        this.db = null
         this.rediskey = null
-        this.$message.success("删除redis key成功")
+        this.auth = this.$store.getters.getRedisAuth(this.sourceId)
+      },
+      selectDb() {
+        this.rediskey = null
+        this.hashValue = []
         this.getAllkeys()
-      }).catch((error) => {
-        this.$message.error("删除redis key失败")
-      })
-    }
+        console.log(this.rediskey)
+      },
+      selectKey() {
+        console.log("selectKey");
+        this.getData()
+      },
+      getAllkeys() {
+        this.axios.post("/redis/getAllKeys", {"sourceId": this.sourceId, "db": this.db}).then((response) => {
+          this.keys = response.data
+        }).catch((error) => {
+          this.$message.error("查询所有key失败")
+        })
+      },
+      getData() {
+        this.axios.post("/redis/getData", {
+          "sourceId": this.sourceId,
+          "db": this.db,
+          "key": this.rediskey
+        }).then((response) => {
+          this.keyType = response.data.type
+          this.value = response.data.value
+        }).catch((error) => {
+          this.$message.error("查询redis数据失败")
+        })
+      },
+      setData() {
 
-  },
-  components: {
-    addKey
+      },
+      clickAdd() {
+        if (this.sourceId == null || this.db == null) {
+          this.$message.error("请先选择redis环境和db号")
+          return
+        }
+        this.dialogFormVisible = true
+      },
+      clickDelete() {
+        if (this.sourceId == null || this.db == null) {
+          this.$message.error("请先选择redis环境和db号")
+          return
+        }
+        this.show2 = true
+      },
+      addRedisKey() {
+        this.$refs.add.commit(this.sourceId, this.db)
+      },
+      deleteRedisKey() {
+        this.axios.post("/redis/deleteKey", {
+          "sourceId": this.sourceId,
+          "db": this.db,
+          "key": this.rediskey
+        }).then((response) => {
+          this.rediskey = null
+          this.$message.success("删除redis key成功")
+          this.getAllkeys()
+        }).catch((error) => {
+          this.$message.error("删除redis key失败")
+        })
+      }
+
+    },
+    components: {
+      addKey
+    }
   }
-}
 </script>
 
 <style scoped>
 
-.select {
-  padding-right: 5px;
-  padding-bottom: 5px;
-  width: 200px;
-}
+  .select {
+    padding-right: 5px;
+    padding-bottom: 5px;
+    width: 200px;
+  }
 
-.tag-group span {
-  margin: 10px 10px 10px 0;
-  font-size: 14px;
-  font-weight: 700;
-}
+  .tag-group span {
+    margin: 10px 10px 10px 0;
+    font-size: 14px;
+    font-weight: 700;
+  }
 
-.type {
-  padding: 5px 0;
-  margin: 5px 0;
-  /*background-color: #8cc5ff;*/
-  font-size: 18px;
-}
+  .type {
+    padding: 5px 0;
+    margin: 5px 0;
+    /*background-color: #8cc5ff;*/
+    font-size: 18px;
+  }
 
-.stringValue {
-  padding: 5px;
-  margin: 5px 0;
-  border: 1px solid black;
-  background-color: blanchedalmond;
-  height: 300px;
-}
+  .stringValue {
+    padding: 5px;
+    margin: 5px 0;
+    border: 1px solid black;
+    background-color: blanchedalmond;
+    height: 300px;
+  }
 </style>

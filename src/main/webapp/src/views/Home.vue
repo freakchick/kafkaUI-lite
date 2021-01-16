@@ -82,7 +82,7 @@
 
 <script>
   // @ is an alias to /src
-  import {initKafka, initZK} from '@/js/auth.js'
+  import {initKafka, initZK, initRedis} from '@/js/auth.js'
 
   export default {
     data() {
@@ -99,7 +99,7 @@
 
         initKafka(this)
         initZK(this)
-
+        initRedis(this)
       }
     },
     created() {
