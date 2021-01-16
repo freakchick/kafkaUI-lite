@@ -3,12 +3,15 @@ package com.jq.kafkaui.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.dao.RedisSourceDao;
+import com.jq.kafkaui.domain.Auth;
 import com.jq.kafkaui.domain.RedisSource;
 import com.jq.kafkaui.domain.Result;
+import com.jq.kafkaui.domain.ZKSource;
 import com.jq.kafkaui.util.RedisUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import redis.clients.jedis.Jedis;
 
 import java.util.HashMap;
@@ -28,22 +31,24 @@ import java.util.stream.Collectors;
 public class RedisService {
 
     @Autowired
-    RedisSourceDao redisSourceDao;
+    RedisSourceDao sourceDao;
 
     public void addSource(RedisSource source) {
-        redisSourceDao.insert(source);
+        sourceDao.insert(source);
+        sourceDao.insertAuth(source.getId(), 0, 0, 0);
     }
 
     public void deleteSource(Integer id) {
-        redisSourceDao.delete(id);
+        sourceDao.delete(id);
+        sourceDao.deleteAuth(id);
     }
 
     public List<RedisSource> getAllSource() {
-        return redisSourceDao.getAll();
+        return sourceDao.getAll();
     }
 
     public Set<String> getAllKeys(Integer sourceId, int db) {
-        RedisSource redisSource = redisSourceDao.selectById(sourceId);
+        RedisSource redisSource = sourceDao.selectById(sourceId);
 
         RedisUtil redisPool = new RedisUtil();
         Jedis client = redisPool.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
@@ -55,7 +60,7 @@ public class RedisService {
     public JSONObject getData(Integer sourceId, Integer db, String key) {
         JSONObject jo = new JSONObject();
 
-        RedisSource redisSource = redisSourceDao.selectById(sourceId);
+        RedisSource redisSource = sourceDao.selectById(sourceId);
 
         RedisUtil redisUtil = new RedisUtil();
         Jedis jedis = redisUtil.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
@@ -115,7 +120,7 @@ public class RedisService {
     }
 
     public Result addKey(Integer sourceId, Integer db, String key, String type, String value) {
-        RedisSource redisSource = redisSourceDao.selectById(sourceId);
+        RedisSource redisSource = sourceDao.selectById(sourceId);
         RedisUtil redisUtil = new RedisUtil();
 
         Jedis jedis = redisUtil.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
@@ -146,10 +151,37 @@ public class RedisService {
     }
 
     public void deleteKey(Integer sourceId, Integer db, String key) {
-        RedisSource redisSource = redisSourceDao.selectById(sourceId);
+        RedisSource redisSource = sourceDao.selectById(sourceId);
         RedisUtil redisUtil = new RedisUtil();
         Jedis jedis = redisUtil.getClient(redisSource.getIp(), redisSource.getPort(), redisSource.getPassword(), db);
         jedis.del(key);
         redisUtil.closeConnction(jedis);
+    }
+
+    public List<RedisSource> getAllSourceAuth() {
+        List<RedisSource> all = sourceDao.getAll();
+        all.stream().forEach(t -> {
+            Auth auth = sourceDao.getAuthBySource(t.getId());
+            JSONObject authO = new JSONObject();
+            authO.put("add", auth.getAdd_auth().intValue() == 1 ? true : false);
+            authO.put("update", auth.getUpdate_auth().intValue() == 1 ? true : false);
+            authO.put("remove", auth.getRemove_auth().intValue() == 1 ? true : false);
+            t.setAuth(authO);
+        });
+        return all;
+    }
+
+    @Transactional
+    public void auth(String param) {
+        JSONObject jo = JSON.parseObject(param);
+        Set<String> keys = jo.keySet();
+        keys.stream().forEach(key -> {
+            JSONObject auth = jo.getJSONObject(key);
+            int add = auth.getBoolean("add") ? 1 : 0;
+            int update = auth.getBoolean("update") ? 1 : 0;
+            int remove = auth.getBoolean("remove") ? 1 : 0;
+            int i = sourceDao.updateAuth(Integer.parseInt(key), add, update, remove);
+        });
+
     }
 }

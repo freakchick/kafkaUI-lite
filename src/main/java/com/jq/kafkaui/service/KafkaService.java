@@ -50,11 +50,11 @@ public class KafkaService {
         return ip + ":" + port;
 
     }
-
+    @Transactional
     public void add(KafkaSource source) {
         kafkaSourceDao.insert(source);
-        ;
-        kafkaSourceDao.insertAuth(source.getId(), 1, 1, 1);
+
+        kafkaSourceDao.insertAuth(source.getId(), 0, 0, 0);
     }
 
     @Transactional
@@ -75,5 +75,9 @@ public class KafkaService {
             int i = kafkaSourceDao.updateAuth(Integer.parseInt(key), add, update, remove);
         });
 
+    }
+
+    public String getBroker(Integer sourceId) {
+        return kafkaSourceDao.selectById(sourceId);
     }
 }

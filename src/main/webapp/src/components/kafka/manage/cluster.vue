@@ -29,22 +29,24 @@ export default {
   name: "cluster",
   data() {
     return {
-      broker: null,
-      tableData: []
+      sourceId: null,
+      tableData: [],
+      auth:{}
 
     }
   },
   methods: {
 
     getCluster() {
-      this.axios.post("/kafka/cluster/info", {"broker": this.broker}).then((response) => {
+      this.axios.post("/kafka/cluster/info", {"sourceId": this.sourceId}).then((response) => {
         this.tableData = (response.data)
       }).catch((error) => {
         this.$message.error("查询集群信息失败")
       })
     },
-    kafkaChange(broker) {
-      this.broker = broker
+    kafkaChange(sourceId) {
+      this.sourceId = sourceId
+      this.auth = this.$store.getters.getKafkaAuth(sourceId)
       this.getCluster()
     },
   },

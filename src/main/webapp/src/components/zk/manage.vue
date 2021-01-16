@@ -1,7 +1,7 @@
 <template>
   <div>
-    <el-select v-model="address" placeholder="选择zookeeper" @change="getRootNodes">
-      <el-option v-for="item in sources" :key="item.id" :label="item.name" :value="item.address"></el-option>
+    <el-select v-model="sourceId" placeholder="选择zookeeper" @change="change">
+      <el-option v-for="item in sources" :key="item.id" :label="item.name" :value="item.id"></el-option>
     </el-select>
 
     <el-table :data="currentNode" border>
@@ -17,13 +17,13 @@
       </el-table-column>
     </el-table>
     <div>
-      <el-button size="small" type="primary" @click="clickAdd" circle>
+      <el-button size="small" type="primary" @click="clickAdd" circle :disabled="!auth.add">
         <i class="el-icon-circle-plus-outline"></i>
       </el-button>
-      <el-button size="small" type="danger" @click="clickRemove" circle>
+      <el-button size="small" type="danger" @click="clickRemove" circle :disabled="!auth.remove">
         <i class="el-icon-delete"></i>
       </el-button>
-      <el-button size="small" type="warning" @click="clickEdit" circle>
+      <el-button size="small" type="warning" @click="clickEdit" circle :disabled="!auth.update">
         <i class="el-icon-edit"></i>
       </el-button>
       <el-button size="small" type="primary" @click="refresh" circle>
@@ -69,7 +69,9 @@ export default {
   data() {
     return {
       sources: [],
-      address: null,
+      sourceId:null,
+      auth:{add:true,update:true,remove:true},
+      // address: null,
       nodes: null,
       currentNode: [],
       data: null,
@@ -93,7 +95,7 @@ export default {
     },
     getChildren(node, resolve) {
       this.axios.post("/zookeeper/getNodes", {
-        "address": this.address,
+        "sourceId": this.sourceId ,
         "path": node.data.path
       }).then((response) => {
         resolve(response.data);
@@ -110,16 +112,22 @@ export default {
         this.$message.error("查询所有zk环境失败")
       })
     },
+    change(){
+      this.auth = this.$store.getters.getZKAuth(this.sourceId)
+      console.log('===',this.auth)
+      this.getRootNodes()
+
+    },
     getRootNodes() {
       this.nodes = null
-      this.axios.post("/zookeeper/getRootNodes", {"address": this.address}).then((response) => {
+      this.axios.post("/zookeeper/getRootNodes", {"sourceId": this.sourceId}).then((response) => {
         this.nodes = response.data
       }).catch((error) => {
         this.$message.error("查询根节点失败")
       })
     },
     getAllNode() {
-      this.axios.post("/zookeeper/getAllNodes", {"address": this.address}).then((response) => {
+      this.axios.post("/zookeeper/getAllNodes", {"sourceId": this.sourceId}).then((response) => {
         this.nodes = response.data
       }).catch((error) => {
       })
@@ -143,7 +151,7 @@ export default {
 
       this.axios.post("/zookeeper/setData",
           {
-            "address": this.address,
+            "sourceId": this.sourceId ,
             "path": row.path,
             "data": row.value.trim().length == 0 ? null : row.value.trim()
           }).then((response) => {
@@ -157,14 +165,12 @@ export default {
       this.dialogFormVisible = true
     },
     add() {
-      if (this.createNode.data.trim().length == 0) {
 
-      }
       this.axios.post("/zookeeper/createNode",
           {
-            "address": this.address,
+            "sourceId": this.sourceId ,
             "path": this.createNode.path,
-            "data": this.createNode.data.trim().length == 0 ? null : this.createNode.data.trim(),
+            "data": this.createNode.data,
             "recursion": this.recursion
           }).then((response) => {
         this.$message.success("添加节点成功")
@@ -183,7 +189,7 @@ export default {
     },
     removeNode() {
       this.axios.post("/zookeeper/removeNode",
-          {"address": this.address, "path": this.createNode.path}).then((response) => {
+          {"sourceId": this.sourceId , "path": this.createNode.path}).then((response) => {
         this.$message.success("删除节点成功")
         this.refresh()
       }).catch((error) => {

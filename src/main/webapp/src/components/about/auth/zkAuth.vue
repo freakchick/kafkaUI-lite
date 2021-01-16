@@ -3,10 +3,7 @@
 
     <el-button type="primary" plain @click="save">保存</el-button>
 
-    <el-table :data="kafkaSources" stripe border>
-      <!--          <el-table-column prop="id" label="id">-->
-
-      <!--          </el-table-column>-->
+    <el-table :data="sources" stripe border>
       <el-table-column prop="name" label="name"></el-table-column>
       <el-table-column label="权限">
 
@@ -23,27 +20,27 @@
 
 <script>
 export default {
-  name: "kafkaAuth",
+  name: "zkAuth",
   data() {
     return {
-      kafkaSources: []
+      sources: []
     }
   },
   methods: {
-    getAllKafkaSource() {
-      this.axios.post("/kafka/getAllSourceAuth").then((response) => {
-        this.kafkaSources = response.data
+    getAllZKSource() {
+      this.axios.post("/zookeeper/getAllSourceAuth").then((response) => {
+        this.sources = response.data
       }).catch((error) => {
-        this.$message.error("查询所有kafka环境失败")
+        this.$message.error("查询所有zk环境失败")
       })
     },
     save() {
       let p = {}
-      for (let item of this.kafkaSources) {
+      for (let item of this.sources) {
         p[item.id] = item.auth
       }
 
-      this.axios.post("/kafka/auth", {"param": JSON.stringify(p)}).then((response) => {
+      this.axios.post("/zookeeper/auth", {"param": JSON.stringify(p)}).then((response) => {
         this.$message.success("授权成功")
       }).catch((error) => {
         this.$message.error("授权失败")
@@ -51,7 +48,7 @@ export default {
     }
   },
   created() {
-    this.getAllKafkaSource()
+    this.getAllZKSource()
   }
 }
 </script>

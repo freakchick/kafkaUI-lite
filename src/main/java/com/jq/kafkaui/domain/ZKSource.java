@@ -1,5 +1,6 @@
 package com.jq.kafkaui.domain;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 /**
@@ -13,4 +14,6 @@ public class ZKSource {
     Integer id;
     String name;
     String address;
+
+    JSONObject auth;
 }

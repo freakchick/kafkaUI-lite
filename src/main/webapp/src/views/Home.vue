@@ -97,11 +97,23 @@ export default {
     },
     init() {
       this.axios.post("/kafka/getAllSourceAuth").then((response) => {
-        for()
-        response.data
-        this.$store.commit('setKafkaAuth', )
+        let obj = {}
+        for(let item of response.data){
+          obj[item.id]=item.auth
+        }
+        this.$store.commit('setKafkaAuth', obj)
       }).catch((error) => {
-        this.$message.error("查询所有kafka环境失败")
+        this.$message.error("查询所有kafka权限失败")
+      })
+
+      this.axios.post("/zookeeper/getAllSourceAuth").then((response) => {
+        let obj = {}
+        for(let item of response.data){
+          obj[item.id]=item.auth
+        }
+        this.$store.commit('setZKAuth', obj)
+      }).catch((error) => {
+        this.$message.error("查询所有zookeeper权限失败")
       })
     }
   },

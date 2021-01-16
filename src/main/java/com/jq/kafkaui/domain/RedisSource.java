@@ -1,5 +1,6 @@
 package com.jq.kafkaui.domain;
 
+import com.alibaba.fastjson.JSONObject;
 import lombok.Data;
 
 /**
@@ -17,4 +18,6 @@ public class RedisSource {
     Integer port;
     Integer db;
     String password;
+
+    JSONObject auth;
 }

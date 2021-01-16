@@ -12,7 +12,7 @@
                         <i class="iconfont icon-detail"></i>
                     </el-button>
                     <el-popconfirm title="确定删除吗？" @confirm="deleteConfirm(scope.row.name)" v-if="!scope.row.internal">
-                        <el-button size="mini" circle type="danger" slot="reference" style="margin-left: 5px">
+                        <el-button size="mini" circle type="danger" slot="reference" style="margin-left: 5px" :disabled="!auth.remove">
                             <i class="el-icon-delete"></i>
                         </el-button>
                     </el-popconfirm>
@@ -39,27 +39,28 @@
         name: "group",
         data() {
             return {
-                broker: null,
+                sourceId: null,
                 tableData: [],
                 detail: [],
-                dialogTableVisible: false
-
+                dialogTableVisible: false,
+                auth:{}
             }
         },
         methods: {
             getGroups() {
-                this.axios.post("/kafka/group/all", {"broker": this.broker}).then((response) => {
+                this.axios.post("/kafka/group/all", {"sourceId": this.sourceId}).then((response) => {
                     this.tableData = response.data
                 }).catch((error) => {
                     this.$message.error("查询所有group失败")
                 })
             },
-            kafkaChange(broker) {
-                this.broker = broker
+            kafkaChange(sourceId) {
+                this.sourceId = sourceId
+                this.auth = this.$store.getters.getKafkaAuth(sourceId)
                 this.getGroups()
             },
             getGroupDetail(group) {
-                this.axios.post("/kafka/group/detail", {"broker": this.broker, "group": group}).then((response) => {
+                this.axios.post("/kafka/group/detail", {"sourceId": this.sourceId, "group": group}).then((response) => {
                     this.detail = response.data
                     this.dialogTableVisible = true
                 }).catch((error) => {
@@ -67,7 +68,7 @@
                 })
             },
             deleteConfirm(group){
-                this.axios.post("/kafka/group/delete", {"broker": this.broker, "group": group}).then((response) => {
+                this.axios.post("/kafka/group/delete", {"sourceId": this.sourceId, "group": group}).then((response) => {
                     this.$message.success("删除group成功")
                     this.getGroups()
                 }).catch((error) => {

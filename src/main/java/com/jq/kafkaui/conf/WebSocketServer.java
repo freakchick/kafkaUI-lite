@@ -52,7 +52,7 @@ public class WebSocketServer {
             params.put(split[0], split[1]);
         }
 
-        consume(this.session, params.get("broker"), params.get("topic"), params.get("group"), params.get("offset"));
+        consume(this.session, params.get("source"), params.get("topic"), params.get("group"), params.get("offset"));
 
     }
 

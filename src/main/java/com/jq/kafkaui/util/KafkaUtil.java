@@ -39,27 +39,34 @@ public class KafkaUtil {
         return AdminClient.create(prop);
     }
 
-    public static List<Topic> listTopicsWithOptions(String brokers) throws Exception {
-        // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties(brokers);
+    public static List<Topic> listTopicsWithOptions(String brokers) {
+        AdminClient adminClient = null;
+        try {
+            // 创建AdminClient客户端对象
+            adminClient = createAdminClientByProperties(brokers);
 
-        ListTopicsOptions options = new ListTopicsOptions();
-        // 列出内部的Topic
-        options.listInternal(true);
+            ListTopicsOptions options = new ListTopicsOptions();
+            // 列出内部的Topic
+            options.listInternal(true);
 
-        // 列出所有的topic
-        ListTopicsResult result = adminClient.listTopics(options);
-        Collection<TopicListing> topicListings = result.listings().get();
+            // 列出所有的topic
+            ListTopicsResult result = adminClient.listTopics(options);
+            Collection<TopicListing> topicListings = result.listings().get();
 
-        List<Topic> collect = topicListings.stream().map(t -> {
-            Topic topic = new Topic();
-            topic.setName(t.name());
-            topic.setInternal(t.isInternal());
-            return topic;
-        }).sorted(Comparator.comparing(t -> t.getName())).collect(Collectors.toList());
+            List<Topic> collect = topicListings.stream().map(t -> {
+                Topic topic = new Topic();
+                topic.setName(t.name());
+                topic.setInternal(t.isInternal());
+                return topic;
+            }).sorted(Comparator.comparing(t -> t.getName())).collect(Collectors.toList());
+            return collect;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            return null;
+        } finally {
 
-        adminClient.close();
-        return collect;
+            adminClient.close();
+        }
 
     }
 

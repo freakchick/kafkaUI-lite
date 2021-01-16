@@ -33,7 +33,8 @@ public class KafkaController {
     KafkaService kafkaService;
 
     @RequestMapping("/getTopics")
-    public List<Topic> getTopics(String brokers) throws Exception {
+    public List<Topic> getTopics(Integer sourceId) throws Exception {
+        String brokers = kafkaService.getBroker(sourceId);
         List<Topic> list = KafkaUtil.listTopicsWithOptions(brokers);
         return list;
     }
@@ -66,31 +67,32 @@ public class KafkaController {
     }
 
     @RequestMapping("/createTopic")
-    public String createTopic(String broker, String name,
+    public String createTopic(Integer sourceId, String name,
                               @RequestParam(defaultValue = "1") Integer partition,
                               @RequestParam(defaultValue = "1") Integer replica) throws Exception {
-
+        String broker = kafkaService.getBroker(sourceId);
         KafkaUtil.createTopic(broker, name, partition, replica);
         return "success";
 
     }
 
     @RequestMapping("/deleteTopic")
-    public boolean deleteTopic(String broker, String topic) {
-
+    public boolean deleteTopic(Integer sourceId, String topic) {
+        String broker = kafkaService.getBroker(sourceId);
         KafkaUtil.deleteTopic(broker, topic);
         return true;
 
     }
 
     @RequestMapping("/getTopicDetail")
-    public JSONObject getTopicDetail(String broker, String topic) throws Exception {
-
+    public JSONObject getTopicDetail(Integer sourceId, String topic) throws Exception {
+        String broker = kafkaService.getBroker(sourceId);
         return KafkaUtil.getTopicDetail(broker, topic);
     }
 
     @RequestMapping("/produce")
-    public String addSource(String broker, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {
+    public String produce(Integer sourceId, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {
+        String broker = kafkaService.getBroker(sourceId);
         Producer<String, String> producer = KafkaUtil.getProducer(broker);
         if (batch) {
             String[] messages = message.split("\n");
@@ -107,25 +109,29 @@ public class KafkaController {
     }
 
     @RequestMapping("/cluster/info")
-    public List<JSONObject> getClusterInfo(String broker) throws Exception {
+    public List<JSONObject> getClusterInfo(Integer sourceId) throws Exception {
+        String broker = kafkaService.getBroker(sourceId);
         List<JSONObject> collection = KafkaUtil.clusterInfo(broker);
         return collection;
     }
 
     @RequestMapping("/group/all")
-    public List<JSONObject> getAllGroups(String broker) throws Exception {
+    public List<JSONObject> getAllGroups(Integer sourceId) throws Exception {
+        String broker = kafkaService.getBroker(sourceId);
         List<JSONObject> allGroups = KafkaUtil.getAllGroups(broker);
         return allGroups;
     }
 
     @RequestMapping("/group/detail")
-    public Collection<List<JSONObject>> getGroupDetail(String broker, String group) throws Exception {
+    public Collection<List<JSONObject>> getGroupDetail(Integer sourceId, String group) throws Exception {
+        String broker = kafkaService.getBroker(sourceId);
         Collection<List<JSONObject>> groupInfo = KafkaUtil.getGroupInfo(broker, group);
         return groupInfo;
     }
 
     @RequestMapping("/group/delete")
-    public void deleteGroup(String broker, String group) throws Exception {
+    public void deleteGroup(Integer sourceId, String group) throws Exception {
+        String broker = kafkaService.getBroker(sourceId);
         KafkaUtil.deleteGroup(broker, group);
     }
 

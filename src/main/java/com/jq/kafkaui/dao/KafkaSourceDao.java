@@ -11,11 +11,11 @@ public interface KafkaSourceDao {
 
     @Select("SELECT * FROM source")
     @Results({@Result(property = "name", column = "name"),
-            @Result(property = "broker", column = "broker"),
+            @Result(property = "source", column = "source"),
             @Result(property = "id", column = "id")})
     List<KafkaSource> getAll();
 
-    @Insert("insert into source (name, broker) values (#{name}, #{broker})")
+    @Insert("insert into source (name, source) values (#{name}, #{source})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void insert(KafkaSource source);
 
@@ -34,4 +34,6 @@ public interface KafkaSourceDao {
     @Update({"update kafka_auth set add_auth=#{add}, update_auth=#{update}, remove_auth=#{remove} where source_id = #{id}"})
     int updateAuth(int id, int add, int update, int remove);
 
+    @Select("SELECT broker FROM source where id=#{sourceId}")
+    String selectById(Integer sourceId);
 }

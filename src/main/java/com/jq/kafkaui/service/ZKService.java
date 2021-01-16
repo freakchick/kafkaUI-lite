@@ -1,7 +1,9 @@
 package com.jq.kafkaui.service;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.dao.ZKSourceDao;
+import com.jq.kafkaui.domain.Auth;
 import com.jq.kafkaui.domain.ZKSource;
 import com.jq.kafkaui.util.ZKProcessor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,8 +12,10 @@ import org.apache.curator.framework.api.ExistsBuilder;
 import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * @program: kafkaUI
@@ -26,12 +30,16 @@ public class ZKService {
     @Autowired
     ZKSourceDao sourceDao;
 
+    @Transactional
     public void addSource(ZKSource source) {
         sourceDao.insert(source);
+        sourceDao.insertAuth(source.getId(), 0, 0, 0);
     }
 
+    @Transactional
     public void deleteSource(Integer id) {
         sourceDao.delete(id);
+        sourceDao.deleteAuth(id);
     }
 
     public List<ZKSource> getAllSource() {
@@ -84,7 +92,7 @@ public class ZKService {
         zkProcessor.setValue(path, data);
     }
 
-    public void createNode(String address, String path, String data,boolean recursion) throws Exception {
+    public void createNode(String address, String path, String data, boolean recursion) throws Exception {
         ZKProcessor zkProcessor = new ZKProcessor(address);
         zkProcessor.createNode(path, data, recursion);
     }
@@ -92,5 +100,36 @@ public class ZKService {
     public void removeNode(String address, String path) throws Exception {
         ZKProcessor zkProcessor = new ZKProcessor(address);
         zkProcessor.removeNode(path);
+    }
+
+    public List<ZKSource> getAllSourceAuth() {
+        List<ZKSource> all = sourceDao.getAll();
+        all.stream().forEach(t -> {
+            Auth auth = sourceDao.getAuthBySource(t.getId());
+            JSONObject authO = new JSONObject();
+            authO.put("add", auth.getAdd_auth().intValue() == 1 ? true : false);
+            authO.put("update", auth.getUpdate_auth().intValue() == 1 ? true : false);
+            authO.put("remove", auth.getRemove_auth().intValue() == 1 ? true : false);
+            t.setAuth(authO);
+        });
+        return all;
+    }
+
+    @Transactional
+    public void auth(String param) {
+        JSONObject jo = JSON.parseObject(param);
+        Set<String> keys = jo.keySet();
+        keys.stream().forEach(key -> {
+            JSONObject auth = jo.getJSONObject(key);
+            int add = auth.getBoolean("add") ? 1 : 0;
+            int update = auth.getBoolean("update") ? 1 : 0;
+            int remove = auth.getBoolean("remove") ? 1 : 0;
+            int i = sourceDao.updateAuth(Integer.parseInt(key), add, update, remove);
+        });
+
+    }
+
+    public String getAddressById(Integer sourceId) {
+        return sourceDao.getAddress(sourceId);
     }
 }

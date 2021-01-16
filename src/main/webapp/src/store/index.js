@@ -11,18 +11,21 @@ export default new Vuex.Store({
     mutations: {
         setKafkaAuth(state, payload) {
             state.kafkaAuth = payload
+        },
+        setZKAuth(state, payload) {
+            state.zkAuth = payload
         }
     },
     actions: {},
     getters: {
         getKafkaAuth: (state) => (sourceId) => {
-            console.log(state.kafkaAuth)
-            console.log(state.kafkaAuth[sourceId] == undefined)
-            // if (state.kafkaAuth.hasOwnProperty(sourceId)) {
-            //     return state.kafkaAuth[sourceId];
-            // } else {
-            //     return true;
-            // }
+            let a = state.kafkaAuth[sourceId]
+            console.log("getters...",a)
+            return a
+        },
+        getZKAuth: (state) => (sourceId) => {
+            let a = state.zkAuth[sourceId]
+            return a
         }
     },
 })
