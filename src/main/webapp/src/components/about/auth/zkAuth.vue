@@ -19,6 +19,8 @@
 </template>
 
 <script>
+  import {initZK} from '@/js/auth.js'
+
   export default {
     name: "zkAuth",
     data() {
@@ -34,6 +36,9 @@
           this.$message.error("查询所有zk环境失败")
         })
       },
+      initAuth(){
+        initZK(this)
+      },
       save() {
         let p = {}
         for (let item of this.sources) {
@@ -41,8 +46,10 @@
         }
 
         this.axios.post("/zookeeper/auth", {"param": JSON.stringify(p)}).then((response) => {
+          this.initAuth()
           this.$message.success("授权成功")
         }).catch((error) => {
+          console.log(error)
           this.$message.error("授权失败")
         })
       }

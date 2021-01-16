@@ -15,7 +15,7 @@ public interface KafkaSourceDao {
             @Result(property = "id", column = "id")})
     List<KafkaSource> getAll();
 
-    @Insert("insert into source (name, source) values (#{name}, #{source})")
+    @Insert("insert into source (name, broker) values (#{name}, #{broker})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void insert(KafkaSource source);
 

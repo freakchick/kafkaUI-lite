@@ -14,6 +14,9 @@ export default new Vuex.Store({
         },
         setZKAuth(state, payload) {
             state.zkAuth = payload
+        },
+        init(){
+
         }
     },
     actions: {},

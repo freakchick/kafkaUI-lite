@@ -4,14 +4,14 @@
       <el-header>
 
         <el-menu
-            default-active="1"
-            class="el-menu-demo"
-            mode="horizontal"
-            @select="handleSelect"
-            background-color="#00a0e9"
-            text-color="#fff"
-            active-text-color="#01293b"
-            router>
+          default-active="1"
+          class="el-menu-demo"
+          mode="horizontal"
+          @select="handleSelect"
+          background-color="#00a0e9"
+          text-color="#fff"
+          active-text-color="#01293b"
+          router>
           <el-submenu index="1">
             <template slot="title">
                           <span class="menu">
@@ -81,59 +81,44 @@
 </template>
 
 <script>
-// @ is an alias to /src
+  // @ is an alias to /src
+  import {initKafka, initZK} from '@/js/auth.js'
 
-
-export default {
-  data() {
-    return {
-      msg: "我是home 组件"
-    }
-  },
-  name: 'Home',
-  methods: {
-    handleSelect(key, keyPath) {
-      console.log(key, keyPath);
+  export default {
+    data() {
+      return {
+        msg: "我是home 组件"
+      }
     },
-    init() {
-      this.axios.post("/kafka/getAllSourceAuth").then((response) => {
-        let obj = {}
-        for(let item of response.data){
-          obj[item.id]=item.auth
-        }
-        this.$store.commit('setKafkaAuth', obj)
-      }).catch((error) => {
-        this.$message.error("查询所有kafka权限失败")
-      })
+    name: 'Home',
+    methods: {
+      handleSelect(key, keyPath) {
+        console.log(key, keyPath);
+      },
+      init() {
 
-      this.axios.post("/zookeeper/getAllSourceAuth").then((response) => {
-        let obj = {}
-        for(let item of response.data){
-          obj[item.id]=item.auth
-        }
-        this.$store.commit('setZKAuth', obj)
-      }).catch((error) => {
-        this.$message.error("查询所有zookeeper权限失败")
-      })
+        initKafka(this)
+        initZK(this)
+
+      }
+    },
+    created() {
+      this.init()
+
     }
-  },
-  created() {
-    this.init()
-
   }
-}
 </script>
 
 <style scoped>
-.icon {
-  color: #ffffff;
-  font-size: 23px !important;
-  font-weight: normal;
-}
+  .icon {
+    color: #ffffff;
+    font-size: 23px !important;
+    font-weight: normal;
+  }
 
-.menu {
-  font-size: 17px;
-  font-weight: 700;
-}
+  .menu {
+    font-size: 17px;
+    font-weight: 700;
+  }
 
 </style>

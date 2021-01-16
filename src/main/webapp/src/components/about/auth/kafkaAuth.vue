@@ -22,6 +22,8 @@
 </template>
 
 <script>
+  import {initKafka} from '@/js/auth.js'
+
   export default {
     name: "kafkaAuth",
     data() {
@@ -45,7 +47,9 @@
 
         this.axios.post("/kafka/auth", {"param": JSON.stringify(p)}).then((response) => {
           this.$message.success("授权成功")
+          initKafka(this)
         }).catch((error) => {
+          console.log(error)
           this.$message.error("授权失败")
         })
       }
