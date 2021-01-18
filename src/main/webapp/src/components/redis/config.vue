@@ -1,5 +1,12 @@
 <template>
   <div>
+    <el-alert type="success" effect="dark" v-if="warning">
+      <template slot="title">
+        <span>添加环境成功，默认分配只读权限，要修改权限请前往
+          <router-link to='/about/authority'>这里</router-link></span>
+      </template>
+    </el-alert>
+
     <el-table :data="sources" stripe border>
       <el-table-column prop="name" label="名称"></el-table-column>
       <el-table-column prop="ip" label="ip"></el-table-column>
@@ -48,7 +55,8 @@ export default {
       password: null,
       sources: [],
       name: null,
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      warning: false
     }
   },
   created() {
@@ -82,7 +90,7 @@ export default {
         "port": this.port,
         "password": this.password
       }).then((response) => {
-        this.$message.success("添加redis环境成功")
+        this.warning = true
         this.getAllSource()
       }).catch((error) => {
         this.$message.error("添加redis环境失败")
