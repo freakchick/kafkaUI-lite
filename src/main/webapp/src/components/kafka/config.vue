@@ -1,5 +1,12 @@
 <template>
   <div>
+    <el-alert type="success" effect="dark" v-if="warning">
+      <template slot="title">
+        <span>添加环境成功，默认分配只读权限，要修改权限请前往
+          <router-link to='/about/authority'>这里</router-link></span>
+      </template>
+    </el-alert>
+
     <el-table :data="sources" stripe border>
       <el-table-column prop="name" label="集群名称"></el-table-column>
       <el-table-column prop="broker" label="地址"></el-table-column>
@@ -13,7 +20,7 @@
     </el-table>
 
 
-    <el-button type="primary" @click="dialogFormVisible = true" style="margin-top: 5px">添加集群</el-button>
+    <el-button type="primary" @click="dialogFormVisible = true" style="margin-top: 5px">添加环境</el-button>
 
     <el-dialog title="添加kafka地址" :visible.sync="dialogFormVisible" width="600px">
       <el-form label-width="80px">
@@ -40,7 +47,8 @@ export default {
       broker: '127.0.0.1:9092',
       sources: [],
       name: null,
-      dialogFormVisible: false
+      dialogFormVisible: false,
+      warning: false
     }
   },
   created() {
@@ -68,7 +76,8 @@ export default {
     },
     add() {
       this.axios.post("/kafka/add", {"name": this.name, "broker": this.broker}).then((response) => {
-        this.$message.success("添加kafka环境成功")
+        // this.$message.success("添加kafka环境成功")
+        this.warning = true
         this.getAllSource()
       }).catch((error) => {
         this.$message.error("添加kafka环境失败")

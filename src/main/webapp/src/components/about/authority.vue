@@ -2,13 +2,13 @@
   <div>
 
     <el-tabs type="card">
-      <el-tab-pane label="kafka" name="">
+      <el-tab-pane label="kafka权限" name="">
         <common-auth :sources="kafkaSources" @save="saveKafkaAuth"></common-auth>
       </el-tab-pane>
-      <el-tab-pane label="zookeeper" name="">
+      <el-tab-pane label="zookeeper权限" name="">
         <common-auth :sources="zkSources" @save="saveZKAuth"></common-auth>
       </el-tab-pane>
-      <el-tab-pane label="redis" name="">
+      <el-tab-pane label="redis权限" name="">
         <common-auth :sources="redisSources" @save="saveRedisAuth"></common-auth>
       </el-tab-pane>
     </el-tabs>
