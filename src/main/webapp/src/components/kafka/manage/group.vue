@@ -11,7 +11,7 @@
           <el-button size="mini" circle type="primary" @click="getGroupDetail(scope.row.name)">
             <i class="iconfont icon-detail"></i>
           </el-button>
-          <el-popconfirm title="确定删除吗？" @confirm="deleteConfirm(scope.row.name)" v-if="!scope.row.internal">
+          <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)" v-if="!scope.row.internal">
             <el-button size="mini" circle type="danger" slot="reference" style="margin-left: 5px"
                        :disabled="!auth.remove">
               <i class="el-icon-delete"></i>
@@ -65,8 +65,11 @@ export default {
     },
     getGroupDetail(group) {
       this.axios.post("/kafka/group/detail", {"sourceId": this.sourceId, "group": group}).then((response) => {
-        this.detail = response.data
-        this.dialogTableVisible = true
+        if (response.data.success){
+          this.detail = response.data.data
+          this.dialogTableVisible = true
+        }
+
       }).catch((error) => {
         this.$message.error("查询group详情失败")
       })
