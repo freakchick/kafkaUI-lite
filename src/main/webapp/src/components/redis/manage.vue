@@ -196,6 +196,10 @@
           this.$message.error("请先选择redis环境和db号")
           return
         }
+        if (this.rediskey == null ) {
+          this.$message.error("请先选择redis key")
+          return
+        }
         this.show2 = true
       },
       addRedisKey() {
