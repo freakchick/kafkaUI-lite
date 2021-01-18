@@ -124,6 +124,7 @@ public class ZKProcessor {
 
     public void createNode(String path, String data, boolean recursion) throws Exception {
         CuratorFramework client = getClient();
+
         if (recursion) {
             client.create().creatingParentsIfNeeded().withMode(CreateMode.PERSISTENT).forPath(path, data.getBytes("utf-8"));
         } else {
