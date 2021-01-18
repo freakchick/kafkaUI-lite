@@ -41,6 +41,7 @@
 </template>
 
 <script>
+import {initKafka, initRedis, initZK} from '@/js/auth.js'
 export default {
   data() {
     return {
@@ -74,8 +75,9 @@ export default {
     },
     add() {
       this.axios.post("/zookeeper/add", {"name": this.name, "address": this.address}).then((response) => {
-        this.getAllSource()
         this.warning = true
+        initZK(this)
+        this.getAllSource()
       }).catch((error) => {
         this.$message.error("添加zk环境失败")
       })

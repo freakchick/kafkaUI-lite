@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import {initKafka, initRedis, initZK} from '@/js/auth.js'
+
 export default {
   name: "config",
   data() {
@@ -78,6 +80,7 @@ export default {
       this.axios.post("/kafka/add", {"name": this.name, "broker": this.broker}).then((response) => {
         // this.$message.success("添加kafka环境成功")
         this.warning = true
+        initKafka(this)
         this.getAllSource()
       }).catch((error) => {
         this.$message.error("添加kafka环境失败")

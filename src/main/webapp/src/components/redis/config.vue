@@ -46,6 +46,7 @@
 </template>
 
 <script>
+import {initKafka, initRedis, initZK} from '@/js/auth.js'
 export default {
   name: "config",
   data() {
@@ -91,6 +92,7 @@ export default {
         "password": this.password
       }).then((response) => {
         this.warning = true
+        initRedis(this)
         this.getAllSource()
       }).catch((error) => {
         this.$message.error("添加redis环境失败")
