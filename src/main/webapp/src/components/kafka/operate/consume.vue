@@ -7,7 +7,7 @@
       </el-col>
       <el-col :span="12">
         topic:
-        <el-select v-model="topic" filterable placeholder="选择topic" clearable >
+        <el-select v-model="topic" filterable placeholder="选择topic" clearable>
           <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
         </el-select>
       </el-col>
@@ -27,22 +27,31 @@ export default {
   name: "operate",
   data() {
     return {
-      broker: null,
+      sourceId: null,
       sources: [],
       topic: null,
       topics: [],
-      message: null
+      message: null,
+      broker:null
     }
   },
 
   methods: {
-    getTopics(broker) {
-      this.broker = broker
-      console.log(broker);
-      this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
-        this.topics = response.data
+    getTopics(sourceId) {
+      this.sourceId = sourceId
+      this.axios.post("/kafka/getTopics", {"sourceId": this.sourceId}).then((response) => {
+        if (response.data.success) {
+          this.topics = response.data.data
+        } else
+          this.$message.error(response.data.message)
       }).catch((error) => {
         this.$message.error("查询所有topic失败")
+      })
+
+      this.axios.post("/kafka/getBroker", {"sourceId": this.sourceId}).then((response) => {
+          this.broker = response.data
+      }).catch((error) => {
+        this.$message.error("查询失败")
       })
     },
 

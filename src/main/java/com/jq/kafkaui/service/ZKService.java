@@ -8,14 +8,13 @@ import com.jq.kafkaui.domain.ZKSource;
 import com.jq.kafkaui.util.ZKProcessor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.curator.framework.CuratorFramework;
-import org.apache.curator.framework.api.ExistsBuilder;
-import org.apache.curator.framework.imps.CuratorFrameworkState;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @program: kafkaUI
@@ -77,6 +76,7 @@ public class ZKService {
         try {
             ZKProcessor zkProcessor = new ZKProcessor(address);
             client = zkProcessor.getClient();
+//            client.blockUntilConnected(5, TimeUnit.SECONDS);
             List<JSONObject> allSon = zkProcessor.getAllSon(client, "/");
             return true;
         } catch (Exception e) {

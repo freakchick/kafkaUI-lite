@@ -29,4 +29,10 @@ public class ResponseDto {
         responseDto.setData(data);
         return responseDto;
     }
+
+    public static ResponseDto success() {
+        ResponseDto responseDto = new ResponseDto();
+        responseDto.setSuccess(true);
+        return responseDto;
+    }
 }

@@ -2,7 +2,7 @@ package com.jq.kafkaui.controller;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.KafkaSource;
-import com.jq.kafkaui.domain.Topic;
+import com.jq.kafkaui.dto.ResponseDto;
 import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
 import org.apache.kafka.clients.producer.Producer;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -33,10 +32,9 @@ public class KafkaController {
     KafkaService kafkaService;
 
     @RequestMapping("/getTopics")
-    public List<Topic> getTopics(Integer sourceId) throws Exception {
+    public ResponseDto getTopics(Integer sourceId) {
         String brokers = kafkaService.getBroker(sourceId);
-        List<Topic> list = KafkaUtil.listTopicsWithOptions(brokers);
-        return list;
+        return KafkaUtil.listTopicsWithOptions(brokers);
     }
 
     @RequestMapping("/getIp")
@@ -65,6 +63,13 @@ public class KafkaController {
         kafkaService.add(source);
         return "success";
     }
+
+    @RequestMapping("/getBroker")
+    public String getBroker(Integer sourceId) {
+        String broker = kafkaService.getBroker(sourceId);
+        return broker;
+    }
+
 
     @RequestMapping("/createTopic")
     public String createTopic(Integer sourceId, String name,
@@ -109,30 +114,29 @@ public class KafkaController {
     }
 
     @RequestMapping("/cluster/info")
-    public List<JSONObject> getClusterInfo(Integer sourceId) throws Exception {
+    public ResponseDto getClusterInfo(Integer sourceId) {
         String broker = kafkaService.getBroker(sourceId);
-        List<JSONObject> collection = KafkaUtil.clusterInfo(broker);
-        return collection;
+        return KafkaUtil.clusterInfo(broker);
     }
 
     @RequestMapping("/group/all")
-    public List<JSONObject> getAllGroups(Integer sourceId) throws Exception {
+    public ResponseDto getAllGroups(Integer sourceId) {
         String broker = kafkaService.getBroker(sourceId);
-        List<JSONObject> allGroups = KafkaUtil.getAllGroups(broker);
+        ResponseDto allGroups = KafkaUtil.getAllGroups(broker);
         return allGroups;
     }
 
     @RequestMapping("/group/detail")
-    public Collection<List<JSONObject>> getGroupDetail(Integer sourceId, String group) throws Exception {
+    public ResponseDto getGroupDetail(Integer sourceId, String group) {
         String broker = kafkaService.getBroker(sourceId);
-        Collection<List<JSONObject>> groupInfo = KafkaUtil.getGroupInfo(broker, group);
+        ResponseDto groupInfo = KafkaUtil.getGroupInfo(broker, group);
         return groupInfo;
     }
 
     @RequestMapping("/group/delete")
-    public void deleteGroup(Integer sourceId, String group) throws Exception {
+    public ResponseDto deleteGroup(Integer sourceId, String group) {
         String broker = kafkaService.getBroker(sourceId);
-        KafkaUtil.deleteGroup(broker, group);
+        return KafkaUtil.deleteGroup(broker, group);
     }
 
     @RequestMapping("/auth")

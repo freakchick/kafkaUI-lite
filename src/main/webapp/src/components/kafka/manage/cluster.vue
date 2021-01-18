@@ -5,7 +5,7 @@
     <el-table :data="tableData" stripe border>
       <el-table-column prop="id" label="broker id">
         <template slot-scope="scope">
-          <span style="margin-right: 5px">{{scope.row.id}}</span>
+          <span style="margin-right: 5px">{{ scope.row.id }}</span>
           <el-tag type="danger" v-if="scope.row.controller" effect="dark" size="mini">controller</el-tag>
         </template>
       </el-table-column>
@@ -31,7 +31,7 @@ export default {
     return {
       sourceId: null,
       tableData: [],
-      auth:{}
+      auth: {}
 
     }
   },
@@ -39,7 +39,10 @@ export default {
 
     getCluster() {
       this.axios.post("/kafka/cluster/info", {"sourceId": this.sourceId}).then((response) => {
-        this.tableData = (response.data)
+        if (response.data.success)
+          this.tableData = (response.data.data)
+        else
+          this.$message.error(response.data.message)
       }).catch((error) => {
         this.$message.error("查询集群信息失败")
       })

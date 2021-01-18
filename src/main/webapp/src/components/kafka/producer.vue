@@ -42,7 +42,7 @@ export default {
       batch: false
     }
   },
-  props: ["topic", "broker"],
+  props: ["topic", "sourceId"],
   methods: {
     keyDown(e) {
       if (e.ctrlKey && e.keyCode == 13) {   //用户点击了ctrl+enter触发
@@ -85,7 +85,7 @@ export default {
       this.cursor = this.history.length - 1
     },
     produce() {
-      if (this.broker == null || this.broker == '' || this.topic == null || this.topic == '') {
+      if (this.sourceId == null || this.sourceId == '' || this.topic == null || this.topic == '') {
         this.$message({
           showClose: true,
           message: '请先选择kafka和topic',
@@ -106,7 +106,7 @@ export default {
       const m = this.message
       this.message = null
       this.axios.post("/kafka/produce", {
-        "broker": this.broker,
+        "sourceId": this.sourceId,
         "topic": this.topic,
         "message": m,
         "batch": this.batch

@@ -1,10 +1,12 @@
 package com.jq.kafkaui.conf;
 
+import com.jq.kafkaui.dao.KafkaSourceDao;
 import com.jq.kafkaui.util.KafkaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
@@ -20,6 +22,9 @@ import java.util.concurrent.CopyOnWriteArraySet;
 @ServerEndpoint("/push/websocket")
 @Slf4j
 public class WebSocketServer {
+
+//    @Autowired
+//    KafkaSourceDao kafkaSourceDao;
 
     //静态变量，用来记录当前在线连接数。应该把它设计成线程安全的。
     private static int onlineCount = 0;
@@ -46,13 +51,16 @@ public class WebSocketServer {
         this.sid = sid;
 
         String queryString = session.getQueryString();
+        log.info(queryString);
         String[] array = queryString.split("&");
         for (String p : array) {
             String[] split = p.split("=");
             params.put(split[0], split[1]);
         }
+//        int sourceId = Integer.parseInt(params.get("sourceId"));
+//        System.out.println(kafkaSourceDao);
 
-        consume(this.session, params.get("source"), params.get("topic"), params.get("group"), params.get("offset"));
+        consume(this.session, params.get("broker"), params.get("topic"), params.get("group"), params.get("offset"));
 
     }
 
@@ -65,7 +73,6 @@ public class WebSocketServer {
                 while (session.isOpen()) {
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, String> record : records) {
-//                        System.out.printf("offset = %d, key = %s, value = %s%n", record.offset(), record.key(), record.value());
                         try {
                             session.getBasicRemote().sendText(record.value());
                         } catch (IOException e) {

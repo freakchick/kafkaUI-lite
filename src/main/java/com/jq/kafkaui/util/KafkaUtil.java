@@ -2,6 +2,7 @@ package com.jq.kafkaui.util;
 
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.Topic;
+import com.jq.kafkaui.dto.ResponseDto;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.admin.*;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
@@ -10,7 +11,6 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.Node;
 import org.apache.kafka.common.TopicPartition;
-import org.apache.kafka.common.acl.AclOperation;
 import org.apache.kafka.common.config.ConfigResource;
 
 import java.util.*;
@@ -30,16 +30,14 @@ public class KafkaUtil {
 
         Properties prop = new Properties();
 
-        // 配置Kafka服务的访问地址及端口号
         prop.setProperty(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, brokers);
         prop.setProperty(AdminClientConfig.REQUEST_TIMEOUT_MS_CONFIG, "2000");
         prop.setProperty(AdminClientConfig.DEFAULT_API_TIMEOUT_MS_CONFIG, "2000");
 
-        // 创建AdminClient实例
         return AdminClient.create(prop);
     }
 
-    public static List<Topic> listTopicsWithOptions(String brokers) {
+    public static ResponseDto listTopicsWithOptions(String brokers) {
         AdminClient adminClient = null;
         try {
             // 创建AdminClient客户端对象
@@ -59,10 +57,12 @@ public class KafkaUtil {
                 topic.setInternal(t.isInternal());
                 return topic;
             }).sorted(Comparator.comparing(t -> t.getName())).collect(Collectors.toList());
-            return collect;
+
+            ResponseDto success = ResponseDto.success(collect);
+            return success;
         } catch (Exception e) {
             log.error(e.getMessage(), e);
-            return null;
+            return ResponseDto.fail(e.getMessage());
         } finally {
 
             adminClient.close();
@@ -76,60 +76,64 @@ public class KafkaUtil {
      * topic name = a-topic, desc = (name=a-topic, internal=false, partitions=(partition=0, leader=192.168.182.128:9092 (id: 0 rack: null), replicas=192.168.182.128:9092 (id: 0 rack: null), isr=192.168.182.128:9092 (id: 0 rack: null)), authorizedOperations=null)
      * topic name = b-topic, desc = (name=b-topic, internal=false, partitions=(partition=0, leader=192.168.182.128:9092 (id: 0 rack: null), replicas=192.168.182.128:9092 (id: 0 rack: null), isr=192.168.182.128:9092 (id: 0 rack: null)), authorizedOperations=null)
      */
-    public static void describeTopics(List<String> topics, String brokers) throws Exception {
-        // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties(brokers);
-
-        // 获取Topic的描述信息
-        DescribeTopicsResult result = adminClient.describeTopics(topics);
-
-        // 解析描述信息结果, Map<String, TopicDescription> ==> topicName:topicDescription
-        Map<String, TopicDescription> topicDescriptionMap = result.all().get();
-        topicDescriptionMap.forEach((topicName, description) -> System.out.printf("topic name = %s, desc = %s \n", topicName, description));
-
-        // 关闭资源
-        adminClient.close();
-    }
+//    public static void describeTopics(List<String> topics, String brokers) throws Exception {
+//        // 创建AdminClient客户端对象
+//        AdminClient adminClient = createAdminClientByProperties(brokers);
+//
+//        // 获取Topic的描述信息
+//        DescribeTopicsResult result = adminClient.describeTopics(topics);
+//
+//        // 解析描述信息结果, Map<String, TopicDescription> ==> topicName:topicDescription
+//        Map<String, TopicDescription> topicDescriptionMap = result.all().get();
+//        topicDescriptionMap.forEach((topicName, description) -> System.out.printf("topic name = %s, desc = %s \n", topicName, description));
+//
+//        // 关闭资源
+//        adminClient.close();
+//    }
 
     /**
      * 获取topic的配置信息
      */
-    public static void describeConfigTopics(List<String> topicNames, String brokers) throws Exception {
-        // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties(brokers);
-
-        List<ConfigResource> configResources = new ArrayList<>();
-        topicNames.forEach(topicName -> configResources.add(
-                // 指定要获取的源
-                new ConfigResource(ConfigResource.Type.TOPIC, topicName)));
-
-        // 获取topic的配置信息
-        DescribeConfigsResult result = adminClient.describeConfigs(configResources);
-//        adminClient.describeAcls();
-
-        Map<ConfigResource, Config> configResourceConfigMap = adminClient.describeConfigs(Collections.singleton(new ConfigResource(ConfigResource.Type.BROKER, "56"))).all().get();
-
-        // 解析topic的配置信息
-        Map<ConfigResource, Config> resourceConfigMap = result.all().get();
-        resourceConfigMap.forEach((configResource, config) -> System.out.printf("topic config ConfigResource = %s, Config = %s \n", configResource, config));
-
-        // 关闭资源
-        adminClient.close();
-    }
+//    public static void describeConfigTopics(List<String> topicNames, String brokers) throws Exception {
+//        // 创建AdminClient客户端对象
+//        AdminClient adminClient = createAdminClientByProperties(brokers);
+//
+//        List<ConfigResource> configResources = new ArrayList<>();
+//        topicNames.forEach(topicName -> configResources.add(
+//                // 指定要获取的源
+//                new ConfigResource(ConfigResource.Type.TOPIC, topicName)));
+//
+//        // 获取topic的配置信息
+//        DescribeConfigsResult result = adminClient.describeConfigs(configResources);
+////        adminClient.describeAcls();
+//
+//        Map<ConfigResource, Config> configResourceConfigMap = adminClient.describeConfigs(Collections.singleton(new ConfigResource(ConfigResource.Type.BROKER, "56"))).all().get();
+//
+//        // 解析topic的配置信息
+//        Map<ConfigResource, Config> resourceConfigMap = result.all().get();
+//        resourceConfigMap.forEach((configResource, config) -> System.out.printf("topic config ConfigResource = %s, Config = %s \n", configResource, config));
+//
+//        // 关闭资源
+//        adminClient.close();
+//    }
 
     public static void createTopic(String brokers, String topic, Integer partition, Integer replica) throws Exception {
-        // 创建AdminClient客户端对象
-        AdminClient adminClient = createAdminClientByProperties(brokers);
-        List<NewTopic> topicList = new ArrayList();
-        NewTopic newTopic = new NewTopic(topic, partition, replica.shortValue());
-        topicList.add(newTopic);
-        CreateTopicsResult result = adminClient.createTopics(topicList);
-        // get方法是一个阻塞方法，一定要等到createTopics完成之后才进行下一步操作
-        result.all().get();
-        // 打印新创建的topic名
-        result.values().forEach((name, future) -> System.out.println("topicName:" + name));
-        // 关闭资源
-        adminClient.close();
+        AdminClient adminClient = null;
+        try {
+            adminClient = createAdminClientByProperties(brokers);
+            List<NewTopic> topicList = new ArrayList();
+            NewTopic newTopic = new NewTopic(topic, partition, replica.shortValue());
+            topicList.add(newTopic);
+            CreateTopicsResult result = adminClient.createTopics(topicList);
+            result.all().get();
+            result.values().forEach((name, future) -> System.out.println("topicName:" + name));
+        } catch (Exception e) {
+
+        } finally {
+
+            adminClient.close();
+        }
+
     }
 
     public static Producer<String, String> getProducer(String brokers) {
@@ -216,97 +220,103 @@ public class KafkaUtil {
         return res;
     }
 
-    public static List<JSONObject> clusterInfo(String broker) throws Exception {
-        AdminClient client = createAdminClientByProperties(broker);
-        DescribeClusterResult describeClusterResult = client.describeCluster();
-        Node controller = describeClusterResult.controller().get();
-        Collection<Node> nodes = describeClusterResult.nodes().get();
-        List<JSONObject> collect = nodes.stream().map(node -> {
-            JSONObject jo = new JSONObject();
-            jo.put("host", node.host());
-            jo.put("port", node.port());
-            jo.put("idStr", node.idString());
-            jo.put("id", node.id());
-            if (node.id() == controller.id()) {
-                jo.put("controller", true);
-            } else {
-                jo.put("controller", false);
-            }
-            return jo;
-        }).collect(Collectors.toList());
-        return collect;
+    public static ResponseDto clusterInfo(String broker)  {
+        AdminClient client = null;
+        try {
+            client = createAdminClientByProperties(broker);
+            DescribeClusterResult describeClusterResult = client.describeCluster();
+            Node controller = describeClusterResult.controller().get();
+            Collection<Node> nodes = describeClusterResult.nodes().get();
+            List<JSONObject> collect = nodes.stream().map(node -> {
+                JSONObject jo = new JSONObject();
+                jo.put("host", node.host());
+                jo.put("port", node.port());
+                jo.put("idStr", node.idString());
+                jo.put("id", node.id());
+                if (node.id() == controller.id()) {
+                    jo.put("controller", true);
+                } else {
+                    jo.put("controller", false);
+                }
+                return jo;
+            }).collect(Collectors.toList());
+            return ResponseDto.success(collect);
+        } catch (Exception e) {
+            return ResponseDto.fail(e.getMessage());
+        } finally {
+            client.close();
+        }
 
     }
 
-    public static List<JSONObject> getAllGroups(String broker) throws Exception {
-        AdminClient client = createAdminClientByProperties(broker);
-        ListConsumerGroupsResult listConsumerGroupsResult = client.listConsumerGroups();
-        Collection<ConsumerGroupListing> consumerGroupListings = listConsumerGroupsResult.all().get();
-        List<JSONObject> collect = consumerGroupListings.stream().map(t -> {
+    public static ResponseDto getAllGroups(String broker)  {
+        AdminClient client = null;
+        try {
+            client = createAdminClientByProperties(broker);
+            ListConsumerGroupsResult listConsumerGroupsResult = client.listConsumerGroups();
+            Collection<ConsumerGroupListing> consumerGroupListings = listConsumerGroupsResult.all().get();
+            List<JSONObject> collect = consumerGroupListings.stream().map(t -> {
 
-            JSONObject jo = new JSONObject();
-            jo.put("name", t.groupId());
-            return jo;
-        }).collect(Collectors.toList());
-        return collect;
-
-    }
-
-    public static Collection<List<JSONObject>> getGroupInfo(String broker, String group) throws Exception {
-        AdminClient client = createAdminClientByProperties(broker);
-        ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(group);
-
-        Map<TopicPartition, OffsetAndMetadata> topicPartitionOffsetAndMetadataMap = listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata().get();
-        Collection<OffsetAndMetadata> values = topicPartitionOffsetAndMetadataMap.values();
-
-        Set<TopicPartition> topicPartitions = topicPartitionOffsetAndMetadataMap.keySet();
-
-        Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
-            OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
-            long offset = offsetAndMetadata.offset();
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("topic", t.topic());
-            jsonObject.put("partition", t.partition());
-            jsonObject.put("offset", offset);
-            return jsonObject;
-        }).collect(Collectors.groupingBy(t -> {
-            return t.getString("topic");
-        }));
-        Collection<List<JSONObject>> values1 = collect.values();
-        client.close();
-        return values1;
+                JSONObject jo = new JSONObject();
+                jo.put("name", t.groupId());
+                return jo;
+            }).collect(Collectors.toList());
+            return ResponseDto.success(collect);
+        } catch (Exception e) {
+            return ResponseDto.fail(e.getMessage());
+        } finally {
+            client.close();
+        }
 
     }
 
-    public static void deleteGroup(String broker, String group) throws Exception {
-        AdminClient client = createAdminClientByProperties(broker);
-        List<String> list = new ArrayList<>();
-        list.add(group);
-        DeleteConsumerGroupsResult deleteConsumerGroupsResult = client.deleteConsumerGroups(list);
-        Void aVoid = deleteConsumerGroupsResult.all().get();
-        client.close();
+    public static ResponseDto getGroupInfo(String broker, String group)  {
+        AdminClient client = null;
+        try {
+            client = createAdminClientByProperties(broker);
+            ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(group);
+
+            Map<TopicPartition, OffsetAndMetadata> topicPartitionOffsetAndMetadataMap = listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata().get();
+            Collection<OffsetAndMetadata> values = topicPartitionOffsetAndMetadataMap.values();
+
+            Set<TopicPartition> topicPartitions = topicPartitionOffsetAndMetadataMap.keySet();
+
+            Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
+                OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
+                long offset = offsetAndMetadata.offset();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("topic", t.topic());
+                jsonObject.put("partition", t.partition());
+                jsonObject.put("offset", offset);
+                return jsonObject;
+            }).collect(Collectors.groupingBy(t -> {
+                return t.getString("topic");
+            }));
+            Collection<List<JSONObject>> values1 = collect.values();
+            return ResponseDto.success(values1);
+        } catch (Exception e) {
+            return ResponseDto.fail(e.getMessage());
+        } finally {
+            client.close();
+        }
 
     }
 
-    public static Collection<Node> group(String broker) throws Exception {
-        AdminClient client = createAdminClientByProperties(broker);
-        ListConsumerGroupsResult result = client.listConsumerGroups();
-
-        Collection<ConsumerGroupListing> consumerGroupListings = result.all().get();
-        consumerGroupListings.stream().forEach(t -> {
-            String groupId = t.groupId();
-            ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(groupId);
-            try {
-                Map<TopicPartition, OffsetAndMetadata> topicPartitionOffsetAndMetadataMap = listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata().get();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            } catch (ExecutionException e) {
-                e.printStackTrace();
-            }
-
-        });
-
-        return null;
+    public static ResponseDto deleteGroup(String broker, String group)  {
+        AdminClient client = null;
+        try {
+            client = createAdminClientByProperties(broker);
+            List<String> list = new ArrayList<>();
+            list.add(group);
+            DeleteConsumerGroupsResult deleteConsumerGroupsResult = client.deleteConsumerGroups(list);
+            Void aVoid = deleteConsumerGroupsResult.all().get();
+            return ResponseDto.success();
+        } catch (Exception e) {
+            return ResponseDto.fail(e.getMessage());
+        } finally {
+            client.close();
+        }
 
     }
+
 }

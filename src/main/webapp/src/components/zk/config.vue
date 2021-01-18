@@ -72,7 +72,7 @@ export default {
       })
     },
     connect() {
-      this.axios.post("/zookeeper/connect",  {"name": this.name, "address": this.address}).then((response) => {
+      this.axios.post("/zookeeper/connect", {"address": this.address}).then((response) => {
         if (response.data)
           this.$message.success("连接成功")
         else

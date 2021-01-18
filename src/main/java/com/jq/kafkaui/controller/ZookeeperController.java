@@ -92,8 +92,8 @@ public class ZookeeperController {
     }
 
     @RequestMapping("/connect")
-    public boolean connect(Integer sourceId) {
-        String address = zkService.getAddressById(sourceId);
+    public boolean connect(String address) {
+//        String address = zkService.getAddressById(sourceId);
         boolean connect = zkService.connect(address);
         return connect;
     }

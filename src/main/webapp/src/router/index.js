@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
-import Config from '../components/kafka/config'
+import kafkaConfig from '../components/kafka/config'
 import produce from '../components/kafka/operate/produce'
 import consume from '../components/kafka/operate/consume'
-import manage from '../components/kafka/manage'
+import kafkaManage from '../components/kafka/manage'
 import zkConfig from '../components/zk/config'
 import zkManage from '../components/zk/manage'
 import redisConfig from '../components/redis/config'
@@ -20,10 +20,10 @@ const routes = [
     {
         path: '/', name: 'Home', component: Home,
         children: [
-            {path: '/config', name: 'Config', component: Config},
+            {path: '/kafka/config', name: 'kafkaConfig', component: kafkaConfig},
             {path: '/kafka/produce', name: 'produce', component: produce},
             {path: '/kafka/consume', name: 'consume', component: consume},
-            {path: '/manage', name: 'manage', component: manage},
+            {path: '/kafka/manage', name: 'kafkaManage', component: kafkaManage},
             {path: '/zk/config', name: 'zkConfig', component: zkConfig},
             {path: '/zk/manage', name: 'zkManage', component: zkManage},
             {path: '/redis/config', name: 'redisConfig', component: redisConfig},

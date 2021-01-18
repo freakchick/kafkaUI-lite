@@ -2,7 +2,7 @@
   <div>
     <el-row style="padding-bottom: 10px">
       <el-col :span="12">
-        kafka:<kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
+        kafka:<kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
       </el-col>
       <el-col :span="12">
         topic:
@@ -14,7 +14,7 @@
     </el-row>
 
 
-    <producer :broker="broker" :topic="topic"></producer>
+    <producer :sourceId="sourceId" :topic="topic"></producer>
 
   </div>
 </template>
@@ -28,7 +28,7 @@ export default {
   name: "operate",
   data() {
     return {
-      broker: null,
+      sourceId: null,
       sources: [],
       topic: null,
       topics: [],
@@ -37,11 +37,17 @@ export default {
   },
 
   methods: {
-    getTopics(broker) {
-      this.broker = broker
-      console.log(broker);
-      this.axios.post("/kafka/getTopics", {"brokers": this.broker}).then((response) => {
-        this.topics = response.data
+    kafkaChange(sourceId) {
+      this.sourceId = sourceId
+      // this.auth = this.$store.getters.getKafkaAuth(sourceId)
+      this.getTopics()
+    },
+    getTopics(sourceId) {
+      this.axios.post("/kafka/getTopics", {"sourceId": this.sourceId}).then((response) => {
+        if (response.data.success) {
+          this.topics = response.data.data
+        } else
+          this.$message.error(response.data.message)
       }).catch((error) => {
         this.$message.error("查询所有topic失败")
       })
