@@ -11,7 +11,6 @@ import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.Node;
 import org.apache.kafka.common.TopicPartition;
-import org.apache.kafka.common.config.ConfigResource;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -116,7 +115,6 @@ public class KafkaUtil {
 //        // 关闭资源
 //        adminClient.close();
 //    }
-
     public static void createTopic(String brokers, String topic, Integer partition, Integer replica) throws Exception {
         AdminClient adminClient = null;
         try {
@@ -220,7 +218,7 @@ public class KafkaUtil {
         return res;
     }
 
-    public static ResponseDto clusterInfo(String broker)  {
+    public static ResponseDto clusterInfo(String broker) {
         AdminClient client = null;
         try {
             client = createAdminClientByProperties(broker);
@@ -249,14 +247,13 @@ public class KafkaUtil {
 
     }
 
-    public static ResponseDto getAllGroups(String broker)  {
+    public static ResponseDto getAllGroups(String broker) {
         AdminClient client = null;
         try {
             client = createAdminClientByProperties(broker);
             ListConsumerGroupsResult listConsumerGroupsResult = client.listConsumerGroups();
             Collection<ConsumerGroupListing> consumerGroupListings = listConsumerGroupsResult.all().get();
             List<JSONObject> collect = consumerGroupListings.stream().map(t -> {
-
                 JSONObject jo = new JSONObject();
                 jo.put("name", t.groupId());
                 return jo;
@@ -270,7 +267,40 @@ public class KafkaUtil {
 
     }
 
-    public static ResponseDto getGroupInfo(String broker, String group)  {
+    public static ResponseDto getGroupByTopic(String broker, String topic) {
+        AdminClient client = null;
+        try {
+            client = createAdminClientByProperties(broker);
+
+            AdminClient finalClient = client;
+
+            List<JSONObject> collect = client.listConsumerGroups().all().get().parallelStream().map(t -> t.groupId()).filter(group -> {
+                long count = 0;
+                try {
+                    count = finalClient.listConsumerGroupOffsets(group).partitionsToOffsetAndMetadata().get().keySet().stream().filter(p -> {
+                        return p.topic().equals(topic);
+                    }).count();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                } catch (ExecutionException e) {
+                    e.printStackTrace();
+                }
+                return count > 0;
+            }).map(t -> {
+                JSONObject object = new JSONObject();
+                object.put("value", t);
+                return object;
+            }).collect(Collectors.toList());
+            return ResponseDto.success(collect);
+        } catch (Exception e) {
+            return ResponseDto.fail(e.getMessage());
+        } finally {
+            client.close();
+        }
+
+    }
+
+    public static ResponseDto getGroupInfo(String broker, String group) {
         AdminClient client = null;
         try {
             client = createAdminClientByProperties(broker);
@@ -302,7 +332,7 @@ public class KafkaUtil {
 
     }
 
-    public static ResponseDto deleteGroup(String broker, String group)  {
+    public static ResponseDto deleteGroup(String broker, String group) {
         AdminClient client = null;
         try {
             client = createAdminClientByProperties(broker);

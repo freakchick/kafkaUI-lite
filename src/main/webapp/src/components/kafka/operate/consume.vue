@@ -13,7 +13,7 @@
       </el-col>
     </el-row>
 
-    <consumer :broker="broker" :topic="topic"></consumer>
+    <consumer :broker="broker" :sourceId="sourceId" :topic="topic"></consumer>
 
   </div>
 </template>

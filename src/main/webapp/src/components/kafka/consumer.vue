@@ -1,14 +1,14 @@
 <template>
   <div>
-    <el-row style="margin: 5px 0">
-      <el-col :span="3">
-        <span style="line-height: 40px">消费group:</span>
-      </el-col>
-      <el-col :span="9">
 
-        <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>
-      </el-col>
-    </el-row>
+
+    <!--        <el-input v-model="group" placeholder="请输入group" ></el-input>-->
+    <div>
+      消费group:
+      <el-autocomplete :disabled="disabled" v-model="group" :fetch-suggestions="getGroupByTopic"
+                       placeholder="请输入group"></el-autocomplete>
+    </div>
+
 
     <el-row style="margin: 5px 0">
       <el-col :span="12">
@@ -17,16 +17,6 @@
         <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>
       </el-col>
     </el-row>
-
-<!--    <el-form label-width="100px" width="200px">-->
-<!--      <el-form-item label="groupId：">-->
-<!--        <el-input v-model="group" placeholder="请输入group" :disabled="disabled"></el-input>-->
-<!--      </el-form-item>-->
-<!--      <el-form-item label="消费模式：">-->
-<!--        <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息</el-radio>-->
-<!--        <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>-->
-<!--      </el-form-item>-->
-<!--    </el-form>-->
 
     <div class="frame">
       <div class="left">
@@ -61,13 +51,13 @@ export default {
       websocket: null,
       disabled: false,
       autoScrollToBottom: true,
-      autoBreak:true
+      autoBreak: true
     }
   },
   created() {
     this.getAddress()
   },
-  props: ["topic", "broker"],
+  props: ["topic", "broker", "sourceId"],
   watch: {
     message() {
       if (this.autoScrollToBottom) {
@@ -138,10 +128,28 @@ export default {
     },
     getAddress() {
       this.axios.post("/kafka/getIp").then((response) => {
-        console.log(response.data);
+        // console.log(response.data);
         this.address = response.data
       }).catch((error) => {
       })
+    },
+    getGroupByTopic(queryString, cb) {
+      // console.log(queryString)
+      if (this.broker != null && this.topic != null && this.broker != '' && this.topic != '') {
+        this.axios.post("/kafka/getGroupByTopic", {
+          "broker": this.broker, "topic": this.topic
+        }).then((response) => {
+          if (response.data.success)
+            cb(response.data.data)
+          else{
+            cb([])
+          }
+        }).catch((error) => {
+          cb([])
+        })
+      } else {
+        cb([])
+      }
     },
     initWebSocket() {
       // 连接错误

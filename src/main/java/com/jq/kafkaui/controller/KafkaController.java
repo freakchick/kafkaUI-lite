@@ -70,7 +70,6 @@ public class KafkaController {
         return broker;
     }
 
-
     @RequestMapping("/createTopic")
     public String createTopic(Integer sourceId, String name,
                               @RequestParam(defaultValue = "1") Integer partition,
@@ -142,5 +141,10 @@ public class KafkaController {
     @RequestMapping("/auth")
     public void auth(String param) throws Exception {
         kafkaService.auth(param);
+    }
+
+    @RequestMapping("/getGroupByTopic")
+    public ResponseDto getGroupByTopic(String broker, String topic) {
+        return KafkaUtil.getGroupByTopic(broker, topic);
     }
 }

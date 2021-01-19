@@ -5,7 +5,7 @@ import {
     // Pagination,
     Link,
     Dialog,
-    // Autocomplete,
+    Autocomplete,
     // Dropdown,
     // DropdownMenu,
     // DropdownItem,
@@ -86,11 +86,10 @@ import {
 // Vue.use(Pagination);
 Vue.use(Link);
 Vue.use(Dialog);
-/*
 Vue.use(Autocomplete);
-Vue.use(Dropdown);
-Vue.use(DropdownMenu);
-Vue.use(DropdownItem);*/
+// Vue.use(Dropdown);
+// Vue.use(DropdownMenu);
+// Vue.use(DropdownItem);
 Vue.use(Menu);
 Vue.use(Submenu);
 Vue.use(MenuItem);
