@@ -1,7 +1,7 @@
 # kafkaUI-lite
 
 ## 介绍
-- 史上最轻便好用的kafka ui界面客户端工具，可以在生产消息消费消息、管理topic、管理group;可以支持管理多个kafka集群
+- 史上最轻便好用的kafka ui界面客户端工具，可以在生产消息、消费消息、管理topic、管理group;可以支持管理多个kafka集群
 - 部署简便，**不需要连数据库，只有一个jar包启动即可**
 - 支持zookeeper ui界面化操作;支持多环境管理
 - 支持redis ui界面化操作;支持多环境管理
