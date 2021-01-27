@@ -1,8 +1,6 @@
 package com.jq.kafkaui.util;
 
-import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import javafx.scene.control.TreeItem;
 import org.apache.curator.RetryPolicy;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
@@ -134,23 +132,23 @@ public class ZKProcessor {
     }
 
     //递归调用
-    public void get(JSONArray jsonArray, TreeItem<ZKNode> root) {
-        for (int i = 0; i < jsonArray.size(); i++) {
-            JSONObject jsonObject = jsonArray.getJSONObject(i);
-            String name = jsonObject.getString("name");
-            String path = jsonObject.getString("path");
-            String value = jsonObject.getString("value");
-            ZKNode node = new ZKNode(name, path, value);
-            TreeItem<ZKNode> item = new TreeItem<>(node);
-
-            item.setExpanded(true);
-            JSONArray children = jsonObject.getJSONArray("children");
-            if (children != null && children.size() > 0) {
-                get(children, item);
-            }
-            root.getChildren().add(item);
-        }
-    }
+//    public void get(JSONArray jsonArray, TreeItem<ZKNode> root) {
+//        for (int i = 0; i < jsonArray.size(); i++) {
+//            JSONObject jsonObject = jsonArray.getJSONObject(i);
+//            String name = jsonObject.getString("name");
+//            String path = jsonObject.getString("path");
+//            String value = jsonObject.getString("value");
+//            ZKNode node = new ZKNode(name, path, value);
+//            TreeItem<ZKNode> item = new TreeItem<>(node);
+//
+//            item.setExpanded(true);
+//            JSONArray children = jsonObject.getJSONArray("children");
+//            if (children != null && children.size() > 0) {
+//                get(children, item);
+//            }
+//            root.getChildren().add(item);
+//        }
+//    }
 
     public static void main(String[] args) throws Exception {
         ZKProcessor zkProcessor = new ZKProcessor("localhost:2181");
