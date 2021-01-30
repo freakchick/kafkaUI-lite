@@ -6,6 +6,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import qs from 'qs'
 
+import i18n from './i18n/i18n'
+
 import VueClipboard from 'vue-clipboard2'
 import store from './store'
 
@@ -39,5 +41,6 @@ axios.interceptors.request.use(config => {
 new Vue({
     router,
     store,
+    i18n,
     render: h => h(App)
 }).$mount('#app')
