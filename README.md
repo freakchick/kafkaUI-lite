@@ -19,7 +19,7 @@
 ## 安装教程
 
 1.  依赖java环境，需要先安装jdk8+
-2.  下载地址: https://gitee.com/freakchicken/kafka-ui-lite/releases
+2.  下载地址: [gitee](https://gitee.com/freakchicken/kafka-ui-lite/releases) [github](https://github.com/freakchick/DBApi/releases)
 2.  启动命令：java -jar kafkaUI.jar 一键启动
 4.  如果是多网卡机器，启动需要指定ip
 
