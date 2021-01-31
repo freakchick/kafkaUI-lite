@@ -27,70 +27,73 @@
       <el-table :data="item" stripe border max-height="500" size="small" v-for="item in detail" style="margin: 5px 0">
         <el-table-column property="topic" label="topic"></el-table-column>
         <el-table-column property="partition" label="分区号"></el-table-column>
-        <el-table-column property="offset" label="offset"></el-table-column>
+        <el-table-column property="offset" label="消费偏移量"></el-table-column>
+        <el-table-column property="lag" label="未消费消息条数">
+
+        </el-table-column>
       </el-table>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
+  import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
 
-export default {
-  name: "group",
-  data() {
-    return {
-      sourceId: null,
-      tableData: [],
-      detail: [],
-      dialogTableVisible: false,
-      auth: {}
-    }
-  },
-  methods: {
-    getGroups() {
-      this.axios.post("/kafka/group/all", {"sourceId": this.sourceId}).then((response) => {
-        if (response.data.success)
-          this.tableData = response.data.data
-        else
-          this.$message.error(response.data.message)
-      }).catch((error) => {
-        this.$message.error("查询所有group失败")
-      })
+  export default {
+    name: "group",
+    data() {
+      return {
+        sourceId: null,
+        tableData: [],
+        detail: [],
+        dialogTableVisible: false,
+        auth: {}
+      }
     },
-    kafkaChange(sourceId) {
-      this.sourceId = sourceId
-      this.auth = this.$store.getters.getKafkaAuth(sourceId)
-      this.getGroups()
-    },
-    getGroupDetail(group) {
-      this.axios.post("/kafka/group/detail", {"sourceId": this.sourceId, "group": group}).then((response) => {
-        if (response.data.success){
-          this.detail = response.data.data
-          this.dialogTableVisible = true
-        }
-
-      }).catch((error) => {
-        this.$message.error("查询group详情失败")
-      })
-    },
-    deleteConfirm(group) {
-      this.axios.post("/kafka/group/delete", {"sourceId": this.sourceId, "group": group}).then((response) => {
-        this.$message.success("删除group成功")
+    methods: {
+      getGroups() {
+        this.axios.post("/kafka/group/all", {"sourceId": this.sourceId}).then((response) => {
+          if (response.data.success)
+            this.tableData = response.data.data
+          else
+            this.$message.error(response.data.message)
+        }).catch((error) => {
+          this.$message.error("查询所有group失败")
+        })
+      },
+      kafkaChange(sourceId) {
+        this.sourceId = sourceId
+        this.auth = this.$store.getters.getKafkaAuth(sourceId)
         this.getGroups()
-      }).catch((error) => {
-        this.$message.error("删除group失败")
-      })
+      },
+      getGroupDetail(group) {
+        this.axios.post("/kafka/group/detail", {"sourceId": this.sourceId, "group": group}).then((response) => {
+          if (response.data.success) {
+            this.detail = response.data.data
+            this.dialogTableVisible = true
+          }
+
+        }).catch((error) => {
+          this.$message.error("查询group详情失败")
+        })
+      },
+      deleteConfirm(group) {
+        this.axios.post("/kafka/group/delete", {"sourceId": this.sourceId, "group": group}).then((response) => {
+          this.$message.success("删除group成功")
+          this.getGroups()
+        }).catch((error) => {
+          this.$message.error("删除group失败")
+        })
+      }
+    },
+    components: {
+      kafkaSelect
     }
-  },
-  components: {
-    kafkaSelect
   }
-}
 </script>
 
 <style scoped>
-i {
-  font-size: 14px;
-}
+  i {
+    font-size: 14px;
+  }
 </style>

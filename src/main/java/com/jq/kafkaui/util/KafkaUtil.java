@@ -1,5 +1,6 @@
 package com.jq.kafkaui.util;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.dto.ResponseDto;
@@ -10,8 +11,10 @@ import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.Node;
+import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 
+import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -158,16 +161,47 @@ public class KafkaUtil {
         props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
         KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
-        consumer.subscribe(Arrays.asList(topic));
+
+        consumer.subscribe(Collections.singleton(topic));
+        return consumer;
+
+    }
+
+    public static KafkaConsumer<String, String> getConsumer(String brokers, Collection<String> topics, String group, String offset) {
+        Properties props = new Properties();
+        props.setProperty("bootstrap.servers", brokers);
+        props.setProperty("group.id", group);
+        props.setProperty("enable.auto.commit", "true");
+        props.setProperty("auto.commit.interval.ms", "1000");
+        props.setProperty("auto.offset.reset", offset);
+        props.setProperty("key.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        props.setProperty("value.deserializer", "org.apache.kafka.common.serialization.StringDeserializer");
+        KafkaConsumer<String, String> consumer = new KafkaConsumer<>(props);
+
+        consumer.subscribe(topics);
         return consumer;
 
     }
 
     public static void main(String[] args) throws Exception {
-//        ArrayList<String> list = new ArrayList<>();
-//        list.add("test2");
-//        describeConfigTopics(list, "spark02:6667");
-        clusterInfo("spark02:6667");
+
+        KafkaConsumer<String, String> consumer = getConsumer("47.92.117.90:9092", "aaa", "test", "earliest");
+        List<PartitionInfo> partitionInfoSet = consumer.partitionsFor("aaa");
+
+        List<TopicPartition> collect = partitionInfoSet.stream().map(partitionInfo -> new TopicPartition(partitionInfo.topic(), partitionInfo.partition()))
+                .collect(Collectors.toList());
+//        consumer.assign(collect);
+        Map<TopicPartition, Long> topicPartitionLongMap = consumer.endOffsets(collect);
+        Map<TopicPartition, Long> topicPartitionLongMap1 = consumer.beginningOffsets(collect);
+
+//        consumer.poll(Duration.ofMillis(0));
+//        consumer.assign(collect);
+//        List<Long> positions = collect.stream().map(t -> {
+//            long position = consumer.position(t);
+//            return position;
+//        }).collect(Collectors.toList());
+
+        System.out.println();
     }
 
     public static void deleteTopic(String broker, String name) {
@@ -178,8 +212,19 @@ public class KafkaUtil {
         adminClient.close();
     }
 
+    public static JSONObject node2Json(Node node) {
+        JSONObject leaderNode = new JSONObject();
+        leaderNode.put("id", node.id());
+        leaderNode.put("host", node.host());
+        leaderNode.put("port", node.port());
+        leaderNode.put("rack", node.rack());
+//        leaderNode.put("port",node.port());
+        return leaderNode;
+    }
+
     public static JSONObject getTopicDetail(String broker, String topic) throws Exception {
         AdminClient adminClient = createAdminClientByProperties(broker);
+
         List<String> list = new ArrayList<>();
         list.add(topic);
         DescribeTopicsResult result = adminClient.describeTopics(list);
@@ -189,24 +234,31 @@ public class KafkaUtil {
         JSONObject res = new JSONObject();
         res.put("isInternal", topicDescription.isInternal());
         res.put("name", topicDescription.name());
+
+        KafkaConsumer<String, String> consumer = getConsumer(broker, topic, "KafkaUI-lite", "earliest");
+        List<TopicPartition> topicPartitions = topicDescription.partitions().stream().map(t -> {
+            TopicPartition topicPartition = new TopicPartition(topic, t.partition());
+            return topicPartition;
+        }).collect(Collectors.toList());
+        Map<TopicPartition, Long> endOffsets = consumer.endOffsets(topicPartitions);
+
         List<JSONObject> collect = topicDescription.partitions().stream().map(t -> {
             JSONObject p = new JSONObject();
             Node leader = t.leader();
             log.info(leader.toString());
 
-            List<String> replicas = t.replicas().stream().map(r -> {
-                return r.toString();
-            }).collect(Collectors.toList());
+            List<JSONObject> replicas = t.replicas().stream().map(r -> node2Json(r)).collect(Collectors.toList());
 
-            List<String> isr = t.isr().stream().map(r -> {
-                return r.toString();
-            }).collect(Collectors.toList());
-            ;
+            List<JSONObject> isr = t.isr().stream().map(r -> node2Json(r)).collect(Collectors.toList());
+            Long endOffset = endOffsets.get(new TopicPartition(topic, t.partition()));
 
             p.put("partition", t.partition());
-            p.put("leader", t.leader().toString());
+
+//            leaderNode.put("id",leader.id());
+            p.put("leader", node2Json(leader));
             p.put("replicas", replicas);
             p.put("isr", isr);
+            p.put("endOffset", endOffset);
 
             return p;
 
@@ -303,13 +355,18 @@ public class KafkaUtil {
     public static ResponseDto getGroupInfo(String broker, String group) {
         AdminClient client = null;
         try {
+
             client = createAdminClientByProperties(broker);
             ListConsumerGroupOffsetsResult listConsumerGroupOffsetsResult = client.listConsumerGroupOffsets(group);
 
             Map<TopicPartition, OffsetAndMetadata> topicPartitionOffsetAndMetadataMap = listConsumerGroupOffsetsResult.partitionsToOffsetAndMetadata().get();
-            Collection<OffsetAndMetadata> values = topicPartitionOffsetAndMetadataMap.values();
+//            Collection<OffsetAndMetadata> values = topicPartitionOffsetAndMetadataMap.values();
 
             Set<TopicPartition> topicPartitions = topicPartitionOffsetAndMetadataMap.keySet();
+
+            Set<String> topics = topicPartitions.stream().map(t -> t.topic()).collect(Collectors.toSet());
+            KafkaConsumer<String, String> consumer = getConsumer(broker, topics, group, "earliest");
+            Map<TopicPartition, Long> endOffsets = consumer.endOffsets(topicPartitions);
 
             Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
                 OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
@@ -318,6 +375,10 @@ public class KafkaUtil {
                 jsonObject.put("topic", t.topic());
                 jsonObject.put("partition", t.partition());
                 jsonObject.put("offset", offset);
+                TopicPartition topicPartition = new TopicPartition(t.topic(), t.partition());
+                Long endOffset = endOffsets.get(topicPartition);
+                jsonObject.put("endOffset", endOffset);
+                jsonObject.put("lag", endOffset - offset);
                 return jsonObject;
             }).collect(Collectors.groupingBy(t -> {
                 return t.getString("topic");

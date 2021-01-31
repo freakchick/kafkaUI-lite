@@ -59,21 +59,29 @@
     <el-dialog title="topic 详情" :visible.sync="dialogTableVisible">
       <el-table :data="partitions" stripe border max-height="500" size="small">
         <el-table-column property="partition" label="分区号" width="80"></el-table-column>
-        <el-table-column property="leader" label="leader分区"></el-table-column>
+        <el-table-column property="leader" label="leader分区">
+          <template slot-scope="scope">
+            <data-tag :right="scope.row.leader.id" left="broker" :title="scope.row.leader.host+':'+scope.row.leader.port"></data-tag>
+
+          </template>
+
+        </el-table-column>
         <el-table-column label="所有副本">
 
           <template slot-scope="scope">
-            <list :data-list="scope.row.replicas"></list>
-
+            <!--            <list :data-list="scope.row.replicas"></list>-->
+            <!--            <span v-for="item in scope.row.replicas">{{item.id}}</span>-->
+            <data-tag :right="item.id" left="broker" :title="item.host+':'+item.port" v-for="item in scope.row.replicas"></data-tag>
           </template>
         </el-table-column>
         <el-table-column label="isr副本">
 
 
           <template slot-scope="scope">
-            <list :data-list="scope.row.isr"></list>
+            <data-tag :right="item.id" left="broker" :title="item.host+':'+item.port" v-for="item in scope.row.replicas"></data-tag>
           </template>
         </el-table-column>
+        <el-table-column property="endOffset" label="消息数量" width="80"></el-table-column>
       </el-table>
     </el-dialog>
 
@@ -81,98 +89,98 @@
 </template>
 
 <script>
-import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
-import list from '@/components/common/list.vue'
+  import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
+  import dataTag from '@/components/common/dataTag.vue'
 
-export default {
-  name: "topic",
-  data() {
-    return {
-      sourceId: null,
-      // broker: null,
-      sources: [],
-      tableData: [],
-      topic: {
-        name: null,
-        partition: null,
-        replica: null
+  export default {
+    name: "topic",
+    data() {
+      return {
+        sourceId: null,
+        // broker: null,
+        sources: [],
+        tableData: [],
+        topic: {
+          name: null,
+          partition: null,
+          replica: null
+        },
+        dialogFormVisible: false,
+
+        dialogTableVisible: false,
+        partitions: [],
+        topicDetal: {},
+        activeName: "topic",
+        auth: {add: true}
+
+      }
+    },
+    created() {
+
+    },
+    methods: {
+      getTopics() {
+        this.axios.post("/kafka/getTopics", {"sourceId": this.sourceId}).then((response) => {
+          if (response.data.success) {
+            this.tableData = response.data.data
+          } else
+            this.$message.error(response.data.message)
+        }).catch((error) => {
+          this.$message.error("查询所有topic失败")
+        })
       },
-      dialogFormVisible: false,
-
-      dialogTableVisible: false,
-      partitions: [],
-      topicDetal: {},
-      activeName: "topic",
-      auth: {add: true}
-
-    }
-  },
-  created() {
-
-  },
-  methods: {
-    getTopics() {
-      this.axios.post("/kafka/getTopics", {"sourceId": this.sourceId}).then((response) => {
-        if (response.data.success) {
-          this.tableData = response.data.data
-        } else
-          this.$message.error(response.data.message)
-      }).catch((error) => {
-        this.$message.error("查询所有topic失败")
-      })
-    },
-    kafkaChange(sourceId) {
-      this.sourceId = sourceId
-      this.auth = this.$store.getters.getKafkaAuth(sourceId)
-      this.getTopics()
-    },
-    addTopic() {
-      this.topic['sourceId'] = this.sourceId
-      this.axios.post("/kafka/createTopic", this.topic).then((response) => {
-        this.$message.success("创建topic成功")
+      kafkaChange(sourceId) {
+        this.sourceId = sourceId
+        this.auth = this.$store.getters.getKafkaAuth(sourceId)
         this.getTopics()
-      }).catch((error) => {
-        this.$message.error("创建topic失败")
-      })
-    },
-    deleteConfirm(topic) {
-      this.axios.post("/kafka/deleteTopic",
+      },
+      addTopic() {
+        this.topic['sourceId'] = this.sourceId
+        this.axios.post("/kafka/createTopic", this.topic).then((response) => {
+          this.$message.success("创建topic成功")
+          this.getTopics()
+        }).catch((error) => {
+          this.$message.error("创建topic失败")
+        })
+      },
+      deleteConfirm(topic) {
+        this.axios.post("/kafka/deleteTopic",
           {"sourceId": this.sourceId, "topic": topic}).then((response) => {
-        this.$message.success("删除topic成功")
-        this.getTopics()
-      }).catch((error) => {
-        this.$message.error("删除topic失败")
-      })
-    },
-    getTopicDetail(topic) {
-      this.axios.post("/kafka/getTopicDetail",
+          this.$message.success("删除topic成功")
+          this.getTopics()
+        }).catch((error) => {
+          this.$message.error("删除topic失败")
+        })
+      },
+      getTopicDetail(topic) {
+        this.axios.post("/kafka/getTopicDetail",
           {"sourceId": this.sourceId, "topic": topic}).then((response) => {
-        // this.$message.success(response.data)
-        this.partitions = response.data.partitions
-        this.topicDetal = response.data
-        this.dialogTableVisible = true
-      }).catch((error) => {
-        this.$message.error("查询topic分区详情失败")
-      })
-    }
+          // this.$message.success(response.data)
+          this.partitions = response.data.partitions
+          this.topicDetal = response.data
+          this.dialogTableVisible = true
+        }).catch((error) => {
+          this.$message.error("查询topic分区详情失败")
+        })
+      }
 
-  },
-  components: {
-    kafkaSelect, list
+    },
+    components: {
+      kafkaSelect, dataTag
+    }
   }
-}
 </script>
 
 <style scoped>
-i {
-  font-size: 13px;
-}
+  i {
+    font-size: 13px;
+  }
 
-li {
-  border-bottom: 1px solid #000000;
-}
+  li {
+    border-bottom: 1px solid #000000;
+  }
 
-div {
-  margin: 5px 0;
-}
+  div {
+    margin: 5px 0;
+  }
 </style>
