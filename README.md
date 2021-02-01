@@ -33,34 +33,34 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ### kafka操作
 
 #### 查看所有kafka集群
-![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215027.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/kafka_addSource.jpg)
 
 #### 添加kafka环境
 ![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215038.jpg)
 
 #### 消费消息
-![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107214919.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/consume.jpg)
 
 #### 生产消息
-![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107214957.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/produce.jpg)
 
 #### 管理topic
-![](https://freakchicken.gitee.io/images/kafkaui/kafka_topic_manage_20210110184715.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/topic_list.jpg)
+
+#### 查看所有topic详情
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/topic_detail.jpg)
 
 #### 管理集群
-![](https://freakchicken.gitee.io/images/kafkaui/kafka_cluster_20210112144820.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/cluster_manage.jpg)
 
 #### 管理group
-![](https://freakchicken.gitee.io/images/kafkaui/group_manage_20210110184621.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/group_list.jpg)
 
 #### 查看group消费偏移量详情
-![](https://freakchicken.gitee.io/images/kafkaui/group_detail_20210110184557.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/group_detail.jpg)
 
 #### 创建topic
 ![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215016.jpg)
-
-#### 查看topic分区详情
-![](https://freakchicken.gitee.io/images/kafkaui/topic_detail_20210112144638.jpg)
 
 
 ### zookeeper操作
