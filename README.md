@@ -144,8 +144,14 @@ http://localhost:8889
 
 
 ### 捐赠：
-如果您喜欢此项目，请作者喝杯咖啡
+如果您喜欢此项目，请作者喝杯咖啡，好吗？
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg" width = "30%" />
 <img src="https://freakchicken.gitee.io/images/kafkaui/alipay.jpg" width = "26.5%" />
 </div>
+
+## 友情推荐
+### DBAPI
+- 零代码开发后端接口，只需要编写sql就能生成http Api，可以动态添加api
+[gitee](https://gitee.com/freakchicken/db-api)
+[github](https://github.com/freakchick/DBApi)
