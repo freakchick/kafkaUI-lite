@@ -26,7 +26,7 @@
 ```
 java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ```
-5.  浏览器访问 http://localhost:8889
+5.  浏览器访问 http://ip:8889
 
 
 ## 使用说明
