@@ -97,6 +97,9 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 
 ![](https://freakchicken.gitee.io/images/kafkaui/redis_delete_key_20210112143842.jpg)
 
+### 权限控制
+![](https://freakchicken.gitee.io/images/kafkaui/20210201/auth.jpg)
+
 ## 开发指南
 ### 环境依赖
 
