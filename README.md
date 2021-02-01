@@ -144,7 +144,7 @@ http://localhost:8889
 
 
 ### 捐赠：
-如果您喜欢此项目，请作者喝杯咖啡，好吗？
+开源不易，如果您喜欢此项目，请作者喝杯咖啡
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg" width = "30%" />
 <img src="https://freakchicken.gitee.io/images/kafkaui/alipay.jpg" width = "26.5%" />
