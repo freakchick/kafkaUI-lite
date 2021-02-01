@@ -144,7 +144,8 @@ http://localhost:8889
 
 
 ### 捐赠：
-如果您喜欢此项目，请给作者捐助5块钱去买生姜洗发水，来保留为数不多的头发
+如果您喜欢此项目，请作者喝杯咖啡
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg" width = "30%" />
+<img src="https://freakchicken.gitee.io/images/kafkaui/alipay.jpg" width = "26.5%" />
 </div>
