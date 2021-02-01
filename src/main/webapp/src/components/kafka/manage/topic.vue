@@ -81,7 +81,13 @@
             <data-tag :right="item.id" left="broker" :title="item.host+':'+item.port" v-for="item in scope.row.replicas"></data-tag>
           </template>
         </el-table-column>
-        <el-table-column property="endOffset" label="消息数量" width="80"></el-table-column>
+        <el-table-column property="beginningOffset" label="最小偏移量" ></el-table-column>
+        <el-table-column property="endOffset" label="最大偏移量" ></el-table-column>
+        <el-table-column label="消息数量" width="80">
+          <template slot-scope="scope">
+            <span>{{scope.row.endOffset - scope.row.beginningOffset}}</span>
+          </template>
+        </el-table-column>
       </el-table>
     </el-dialog>
 

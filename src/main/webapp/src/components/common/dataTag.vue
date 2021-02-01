@@ -17,8 +17,10 @@
 
 <style scoped>
   .mytag {
-    margin-right: 4px;
+    margin: 0px 4px 1px 0;
+    /*margin-right: 4px;*/
     display: inline-block;
+    white-space:nowrap;
 
   }
 
@@ -28,6 +30,7 @@
     font-size: 12px;
     line-height: 12px;
     color: cornsilk;
+    /*overflow: hidden;*/
   }
 
   .left {

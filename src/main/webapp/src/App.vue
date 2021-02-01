@@ -52,4 +52,7 @@ img {
   margin: 0 auto;
 
 }
+h2{
+  margin-bottom: 20px;
+}
 </style>

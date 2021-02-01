@@ -241,6 +241,7 @@ public class KafkaUtil {
             return topicPartition;
         }).collect(Collectors.toList());
         Map<TopicPartition, Long> endOffsets = consumer.endOffsets(topicPartitions);
+        Map<TopicPartition, Long> beginningOffsets = consumer.beginningOffsets(topicPartitions);
 
         List<JSONObject> collect = topicDescription.partitions().stream().map(t -> {
             JSONObject p = new JSONObject();
@@ -251,6 +252,7 @@ public class KafkaUtil {
 
             List<JSONObject> isr = t.isr().stream().map(r -> node2Json(r)).collect(Collectors.toList());
             Long endOffset = endOffsets.get(new TopicPartition(topic, t.partition()));
+            Long beginningOffset = beginningOffsets.get(new TopicPartition(topic, t.partition()));
 
             p.put("partition", t.partition());
 
@@ -259,6 +261,7 @@ public class KafkaUtil {
             p.put("replicas", replicas);
             p.put("isr", isr);
             p.put("endOffset", endOffset);
+            p.put("beginningOffset", beginningOffset);
 
             return p;
 
