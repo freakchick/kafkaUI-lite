@@ -144,10 +144,10 @@ http://localhost:8889
 
 
 ### 捐赠：
-开源不易，如果您喜欢此项目，请作者喝杯咖啡
+最近更新了几个版本，头顶的Peter和Jerry因为劳累过度，已经驾鹤仙去，如果您喜欢这个项目，请捐助作者给这两根厚葬
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg" width = "30%" />
-<img src="https://freakchicken.gitee.io/images/kafkaui/alipay.jpg" width = "26.5%" />
+<img src="https://freakchicken.gitee.io/images/kafkaui/alipay.jpg" width = "33%" />
 </div>
 
 ## 友情推荐
