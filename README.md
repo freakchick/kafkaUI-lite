@@ -18,15 +18,15 @@
 
 ## 安装教程
 
-1.  依赖java环境，需要先安装jdk8+
-2.  下载地址: [gitee](https://gitee.com/freakchicken/kafka-ui-lite/releases) [github](https://github.com/freakchick/DBApi/releases)
-2.  启动命令：java -jar kafkaUI.jar 一键启动
-4.  如果是多网卡机器，启动需要指定ip
+-  依赖java环境，需要先安装jdk8+
+-  下载地址: [gitee](https://gitee.com/freakchicken/kafka-ui-lite/releases) [github](https://github.com/freakchick/DBApi/releases)
 
+-  启动命令：java -jar kafkaUI.jar 一键启动
+-  如果是多网卡机器，启动需要指定ip
+```shell script
+java -Dhost=xx.xx.xx.xx -jar kafkaUI.jar
 ```
-java -Dhost=192.168.33.201 -jar kafkaUI.jar
-```
-5.  浏览器访问 http://ip:8889
+-  浏览器访问 http://ip:8889
 
 
 ## 使用说明
@@ -39,7 +39,7 @@ java -Dhost=192.168.33.201 -jar kafkaUI.jar
 ![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215038.jpg)
 
 #### 消费消息
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/consume.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210329/consume.jpg)
 
 #### 生产消息
 ![](https://freakchicken.gitee.io/images/kafkaui/20210201/produce.jpg)
@@ -144,7 +144,7 @@ http://localhost:8889
 
 
 ### 捐赠：
-最近更新了几个版本，头顶的Peter和Jerry因为劳累过度，已经驾鹤仙去，如果您喜欢这个项目，请捐助作者给这两根厚葬
+如果您喜欢这个项目，请作者喝杯咖啡
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/images/kafkaui/wechatpay.jpg" width = "30%" />
 <img src="https://freakchicken.gitee.io/images/kafkaui/alipay.jpg" width = "33%" />

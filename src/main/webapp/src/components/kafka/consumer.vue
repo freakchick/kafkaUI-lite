@@ -13,11 +13,18 @@
     <el-row style="margin: 5px 0">
       <el-col :span="12">
         消费模式：
-        <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息</el-radio>
-        <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息</el-radio>
+        <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息(earliest)</el-radio>
+        <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息(latest)</el-radio>
       </el-col>
     </el-row>
 
+    <div style="margin: 10px 0;display: flex">
+
+      <el-checkbox label="根据关键字过滤消息" v-model="filter" style="line-height: 40px"></el-checkbox>
+      <el-input v-model="keyword" placeholder="请输入关键字" style="width: 300px;margin-left: 10px"></el-input>
+
+
+    </div>
     <div class="frame">
       <div class="left">
         <i class="iconfont icon-start" v-if="!on" @click="start" style="color:#12b812"></i>
@@ -51,7 +58,9 @@ export default {
       websocket: null,
       disabled: false,
       autoScrollToBottom: true,
-      autoBreak: true
+      autoBreak: true,
+      filter: false,
+      keyword:null
     }
   },
   created() {
@@ -162,8 +171,10 @@ export default {
       }
       // 收到消息的回调
       this.websocket.onmessage = (event) => {
-        // 根据服务器推送的消息做自己的业务处理
-        // console.log('服务端返回：' + event.data)
+        if (this.filter && event.data.indexOf(this.keyword) == -1){
+          return
+        }
+
         this.message.push(event.data)
         if (this.autoScrollToBottom)
           this.scroll()
