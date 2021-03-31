@@ -158,8 +158,15 @@ public class KafkaController {
         kafkaService.auth(param);
     }
 
+    @Deprecated
     @RequestMapping("/getGroupByTopic")
     public ResponseDto getGroupByTopic(String broker, String topic) {
+        return KafkaUtil.getGroupByTopic(broker, topic);
+    }
+
+    @RequestMapping("/getGroupsByTopic")
+    public ResponseDto getGroupByTopic(Integer sourceId, String topic) {
+        String broker = kafkaService.getBroker(sourceId);
         return KafkaUtil.getGroupByTopic(broker, topic);
     }
 }
