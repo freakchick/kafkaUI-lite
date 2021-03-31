@@ -1,9 +1,16 @@
 <template>
   <div>
-    <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
+    <div style="display: flex">
+      <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
+      <el-input placeholder="搜索topic" v-model="keyword" class="input-with-select" style="width: 250px;margin-left: 5px" clearable>
+        <el-button slot="append" icon="el-icon-search" @click="searchTopic"></el-button>
+      </el-input>
+    </div>
+
     <div>
-      <el-button type="primary" @click="dialogFormVisible = true" size="small" :disabled="!auth.add">创建topic
+      <el-button type="primary" @click="dialogFormVisible = true" size="small" :disabled="!auth.add" style="margin-bottom: 5px">创建topic
       </el-button>
+
     </div>
     <div>
       <el-table :data="tableData" stripe border max-height="650" size="small">
@@ -117,8 +124,8 @@
         partitions: [],
         topicDetal: {},
         activeName: "topic",
-        auth: {add: true}
-
+        auth: {add: true},
+        keyword:null
       }
     },
     created() {
@@ -168,6 +175,18 @@
         }).catch((error) => {
           this.$message.error("查询topic分区详情失败")
         })
+      },
+      searchTopic(){
+        this.axios.post("/kafka/searchTopic",
+            {"sourceId": this.sourceId, "topic": this.keyword}).then((response) => {
+          if (response.data.success) {
+            this.tableData = response.data.data
+          } else
+            this.$message.error(response.data.message)
+
+        }).catch((error) => {
+          this.$message.error("搜索topic失败")
+        })
       }
 
     },
@@ -187,6 +206,6 @@
   }
 
   div {
-    margin: 5px 0;
+    margin-bottom: 5px 0;
   }
 </style>

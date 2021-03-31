@@ -1,5 +1,5 @@
 <template>
-  <el-select v-model="sourceId" placeholder="选择kafka" @change="selectkafka" style="margin-bottom: 5px">
+  <el-select v-model="sourceId" placeholder="选择kafka环境" @change="selectkafka" style="margin-bottom: 5px">
     <el-option v-for="item in sources" :key="item.name" :label="item.name" :value="item.id"></el-option>
   </el-select>
 </template>

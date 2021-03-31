@@ -34,7 +34,7 @@ public class KafkaController {
     @RequestMapping("/getTopics")
     public ResponseDto getTopics(Integer sourceId) {
         String brokers = kafkaService.getBroker(sourceId);
-        return KafkaUtil.listTopicsWithOptions(brokers);
+        return KafkaUtil.listTopicsWithOptions(brokers, null);
     }
 
     @RequestMapping("/getIp")
@@ -85,6 +85,14 @@ public class KafkaController {
         String broker = kafkaService.getBroker(sourceId);
         KafkaUtil.deleteTopic(broker, topic);
         return true;
+
+    }
+
+    @RequestMapping("/searchTopic")
+    public ResponseDto searchTopic(Integer sourceId, String topic) {
+        String broker = kafkaService.getBroker(sourceId);
+        ResponseDto responseDto = KafkaUtil.listTopicsWithOptions(broker, topic);
+        return responseDto;
 
     }
 

@@ -4,7 +4,7 @@
     <el-button type="primary" plain @click="save" style="margin-bottom: 5px">保存</el-button>
 
     <el-table :data="sources" stripe border>
-      <el-table-column prop="name" label="name"></el-table-column>
+      <el-table-column prop="name" label="环境"></el-table-column>
       <el-table-column label="权限">
 
         <template slot-scope="scope">
