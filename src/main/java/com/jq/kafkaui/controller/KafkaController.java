@@ -129,7 +129,14 @@ public class KafkaController {
     @RequestMapping("/group/all")
     public ResponseDto getAllGroups(Integer sourceId) {
         String broker = kafkaService.getBroker(sourceId);
-        ResponseDto allGroups = KafkaUtil.getAllGroups(broker);
+        ResponseDto allGroups = KafkaUtil.getAllGroups(broker, null);
+        return allGroups;
+    }
+
+    @RequestMapping("/group/search")
+    public ResponseDto getAllGroups(Integer sourceId, String keyword) {
+        String broker = kafkaService.getBroker(sourceId);
+        ResponseDto allGroups = KafkaUtil.getAllGroups(broker, keyword);
         return allGroups;
     }
 

@@ -1,6 +1,5 @@
 package com.jq.kafkaui.util;
 
-import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.Topic;
 import com.jq.kafkaui.dto.ResponseDto;
@@ -14,7 +13,6 @@ import org.apache.kafka.common.Node;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 
-import java.time.Duration;
 import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.stream.Collectors;
@@ -39,7 +37,7 @@ public class KafkaUtil {
         return AdminClient.create(prop);
     }
 
-    public static ResponseDto listTopicsWithOptions(String brokers,String keyword) {
+    public static ResponseDto listTopicsWithOptions(String brokers, String keyword) {
         AdminClient adminClient = null;
         try {
             // 创建AdminClient客户端对象
@@ -60,8 +58,8 @@ public class KafkaUtil {
                 return topic;
             }).sorted(Comparator.comparing(t -> t.getName())).collect(Collectors.toList());
 
-            if (keyword != null){
-                collect = collect.stream().filter(t->t.getName().contains(keyword)).collect(Collectors.toList());
+            if (keyword != null) {
+                collect = collect.stream().filter(t -> t.getName().contains(keyword)).collect(Collectors.toList());
             }
 
             ResponseDto success = ResponseDto.success(collect);
@@ -75,7 +73,6 @@ public class KafkaUtil {
         }
 
     }
-
 
     public static void createTopic(String brokers, String topic, Integer partition, Integer replica) throws Exception {
         AdminClient adminClient = null;
@@ -261,7 +258,7 @@ public class KafkaUtil {
 
     }
 
-    public static ResponseDto getAllGroups(String broker) {
+    public static ResponseDto getAllGroups(String broker,String keyword) {
         AdminClient client = null;
         try {
             client = createAdminClientByProperties(broker);
@@ -272,6 +269,10 @@ public class KafkaUtil {
                 jo.put("name", t.groupId());
                 return jo;
             }).collect(Collectors.toList());
+            if (keyword != null){
+                collect = collect.stream().filter(t->t.getString("name").contains(keyword)).collect(Collectors.toList());
+            }
+
             return ResponseDto.success(collect);
         } catch (Exception e) {
             return ResponseDto.fail(e.getMessage());
