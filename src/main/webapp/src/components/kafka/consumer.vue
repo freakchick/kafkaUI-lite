@@ -15,7 +15,7 @@
 
     <div style="margin: 10px 0;display: flex">
 
-      <el-checkbox label="根据关键字过滤消息" v-model="filter" style="line-height: 40px"></el-checkbox>
+      <el-checkbox label="根据关键字过滤显示消息" v-model="filter" style="line-height: 40px"></el-checkbox>
       <el-input v-model="keyword" placeholder="请输入关键字" style="width: 300px;margin-left: 10px"></el-input>
     </div>
 
