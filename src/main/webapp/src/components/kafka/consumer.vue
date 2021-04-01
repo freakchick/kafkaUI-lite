@@ -17,9 +17,9 @@
 
       <el-checkbox label="根据关键字过滤消息" v-model="filter" style="line-height: 40px"></el-checkbox>
       <el-input v-model="keyword" placeholder="请输入关键字" style="width: 300px;margin-left: 10px"></el-input>
-
-
     </div>
+
+
     <div class="frame">
       <div class="left">
         <i class="iconfont icon-start" v-if="!on" @click="start" style="color:#12b812"></i>
@@ -37,10 +37,16 @@
         <p><i class="el-icon-loading" v-if="on"></i></p>
       </div>
     </div>
+    <div >
+      <data-tag :right="consumeCount" left="已消费消息条数" ></data-tag>
+    </div>
   </div>
 </template>
 
 <script>
+import dataTag from '@/components/common/dataTag.vue'
+import kafkaSelect from "@/components/kafka/kafkaSelect";
+
 export default {
   name: "consumer.vue",
   data() {
@@ -55,7 +61,8 @@ export default {
       autoScrollToBottom: true,
       autoBreak: true,
       filter: false,
-      keyword: null
+      keyword: null,
+      consumeCount:0
     }
   },
   created() {
@@ -107,6 +114,7 @@ export default {
       this.disabled = true
       this.on = true
 
+      this.consumeCount = 0
       if ('WebSocket' in window) {
 
         let url = `ws://${this.address}/push/websocket?topic=${this.topic}&broker=${this.broker}&group=${this.group}&offset=${this.mode}`
@@ -166,6 +174,7 @@ export default {
       }
       // 收到消息的回调
       this.websocket.onmessage = (event) => {
+        this.consumeCount = this.consumeCount + 1
         if (this.filter && event.data.indexOf(this.keyword) == -1) {
           return
         }
@@ -183,7 +192,8 @@ export default {
         this.websocket.close()
       }
     }
-  }
+  },
+  components: {dataTag}
 }
 </script>
 
