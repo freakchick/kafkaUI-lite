@@ -4,19 +4,14 @@
 
     <!--        <el-input v-model="group" placeholder="请输入group" ></el-input>-->
     <div>
-      消费group:
       <el-autocomplete :disabled="disabled" v-model="group" :fetch-suggestions="getGroupByTopic"
-                       placeholder="请输入group"></el-autocomplete>
+                       placeholder="请输入消费group"></el-autocomplete>
     </div>
 
-
-    <el-row style="margin: 5px 0">
-      <el-col :span="12">
-        消费模式：
-        <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息(earliest)</el-radio>
-        <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息(latest)</el-radio>
-      </el-col>
-    </el-row>
+    <div>
+      <el-radio v-model="mode" label="earliest" :disabled="disabled">历史消息(earliest)</el-radio>
+      <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息(latest)</el-radio>
+    </div>
 
     <div style="margin: 10px 0;display: flex">
 
@@ -60,7 +55,7 @@ export default {
       autoScrollToBottom: true,
       autoBreak: true,
       filter: false,
-      keyword:null
+      keyword: null
     }
   },
   created() {
@@ -150,7 +145,7 @@ export default {
         }).then((response) => {
           if (response.data.success)
             cb(response.data.data)
-          else{
+          else {
             cb([])
           }
         }).catch((error) => {
@@ -171,7 +166,7 @@ export default {
       }
       // 收到消息的回调
       this.websocket.onmessage = (event) => {
-        if (this.filter && event.data.indexOf(this.keyword) == -1){
+        if (this.filter && event.data.indexOf(this.keyword) == -1) {
           return
         }
 

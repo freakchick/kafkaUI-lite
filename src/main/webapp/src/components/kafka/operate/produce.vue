@@ -1,17 +1,15 @@
 <template>
   <div>
-    <el-row style="padding-bottom: 10px">
-      <el-col :span="12">
-        kafka:<kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
-      </el-col>
-      <el-col :span="12">
-        topic:
-        <el-select v-model="topic" filterable placeholder="选择topic" clearable>
+    <h3>kafka生产消息：</h3>
+    <div style="display: flex;margin-top: 5px">
+
+        <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
+        <el-select v-model="topic" filterable placeholder="选择topic" clearable style="margin-left: 5px;">
           <el-option v-for="item in topics" :key="item.name" :label="item.name"
                      :value="item.name"></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+
+    </div>
 
 
     <producer :sourceId="sourceId" :topic="topic"></producer>

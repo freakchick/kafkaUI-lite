@@ -1,17 +1,12 @@
 <template>
   <div>
-    <el-row style="padding-bottom: 10px">
-      <el-col :span="12">
-        kafka:
+    <h3>kafka消费消息：</h3>
+    <div style="display: flex;margin-top: 5px">
         <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
-      </el-col>
-      <el-col :span="12">
-        topic:
-        <el-select v-model="topic" filterable placeholder="选择topic" clearable>
+        <el-select v-model="topic" filterable placeholder="选择topic" clearable style="margin-left: 5px">
           <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
         </el-select>
-      </el-col>
-    </el-row>
+    </div>
 
     <consumer :broker="broker" :sourceId="sourceId" :topic="topic"></consumer>
 
