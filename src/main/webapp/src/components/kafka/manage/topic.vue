@@ -3,7 +3,7 @@
     <div style="display: flex">
       <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
       <el-input placeholder="搜索topic" v-model="keyword" class="input-with-select" style="width: 250px;margin-left: 5px"
-                clearable>
+                clearable @keyup.enter.native="searchTopic">
         <el-button slot="append" icon="el-icon-search" @click="searchTopic"></el-button>
       </el-input>
     </div>
