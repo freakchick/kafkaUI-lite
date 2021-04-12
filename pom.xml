@@ -82,23 +82,18 @@
                     <plugin>
                         <groupId>com.spotify</groupId>
                         <artifactId>docker-maven-plugin</artifactId>
-                        <version>1.0.0</version>
-<!--                        <executions>-->
-<!--                            <execution>-->
-<!--                                <id>build-image</id>-->
-<!--                                <phase>package</phase>-->
-<!--                                <goals>-->
-<!--                                    <goal>build</goal>-->
-<!--                                </goals>-->
-<!--                            </execution>-->
-<!--                        </executions>-->
-
+                        <version>1.2.2</version>
 
                         <configuration>
 
                             <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                            <baseImage>java:8</baseImage>
+                            <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+                            <exposes>
+                                <expose>8889</expose>
+                            </exposes>
                             <!-- 指定Dockerfile所在的路径 -->
-                            <dockerDirectory>${project.basedir}/src/main/resources</dockerDirectory>
+<!--                            <dockerDirectory>${project.basedir}/src/main/resources</dockerDirectory>-->
                             <imageTags>
                                 <imageTag>${project.version}</imageTag>
                             </imageTags>
