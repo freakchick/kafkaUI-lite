@@ -34,7 +34,7 @@ if [ $1 = "start" ]; then
   if [ "$bool" = "false" ]; then
     java -Dlogging.file=$LOG_DIR/kafkaUI-lite.log -classpath $CONF_DIR:$LIB_JARS com.jq.kafkaui.KafkaUIApplication
   else
-    nohup java -Dlogging.file=$LOG_DIR/kafkaUI-lite.log -classpath $CONF_DIR:$LIB_JARS com.jq.kafkaui.KafkaUIApplication >/dev/null &
+    nohup java -Dlogging.file=$LOG_DIR/kafkaUI-lite.log -classpath $CONF_DIR:$LIB_JARS com.jq.kafkaui.KafkaUIApplication >/dev/null 2>&1 &
     echo $! >$PID
   fi
 elif [ $1 = "stop" ]; then

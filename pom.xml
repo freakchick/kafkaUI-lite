@@ -28,7 +28,7 @@
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
                         <configuration>
-                            <excludes><!--不把配置文件打的jar包里面-->
+                            <excludes><!--不把配置文件打进jar包里面-->
                                 <exclude>**/*.xml</exclude>
                                 <exclude>**/*.properties</exclude>
                                 <exclude>**/*.db</exclude>
@@ -41,9 +41,6 @@
                                 <goals>
                                     <goal>jar</goal>
                                 </goals>
-                                <!--                        <configuration>-->
-                                <!--                            <classifier>bak</classifier>-->
-                                <!--                        </configuration>-->
                             </execution>
                         </executions>
 
@@ -93,6 +90,7 @@
                                 <resource>
                                     <targetPath>/</targetPath>
                                     <directory>${project.build.directory}</directory>
+<!--                                    tar包上传会自动解压-->
                                     <include>${project.build.finalName}-bin.tar.gz</include>
                                 </resource>
                             </resources>
@@ -193,12 +191,11 @@
             <version>1.1.9</version>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-devtools</artifactId>
-            <scope>runtime</scope>
-            <optional>true</optional>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.boot</groupId>-->
+<!--            <artifactId>spring-boot-devtools</artifactId>-->
+<!--            <optional>true</optional>-->
+<!--        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -326,11 +323,6 @@
                     </execution>
                 </executions>
             </plugin>
-
-<!--            <plugin>-->
-<!--                <groupId>org.springframework.boot</groupId>-->
-<!--                <artifactId>spring-boot-maven-plugin</artifactId>-->
-<!--            </plugin>-->
 
         </plugins>
     </build>
