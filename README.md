@@ -21,13 +21,17 @@
 -  依赖java环境，需要先安装jdk8+
 -  下载地址: [gitee](https://gitee.com/freakchicken/kafka-ui-lite/releases) [github](https://github.com/freakchick/DBApi/releases)
 
--  启动命令：java -jar kafkaUI.jar 一键启动
+-  启动命令：java -jar kafka-ui-lite.jar 一键启动
 -  如果是多网卡机器，启动需要指定ip
 ```shell script
-java -Dhost=xx.xx.xx.xx -jar kafkaUI.jar
+java -Dhost=xx.xx.xx.xx -jar kafka-ui-lite.jar
 ```
 -  浏览器访问 http://ip:8889
 
+- 也可以使用docker启动
+```shell script
+  docker run -d -p 8889:8889 freakchicken/kafka-ui-lite
+```
 
 ## 使用说明
 ### kafka操作

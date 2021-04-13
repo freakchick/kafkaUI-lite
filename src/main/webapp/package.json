@@ -1,5 +1,5 @@
 {
-  "name": "kafkaui",
+  "name": "kafka-ui-lite",
   "version": "0.1.0",
   "private": true,
   "scripts": {
