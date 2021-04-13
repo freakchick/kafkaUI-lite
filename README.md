@@ -27,30 +27,29 @@
 
 ### 1.jar包安装
 
-- 如果您想要快速安装，请下载jar包
+- 如果您想要快速安装，请下载kafka-ui-lite.jar包
 - 启动命令：java -jar kafka-ui-lite.jar 一键启动
 - 如果是多网卡机器，启动需要指定ip
-
 ```shell script
 java -Dhost=xx.xx.xx.xx -jar kafka-ui-lite.jar
 ```
-
 - 启动后浏览器访问 http://ip:8889
 
 ### 2.tar包安装
 
-- 如果您想自定义配置，请下载tar包
-- 解压tar包，修改conf/application.properties中的配置，可以修改元数据库地址（mysql）和端口
+- 如果您想自定义配置，请下载kafka-ui-lite.tar.gz包
+- 解压tar包，修改conf/application.properties中的以下配置，可以修改元数据库地址（mysql）和端口
 
 ```properties
 server.port=8889
+
 spring.datasource.driver-class-name=org.sqlite.JDBC
 spring.datasource.url=jdbc:sqlite::resource:data.db 
 spring.datasource.username=
 spring.datasource.password=
 ```
 
-- 操作命令
+- linux操作命令
 
 ```shell
 # 前台启动
@@ -61,6 +60,13 @@ sh bin/kafkaUI.sh -d start
 sh bin/kafkaUI.sh stop
 
 ```
+
+- windows操作命令
+```shell
+# 前台启动
+bin/kafkaUI.bat
+```
+或者直接双击 bin/kafkaUI.bat 文件启动
 
 - 启动后浏览器访问 http://ip:8889
 
