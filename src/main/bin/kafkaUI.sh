@@ -1,5 +1,20 @@
 #!/bin/sh
 
+bool=false
+
+while getopts d opt;
+do
+case $opt in
+  d) echo "running in daemon"
+    bool=true
+    shift
+    ;;
+  ?) echo "$opt is an invalid option"
+    ;;
+esac
+done
+
+
 BIN_DIR=$(dirname $0)
 BIN_DIR=$(
   cd "$BIN_DIR"
@@ -13,11 +28,15 @@ export CONF_DIR=$HOME/conf
 export LIB_JARS=$HOME/lib/*
 export LOG_DIR=$HOME/logs
 
+
+
 if [ $1 = "start" ]; then
-
-  nohup java -Dlogging.file=$LOG_DIR/kafkaUI-lite.log -classpath $CONF_DIR:$LIB_JARS com.jq.kafkaui.KafkaUIApplication >/dev/null 2>&1 &
-  echo $! >$PID
-
+  if [ "$bool" = "false" ]; then
+    java -Dlogging.file=$LOG_DIR/kafkaUI-lite.log -classpath $CONF_DIR:$LIB_JARS com.jq.kafkaui.KafkaUIApplication
+  else
+    nohup java -Dlogging.file=$LOG_DIR/kafkaUI-lite.log -classpath $CONF_DIR:$LIB_JARS com.jq.kafkaui.KafkaUIApplication >/dev/null &
+    echo $! >$PID
+  fi
 elif [ $1 = "stop" ]; then
   TARGET_PID=$(cat $PID)
   kill $TARGET_PID

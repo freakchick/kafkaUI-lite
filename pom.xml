@@ -65,6 +65,44 @@
                             </execution>
                         </executions>
                     </plugin>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>docker-maven-plugin</artifactId>
+                        <version>1.2.2</version>
+
+                        <configuration>
+
+                            <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
+                            <baseImage>openjdk:8</baseImage>
+<!--                            <volumes>-->
+<!--                                <volume>/tmp</volume>-->
+<!--                            </volumes>-->
+<!--                            <runs>-->
+<!--                                <run>tar -zxvf ${project.build.finalName}-bin.tar.gz</run>-->
+<!--                            </runs>-->
+                            <workdir>${project.build.finalName}/bin</workdir>
+                            <entryPoint>["sh", "kafkaUI.sh", "start"]</entryPoint>
+                            <exposes>
+                                <expose>8889</expose>
+                            </exposes>
+                            <imageTags>
+                                <imageTag>${project.version}</imageTag>
+                            </imageTags>
+                            <forceTags>true</forceTags>
+                            <resources>
+                                <resource>
+                                    <targetPath>/</targetPath>
+                                    <directory>${project.build.directory}</directory>
+                                    <include>${project.build.finalName}-bin.tar.gz</include>
+                                </resource>
+                            </resources>
+                            <serverId>docker-hub</serverId>
+                            <registryUrl>https://index.docker.io/v1/</registryUrl>
+
+                        </configuration>
+
+
+                    </plugin>
                 </plugins>
             </build>
         </profile>
@@ -88,6 +126,9 @@
 
                             <imageName>${docker.image.prefix}/${project.artifactId}</imageName>
                             <baseImage>java:8</baseImage>
+                            <volumes>
+                                <volume>/tmp</volume>
+                            </volumes>
                             <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
                             <exposes>
                                 <expose>8889</expose>
