@@ -28,10 +28,9 @@
 ### 1.jar包安装
 
 - 如果您想要快速安装，请下载kafka-ui-lite.jar包
-- 启动命令：java -jar kafka-ui-lite.jar 一键启动
-- 如果是多网卡机器，启动需要指定ip
+- 启动命令
 ```shell script
-java -Dhost=xx.xx.xx.xx -jar kafka-ui-lite.jar
+java -jar kafka-ui-lite.jar
 ```
 - 启动后浏览器访问 http://ip:8889
 

@@ -43,15 +43,15 @@ public class KafkaService {
 
     }
 
-    public String getIpAndPort(HttpServletRequest request) {
-        // 通过命令行读取host参数 java -Dhost=192.168.33.201 -jar kafkaUI.jar
-        String ip = System.getProperty("host");
-        if (ip == null)
-//            ip = IPUtil.getIpAddress();
-            ip = request.getServerName();
-        return ip + ":" + port;
-
-    }
+//    public String getIpAndPort(HttpServletRequest request) {
+//        // 通过命令行读取host参数 java -Dhost=192.168.33.201 -jar kafkaUI.jar
+//        String ip = System.getProperty("host");
+//        if (ip == null)
+////            ip = IPUtil.getIpAddress();
+//            ip = request.getServerName();
+//        return ip + ":" + port;
+//
+//    }
     @Transactional
     public void add(KafkaSource source) {
         kafkaSourceDao.insert(source);

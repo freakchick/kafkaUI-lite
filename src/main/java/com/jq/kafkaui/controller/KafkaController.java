@@ -40,6 +40,7 @@ public class KafkaController {
 
     @RequestMapping("/getIp")
     public String getIpAndPort(HttpServletRequest request) {
+        //获取浏览器访问地址中的ip和端口，防止容器运行时候产生问题
         return request.getServerName() + ":" + request.getServerPort();
     }
 
