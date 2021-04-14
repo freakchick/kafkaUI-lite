@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
@@ -38,8 +39,8 @@ public class KafkaController {
     }
 
     @RequestMapping("/getIp")
-    public String getIpAndPort() {
-        return kafkaService.getIpAndPort();
+    public String getIpAndPort(HttpServletRequest request) {
+        return request.getServerName() + ":" + request.getServerPort();
     }
 
     @RequestMapping("/getSource")

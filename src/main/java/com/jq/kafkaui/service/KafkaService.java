@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Set;
 
@@ -42,11 +43,12 @@ public class KafkaService {
 
     }
 
-    public String getIpAndPort() {
+    public String getIpAndPort(HttpServletRequest request) {
         // 通过命令行读取host参数 java -Dhost=192.168.33.201 -jar kafkaUI.jar
         String ip = System.getProperty("host");
         if (ip == null)
-            ip = IPUtil.getIpAddress();
+//            ip = IPUtil.getIpAddress();
+            ip = request.getServerName();
         return ip + ":" + port;
 
     }
