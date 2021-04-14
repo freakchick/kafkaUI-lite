@@ -21,7 +21,7 @@
 ## 安装教程
 
 - 依赖java环境，需要先安装jdk8+
-- 下载地址: [gitee](https://gitee.com/freakchicken/kafka-ui-lite/releases) [github](https://github.com/freakchick/DBApi/releases)
+- 下载地址: [天翼云盘](https://cloud.189.cn/t/f632quimaiy2), 或者在右侧发行版页面下载
 
 **有以下3种安装方式：**
 
