@@ -214,10 +214,17 @@ http://localhost:8889
 
 ## 联系作者：
 
+
+
 ### wechat：
 
 <div style="text-align: center"> 
 <img src="https://freakchicken.gitee.io/images/kafkaui/wechat.jpg" width = "30%" />
+</div>
+
+### qq交流群：
+<div style="text-align: center"> 
+<img src="https://freakchicken.gitee.io/images/kafkaui/qqgroup.jpg" width = "40%" />
 </div>
 
 ### 捐赠：
