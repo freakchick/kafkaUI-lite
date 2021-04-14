@@ -48,6 +48,7 @@ spring.datasource.url=jdbc:sqlite::resource:data.db
 spring.datasource.username=
 spring.datasource.password=
 ```
+*如果您修改了元数据库为您自己的mysql，请在mysql执行数据库初始化sql脚本，脚本在sql目录下*
 
 - linux操作命令
 
