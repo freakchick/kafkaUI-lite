@@ -48,11 +48,15 @@ img {
   -moz-osx-font-smoothing: grayscale;
   /*display: flex;*/
   /*justify-content: center;*/
-  width: 1000px;
-  margin: 0 auto;
+  /*width: 1000px;*/
+  /*margin: 0 auto;*/
 
 }
 h2{
   margin-bottom: 20px;
+}
+
+body{
+  background-color: #e5e5e5;
 }
 </style>

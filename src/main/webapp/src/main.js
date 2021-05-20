@@ -6,6 +6,8 @@ import axios from 'axios'
 import VueAxios from 'vue-axios'
 import qs from 'qs'
 
+import './theme/index.css'
+
 import i18n from './i18n/i18n'
 
 import VueClipboard from 'vue-clipboard2'
