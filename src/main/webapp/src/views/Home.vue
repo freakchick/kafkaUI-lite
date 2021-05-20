@@ -129,8 +129,8 @@ export default {
 
   .menu {
     width: 100%;
-    font-size: 17px;
-    font-weight: 700;
+    font-size: 22px;
+    font-weight: 900;
   }
 }
 
