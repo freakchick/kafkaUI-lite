@@ -210,10 +210,12 @@
 
 <style scoped>
   .tree {
-    border: 1px solid #00a0e9;
+    border: 1px solid #0b85bd;
     /*height: 500px;*/
     max-height: 600px;
     overflow: auto;
+    box-shadow: 1px 1px 5px #72767b;
+    min-height: calc(100vh - 370px );
   }
 
   div {

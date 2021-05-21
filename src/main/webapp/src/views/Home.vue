@@ -116,6 +116,7 @@ export default {
 .head {
   display: flex;
   background-color: #08B0AA;
+  box-shadow: 1px 1px 5px #8c8b8b;
 
   .logo {
 
@@ -131,6 +132,7 @@ export default {
     width: 100%;
     font-size: 22px;
     font-weight: 900;
+    border : 0 solid #fff;
   }
 }
 

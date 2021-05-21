@@ -201,10 +201,10 @@ export default {
 
 .frame {
   display: flex;
-  height: 500px;
-  max-height: 700px;
+  min-height: calc(100vh - 350px);
   border-radius: 2px;
-  border: black 1px solid;
+  border: #08B0AA 1px solid;
+  box-shadow: 1px 1px 5px #72767b;
 
   .left {
     width: 30px;

@@ -126,14 +126,15 @@ export default {
 
 .frame {
   display: flex;
-  height: 400px;
+  min-height: calc(100vh - 400px);
   border-radius: 2px;
-  border: black 1px solid;
+  border: #08B0AA 1px solid;
+  box-shadow: 1px 1px 5px #bcbfbf;
 
   .left {
     width: 30px;
     font-size: 30px;
-    border-right: #8c939d 1px solid;
+    border-right: #08B0AA 1px solid;
     background-color: #EDEBEB;
     display: flex;
     flex-direction: column;
