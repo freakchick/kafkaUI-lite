@@ -10,9 +10,9 @@
               class="menu"
               mode="horizontal"
               @select="handleSelect"
-              background-color="#08B0AA"
+              background-color="#06b176"
               text-color="#fff"
-              active-text-color="#01293b"
+              active-text-color="#000"
               router>
             <el-submenu index="1">
               <template slot="title">
@@ -115,8 +115,8 @@ export default {
 <style scoped lang="scss">
 .head {
   display: flex;
-  background-color: #08B0AA;
-  box-shadow: 1px 1px 5px #8c8b8b;
+  background-color: #06b176;
+  box-shadow: 0px 3px 5px #808080;
 
   .logo {
 
@@ -146,7 +146,7 @@ export default {
   padding: 10px;
   max-width: 1700px;
   margin: 0 auto;
-  box-shadow: 1px 1px 5px #8c8b8b;
+  box-shadow: 1px 1px 5px #7b7b7b;
   min-height: calc(100vh - 100px) ;
   border-radius: 10px;
   background-color: #fff;

@@ -202,9 +202,8 @@ export default {
 .frame {
   display: flex;
   min-height: calc(100vh - 350px);
-  border-radius: 2px;
-  border: #08B0AA 1px solid;
   box-shadow: 1px 1px 5px #72767b;
+  margin-bottom: 5px;
 
   .left {
     width: 30px;

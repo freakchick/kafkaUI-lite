@@ -210,7 +210,8 @@
 
 <style scoped>
   .tree {
-    border: 1px solid #0b85bd;
+    border: 1px solid #06b176;
+    border-radius: 5px;
     /*height: 500px;*/
     max-height: 600px;
     overflow: auto;

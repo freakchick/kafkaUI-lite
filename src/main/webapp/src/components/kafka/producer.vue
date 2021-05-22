@@ -16,6 +16,7 @@
 
 
     <div class="frame">
+
       <div class="left">
         <i class="el-icon-delete" @click="clear"></i>
       </div>
@@ -23,11 +24,12 @@
         <p v-for="item in messages" class="history">
           <i class="el-icon-circle-check success"></i> &nbsp;&nbsp;{{ item }}</p>
       </div>
+
     </div>
 
-<!--    <el-checkbox v-model="batch">多行內容切分成多条消息批量发送</el-checkbox>-->
+    <!--    <el-checkbox v-model="batch">多行內容切分成多条消息批量发送</el-checkbox>-->
 
-     </div>
+  </div>
 </template>
 
 <script>
@@ -94,7 +96,7 @@ export default {
         return
       }
 
-      if (this.message == '' || this.message == null){
+      if (this.message == '' || this.message == null) {
         this.$message({
           showClose: true,
           message: '禁止发送空消息',
@@ -126,15 +128,15 @@ export default {
 
 .frame {
   display: flex;
-  min-height: calc(100vh - 400px);
-  border-radius: 2px;
-  border: #08B0AA 1px solid;
-  box-shadow: 1px 1px 5px #bcbfbf;
+  min-height: calc(100vh - 410px);
+
+  //border: #06b176 1px solid;
+  box-shadow: 1px 1px 5px #9e9e9e;
 
   .left {
     width: 30px;
     font-size: 30px;
-    border-right: #08B0AA 1px solid;
+    border-right: #7d7d7d 1px solid;
     background-color: #EDEBEB;
     display: flex;
     flex-direction: column;

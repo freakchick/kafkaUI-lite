@@ -83,62 +83,48 @@ bin/kafkaUI.bat
 ### kafka操作
 
 #### 查看所有kafka集群
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/kafka_addSource.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/kafka_config.png)
 
 #### 添加kafka环境
-
-![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215038.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/kafka_config.png)
 
 #### 消费消息
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210329/consume.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/consume.png)
 
 #### 生产消息
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/produce.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/produce.png)
 
 #### 管理topic
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/topic_manage.png)
 
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/topic_list.jpg)
+#### 查看topic详情
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/topic_detail.png)
 
-#### 查看所有topic详情
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/topic_detail.jpg)
+#### 查看topic被消费的所有group
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/view_group.png)
 
 #### 管理集群
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/cluster_manage.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/cluster_manage.png)
 
 #### 管理group
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/group_list.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/group_manage.png)
 
 #### 查看group消费偏移量详情
-
-![](https://freakchicken.gitee.io/images/kafkaui/20210201/group_detail.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/group_detail.png)
 
 #### 创建topic
-
-![](https://freakchicken.gitee.io/images/kafkaui/Dingtalk_20210107215016.jpg)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/add_topic.png)
 
 ### zookeeper操作
-
-#### 添加zk集群
-
-![](https://freakchicken.gitee.io/images/kafkaui/zk_add_source_20210110121408.png)
-
 #### 查看所有zk集群
-
-![](https://freakchicken.gitee.io/images/kafkaui/zk_source_20210110121439.png)
-
-#### 添加节点
-
-![](https://freakchicken.gitee.io/images/kafkaui/zk_add_node_20210110121530.png)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/zk_config.png)
+#### 添加zk集群
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/zk_env_add.png)
 
 #### 查看节点数据
-
-![](https://freakchicken.gitee.io/images/kafkaui/zkmanage_20210110121509.png)
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/zk_manage.png)
+#### 添加节点
+![](https://freakchicken.gitee.io/images/kafkaui/20210522/zk_add_node.png)
 
 ### redis操作
 
