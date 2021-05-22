@@ -164,7 +164,7 @@ bin/kafkaUI.bat
 - 安装node.js
 - 安装cnpm (maven 会调用cnpm 系统命令)
 
-```
+```shell
 npm install -g cnpm --registry=https://registry.npm.taobao.org
 ```
 
@@ -172,10 +172,15 @@ npm install -g cnpm --registry=https://registry.npm.taobao.org
 
 - maven打包会自动把前端安装依赖并编译打包，
 
+```shell
+mvn clean package -P tar
+mvn clean package -P singleJar
 ```
-mvn clean package
+### 构建镜像
+```shell
+mvn docker:build -P tar
+mvn docker:push -P tar
 ```
-
 ### 启动
 
 #### 前端启动：
