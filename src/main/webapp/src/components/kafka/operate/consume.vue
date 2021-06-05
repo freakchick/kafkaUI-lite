@@ -2,10 +2,12 @@
   <div>
     <h3>kafka消费消息：</h3>
     <div style="display: flex;margin-top: 5px">
-        <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
-        <el-select v-model="topic" filterable placeholder="选择topic" clearable style="margin-left: 5px">
-          <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
-        </el-select>
+      <div class="label">Kafka:</div>
+      <kafkaSelect @kafkaChange="getTopics"></kafkaSelect>
+      <div class="label">topic:</div>
+      <el-select v-model="topic" filterable placeholder="选择topic" clearable>
+        <el-option v-for="item in topics" :key="item.name" :label="item.name" :value="item.name"></el-option>
+      </el-select>
     </div>
 
     <consumer :broker="broker" :sourceId="sourceId" :topic="topic"></consumer>
@@ -27,7 +29,7 @@ export default {
       topic: null,
       topics: [],
       message: null,
-      broker:null
+      broker: null
     }
   },
 
@@ -44,7 +46,7 @@ export default {
       })
 
       this.axios.post("/kafka/getBroker", {"sourceId": this.sourceId}).then((response) => {
-          this.broker = response.data
+        this.broker = response.data
       }).catch((error) => {
         this.$message.error("查询失败")
       })
@@ -57,6 +59,20 @@ export default {
 }
 </script>
 
-<style scoped>
+<style scoped lang="scss">
+.label {
+  margin-right:  1px;
+  padding: 0 10px;
+  line-height: 40px;
+  background-color: #06b176;
+  color: #fff;
+  height: 40px;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 700;
+}
 
+.label:nth-child(n+2){
+  margin-left: 10px;
+}
 </style>

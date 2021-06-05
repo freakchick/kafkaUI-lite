@@ -3,7 +3,8 @@
 
 
     <!--        <el-input v-model="group" placeholder="请输入group" ></el-input>-->
-    <div>
+    <div style="display: flex">
+      <div class="label">group:</div>
       <el-autocomplete :disabled="disabled" v-model="group" :fetch-suggestions="getGroupByTopic"
                        placeholder="请输入消费group"></el-autocomplete>
     </div>
@@ -13,10 +14,11 @@
       <el-radio v-model="mode" label="latest" :disabled="disabled">最新消息(latest)</el-radio>
     </div>
 
-    <div style="margin: 10px 0;display: flex">
+    <div style="margin: 10px 0;display: flex;">
 
-      <el-checkbox label="根据关键字过滤显示消息" v-model="filter" style="line-height: 40px"></el-checkbox>
-      <el-input v-model="keyword" placeholder="请输入关键字" style="width: 300px;margin-left: 10px"></el-input>
+      <span style="line-height: 40px">高亮显示关键字:</span>
+
+      <el-input v-model="keyword" placeholder="请输入关键字" style="width: 300px;margin-left: 10px" clearable></el-input>
     </div>
 
 
@@ -30,15 +32,20 @@
 
       </div>
       <div class="right" ref="frame">
-        <p v-for="item in message" :class="['history', {'autoBreak':autoBreak}]">
-          <i class="iconfont icon-jiedian-shell shell"></i>
-          {{ item }}
-        </p>
+        <div v-for="(item,index) in message" class='history'>
+          <div class="index">
+            <div class="index-c"> {{ index + 1 }}</div>
+
+
+          </div>
+          <div :class="['message', {'autoBreak':autoBreak}]" v-html="getContent(item)"></div>
+
+        </div>
         <p><i class="el-icon-loading" v-if="on"></i></p>
       </div>
     </div>
-    <div >
-      <data-tag :right="consumeCount" left="已消费消息条数" ></data-tag>
+    <div>
+      <data-tag :right="consumeCount" left="已消费消息条数"></data-tag>
     </div>
   </div>
 </template>
@@ -62,7 +69,7 @@ export default {
       autoBreak: true,
       filter: false,
       keyword: null,
-      consumeCount:0
+      consumeCount: 0
     }
   },
   created() {
@@ -79,6 +86,15 @@ export default {
     }
   },
   methods: {
+    getContent(item) {
+      if (this.keyword != '') {
+        const p = item.split(this.keyword).join(`<span style="color: red;font-weight: 700;background-color: #F8B950;padding: 0 0px;">${this.keyword}</span>`)
+        // console.log(p)
+        return p
+      } else {
+        return item
+      }
+    },
     autoScroll() {
       this.autoScrollToBottom = !this.autoScrollToBottom
       if (this.autoScrollToBottom) {
@@ -175,9 +191,9 @@ export default {
       // 收到消息的回调
       this.websocket.onmessage = (event) => {
         this.consumeCount = this.consumeCount + 1
-        if (this.filter && event.data.indexOf(this.keyword) == -1) {
-          return
-        }
+        // if (this.filter && event.data.indexOf(this.keyword) == -1) {
+        //   return
+        // }
 
         this.message.push(event.data)
         if (this.autoScrollToBottom)
@@ -198,7 +214,17 @@ export default {
 </script>
 
 <style scoped lang="scss">
-
+.label {
+  margin-right:  1px;
+  padding: 0 10px;
+  line-height: 40px;
+  background-color: #06b176;
+  color: #fff;
+  height: 40px;
+  border-radius: 3px;
+  font-size: 16px;
+  font-weight: 700;
+}
 .frame {
   display: flex;
   min-height: calc(100vh - 350px);
@@ -240,19 +266,41 @@ export default {
 
     .history {
       margin: 3px;
-      background-color: #f8e3bd;
+      background-color: #fde6c0;
+      display: flex;
+      //flex-wrap: wrap;
 
-      .shell {
-        font-weight: 900;
-        background-color: #8c8b8b;
-        margin-right: 3px;
+      .index {
+        //font-weight: 900;
+        width: 25px;
+        background-color: #f6bf6a;
+
+        //margin-right: 3px;
       }
 
+      .index-c {
+        width: 25px;
+        font-size: 10px;
+      }
+
+      .message {
+        //background-color: #fde6c0;
+        padding: 0 5px;
+        white-space: pre-line; //  字符串\n换行
+
+      }
+
+
+
+      .autoBreak {
+        overflow: hidden;
+        overflow-wrap: break-word;
+      }
     }
 
-    .autoBreak {
-      overflow-wrap: break-word;
-    }
+    //.autoBreak {
+    //  overflow-wrap: break-word;
+    //}
 
 
   }

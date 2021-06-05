@@ -111,7 +111,7 @@ public class KafkaController {
         if (batch) {
             String[] messages = message.split("\n");
             for (String ms : messages) {
-                Future<RecordMetadata> send = producer.send(new ProducerRecord<>(topic, message));
+                Future<RecordMetadata> send = producer.send(new ProducerRecord<>(topic, ms));
                 send.get();
             }
         } else {

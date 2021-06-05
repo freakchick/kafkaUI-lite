@@ -1,12 +1,23 @@
 <template>
   <div>
 
-    <el-tooltip class="item" effect="dark" content="上键：向上翻输入历史; 下键：向下翻输入历史; ctrl + enter : 发送消息" placement="top-start">
-      <i class="iconfont icon-jianpan"></i>
+    <!--    <el-tooltip class="item" effect="dark" content="上键：向上翻输入历史; 下键：向下翻输入历史; ctrl + enter : 发送消息" placement="top-start">-->
+    <!--      <i class="iconfont icon-jianpan"></i>-->
+    <!--    </el-tooltip>-->
+
+<!--    <el-alert-->
+<!--        title="上键：向上翻输入历史(最多保存10条最近输入记录); 下键：向下翻输入历史; ctrl+enter: 发送消息"-->
+<!--        type="warning"-->
+<!--        show-icon>-->
+<!--    </el-alert>-->
+
+    <el-checkbox v-model="batch"></el-checkbox>
+    <el-tooltip class="item" effect="dark" content="按换行符（\n）分割成多条消息来发送" placement="top-start">
+      <span>分割后批量发送</span>
     </el-tooltip>
 
     <el-input type="textarea" v-model="message" size="medium" rows="6"
-              placeholder="请输入消息内容"
+              placeholder="上键：向上翻输入历史(最多保存10条最近输入记录); 下键：向下翻输入历史; ctrl+enter: 发送消息"
               :autosize="{ minRows: 6, maxRows: 15 }"
               @keyup.enter.native="keyDown"
               @keyup.up.native="scrollUpHistory" @keyup.down.native="scrollDownHistory"
@@ -40,6 +51,7 @@ export default {
       message: null,
       messages: [],
       history: [],
+      maxHistorySize: 10,
       cursor: null,
       batch: false
     }
@@ -81,8 +93,8 @@ export default {
     },
     processHistory(message) {
       this.history.push(message)
-      if (this.history.length > 5) {
-        this.history = this.history.slice(-5)
+      if (this.history.length > this.maxHistorySize) {
+        this.history = this.history.slice(-this.maxHistorySize)
       }
       this.cursor = this.history.length - 1
     },
@@ -118,6 +130,7 @@ export default {
 
         this.scroll()
       }).catch((error) => {
+        this.$message.error("发送失败")
       })
     }
   }
@@ -166,7 +179,7 @@ export default {
     p {
       margin: 3px;
       background-color: #f8e3bd;
-
+      white-space: pre-line; //  字符串\n换行
       .success {
         color: #42b983;
         font-weight: 900;
