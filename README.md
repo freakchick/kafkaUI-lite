@@ -90,10 +90,10 @@ bin/kafkaUI.bat
 ![](https://freakchicken.gitee.io/images/kafkaui/20210522/kafka_config.png)
 
 #### 消费消息
-![](https://freakchicken.gitee.io/images/kafkaui/20210522/consume.png)
+![](https://freakchicken.gitee.io/images/kafkaui/20210605/consume.png)
 
 #### 生产消息
-![](https://freakchicken.gitee.io/images/kafkaui/20210522/produce.png)
+![](https://freakchicken.gitee.io/images/kafkaui/20210605/produce.png)
 
 #### 管理topic
 ![](https://freakchicken.gitee.io/images/kafkaui/20210522/topic_manage.png)
