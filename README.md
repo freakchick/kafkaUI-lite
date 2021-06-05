@@ -3,7 +3,7 @@
 ## 介绍
 
 - 史上最轻便好用的kafka ui界面客户端工具，可以在生产消息、消费消息、管理topic、管理group;可以支持管理多个kafka集群
-- 部署简便，**不需要连数据库，只有一个jar包启动即可**
+- 部署简便，可以一键启动，不需要配置数据库、不需要搭建web容器
 - 支持zookeeper ui界面化操作;支持多环境管理
 - 支持redis ui界面化操作;支持多环境管理
 - 支持权限控制，可以自定义不同环境的新增、修改、删除权限；默认分配只读权限，避免用户的误操作
@@ -16,8 +16,6 @@
 ## 软件架构
 
 - 采用B/S架构，springboot + vue.js 前后端分离开发
-- 考虑到部署的简便性，最后打包是整合打到一个完整的jar包里
-- 考虑到部署的简便性，使用sqlite数据库，并且数据库文件打进了jar包里
 
 ## 安装教程
 
@@ -26,7 +24,7 @@
 
 **有以下3种安装方式：**
 
-### 1.jar包安装
+### ~~1.jar包安装(此种方式1.2.10及以后版本不再支持)~~
 
 - 如果您想要快速安装，请下载kafka-ui-lite.jar包
 - 启动命令
@@ -37,9 +35,8 @@ java -jar kafka-ui-lite.jar
 
 ### 2.tar包安装
 
-- 如果您想自定义配置，请下载kafka-ui-lite.tar.gz包
-- 解压tar包，修改conf/application.properties中的以下配置，可以修改元数据库地址（mysql）和端口
-
+- 请下载kafka-ui-lite.tar.gz包并解压
+- (可选)如果想修改元数据库为mysql, 修改conf/application.properties中的以下配置
 ```properties
 server.port=8889
 
@@ -48,7 +45,7 @@ spring.datasource.url=jdbc:sqlite::resource:data.db
 spring.datasource.username=
 spring.datasource.password=
 ```
-*如果您修改了元数据库为您自己的mysql，请在mysql执行数据库初始化sql脚本，脚本在sql目录下*
+*请在mysql执行数据库初始化sql脚本，脚本在sql目录下*
 
 - linux操作命令
 
