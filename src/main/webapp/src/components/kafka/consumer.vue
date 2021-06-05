@@ -228,6 +228,7 @@ export default {
 .frame {
   display: flex;
   min-height: calc(100vh - 350px);
+  max-height: 600px;
   box-shadow: 1px 1px 5px #72767b;
   margin-bottom: 5px;
 

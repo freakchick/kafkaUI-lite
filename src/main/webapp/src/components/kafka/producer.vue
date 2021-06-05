@@ -5,11 +5,11 @@
     <!--      <i class="iconfont icon-jianpan"></i>-->
     <!--    </el-tooltip>-->
 
-<!--    <el-alert-->
-<!--        title="上键：向上翻输入历史(最多保存10条最近输入记录); 下键：向下翻输入历史; ctrl+enter: 发送消息"-->
-<!--        type="warning"-->
-<!--        show-icon>-->
-<!--    </el-alert>-->
+    <!--    <el-alert-->
+    <!--        title="上键：向上翻输入历史(最多保存10条最近输入记录); 下键：向下翻输入历史; ctrl+enter: 发送消息"-->
+    <!--        type="warning"-->
+    <!--        show-icon>-->
+    <!--    </el-alert>-->
 
     <el-checkbox v-model="batch"></el-checkbox>
     <el-tooltip class="item" effect="dark" content="按换行符（\n）分割成多条消息来发送" placement="top-start">
@@ -32,8 +32,18 @@
         <i class="el-icon-delete" @click="clear"></i>
       </div>
       <div class="right" ref="history">
-        <p v-for="item in messages" class="history">
-          <i class="el-icon-circle-check success"></i> &nbsp;&nbsp;{{ item }}</p>
+        <div v-for="item in messages" class="history">
+          <div class="index">
+            <div class="index-c">
+              <i class="el-icon-circle-check success" v-if="item.success"></i>
+              <i class="el-icon-circle-close fail" v-else></i>
+              <i class="iconfont icon-single" v-if="!item.batch" title="单条消息"></i>
+              <i class="iconfont icon-multi" v-else title="批量多条消息"></i>
+            </div>
+          </div>
+
+          <div class="content">{{ item.content }}</div>
+        </div>
       </div>
 
     </div>
@@ -125,12 +135,13 @@ export default {
         "message": m,
         "batch": this.batch
       }).then((response) => {
-        this.messages.push(m)
+        this.messages.push({content: m, success: true, batch: this.batch})
         this.processHistory(m)
 
         this.scroll()
       }).catch((error) => {
         this.$message.error("发送失败")
+        this.messages.push({content: m, success: false, batch: this.batch})
       })
     }
   }
@@ -176,14 +187,37 @@ export default {
     width: 100%;
     background-color: #FBF7F7;
 
-    p {
-      margin: 3px;
+    .history {
+      margin-bottom: 2px;
+      display: flex;
+      //margin: 3px;
       background-color: #f8e3bd;
       white-space: pre-line; //  字符串\n换行
-      .success {
-        color: #42b983;
-        font-weight: 900;
+      .index {
+        width: 40px;
+        background-color: #f8d79b;
+
+        .index-c {
+          width: 40px;
+
+          .success {
+            color: #42b983;
+            font-weight: 900;
+          }
+          .fail{
+            font-weight: 900;
+            color: #ef1818;
+          }
+        }
+
       }
+
+      .content {
+        padding-left: 5px;
+        overflow: hidden;
+        overflow-wrap: break-word;
+      }
+
     }
   }
 }
