@@ -12,6 +12,7 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.common.Node;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.common.protocol.types.Field;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -258,7 +259,7 @@ public class KafkaUtil {
 
     }
 
-    public static ResponseDto getAllGroups(String broker,String keyword) {
+    public static ResponseDto getAllGroups(String broker, String keyword) {
         AdminClient client = null;
         try {
             client = createAdminClientByProperties(broker);
@@ -269,8 +270,8 @@ public class KafkaUtil {
                 jo.put("name", t.groupId());
                 return jo;
             }).collect(Collectors.toList());
-            if (keyword != null){
-                collect = collect.stream().filter(t->t.getString("name").contains(keyword)).collect(Collectors.toList());
+            if (keyword != null) {
+                collect = collect.stream().filter(t -> t.getString("name").contains(keyword)).collect(Collectors.toList());
             }
 
             return ResponseDto.success(collect);
@@ -331,7 +332,7 @@ public class KafkaUtil {
             KafkaConsumer<String, String> consumer = getConsumer(broker, topics, group, "earliest");
             Map<TopicPartition, Long> endOffsets = consumer.endOffsets(topicPartitions);
 
-            List<JSONObject> collect1 = topicPartitions.stream().map(t -> {
+            List<JSONObject> collect = topicPartitions.stream().map(t -> {
                 OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
                 long offset = offsetAndMetadata.offset();
                 JSONObject jsonObject = new JSONObject();
@@ -343,32 +344,26 @@ public class KafkaUtil {
                 jsonObject.put("endOffset", endOffset);
                 jsonObject.put("lag", endOffset - offset);
                 return jsonObject;
-            }).sorted(Comparator.comparing(o -> o.getString("topic")))
+            }).sorted(Comparator.comparing(KafkaUtil::comparingByName).thenComparing(KafkaUtil::comparingByPartition))
                     .collect(Collectors.toList());
 
-      /*      Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
-                OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
-                long offset = offsetAndMetadata.offset();
-                JSONObject jsonObject = new JSONObject();
-                jsonObject.put("topic", t.topic());
-                jsonObject.put("partition", t.partition());
-                jsonObject.put("offset", offset);
-                TopicPartition topicPartition = new TopicPartition(t.topic(), t.partition());
-                Long endOffset = endOffsets.get(topicPartition);
-                jsonObject.put("endOffset", endOffset);
-                jsonObject.put("lag", endOffset - offset);
-                return jsonObject;
-            }).collect(Collectors.groupingBy(t -> {
-                return t.getString("topic");
-            }));*/
-//            Collection<List<JSONObject>> values1 = collect.values();
-            return ResponseDto.success(collect1);
+
+
+            return ResponseDto.success(collect);
         } catch (Exception e) {
             return ResponseDto.fail(e.getMessage());
         } finally {
             client.close();
         }
 
+    }
+
+    private static String comparingByName(JSONObject jo){
+        return jo.getString("topic");
+    }
+
+    private static Integer comparingByPartition(JSONObject jo){
+        return jo.getInteger("partition");
     }
 
     public static ResponseDto deleteGroup(String broker, String group) {
