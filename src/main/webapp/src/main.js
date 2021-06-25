@@ -19,6 +19,13 @@ Vue.config.productionTip = false
 Vue.use(VueAxios, axios);
 Vue.use(VueClipboard)
 
+import './plugins/vxe.js'
+// import 'xe-utils'
+// import VXETable from 'vxe-table'
+// import 'vxe-table/lib/style.css'
+//
+// Vue.use(VXETable)
+
 // axios.defaults.baseURL = '/api'
 
 axios.defaults.headers = {'Content-Type': 'application/x-www-form-urlencoded'}

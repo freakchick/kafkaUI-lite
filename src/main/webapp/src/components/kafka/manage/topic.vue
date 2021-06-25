@@ -72,14 +72,15 @@
       <div v-if="groups.length==0">暂无数据</div>
       <el-collapse @change="handleChange" accordion>
         <el-collapse-item :title="item.value" :name="item.value" v-for="item in groups">
-          <el-table :data="it" stripe border max-height="500" size="small" v-for="it in groupDetail" style="margin: 5px 0">
-            <el-table-column property="topic" label="topic"></el-table-column>
-            <el-table-column property="partition" label="分区号"></el-table-column>
-            <el-table-column property="offset" label="消费偏移量"></el-table-column>
-            <el-table-column property="lag" label="未消费消息条数">
+          <!--          <el-table :data="it" stripe border max-height="500" size="small" v-for="it in groupDetail" style="margin: 5px 0">-->
+          <!--            <el-table-column property="topic" label="topic"></el-table-column>-->
+          <!--            <el-table-column property="partition" label="分区号"></el-table-column>-->
+          <!--            <el-table-column property="offset" label="消费偏移量"></el-table-column>-->
+          <!--            <el-table-column property="lag" label="未消费消息条数">-->
 
-            </el-table-column>
-          </el-table>
+          <!--            </el-table-column>-->
+          <!--          </el-table>-->
+          <group-table :data="groupDetail"></group-table>
         </el-collapse-item>
       </el-collapse>
     </el-dialog>
@@ -128,6 +129,7 @@
 <script>
 import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
 import dataTag from '@/components/common/dataTag.vue'
+import GroupTable from '@/components/common/GroupTable.vue'
 
 export default {
   name: "topic",
@@ -153,7 +155,7 @@ export default {
       activeName: "topic",
       auth: {add: true},
       keyword: null,
-      groupDetail:[]
+      groupDetail: []
     }
   },
   created() {
@@ -242,7 +244,7 @@ export default {
 
   },
   components: {
-    kafkaSelect, dataTag
+    kafkaSelect, dataTag, GroupTable
   }
 }
 </script>

@@ -6,7 +6,7 @@
 
     <groupId>com.jq</groupId>
     <artifactId>kafka-ui-lite</artifactId>
-    <version>1.2.10</version>
+    <version>1.2.11</version>
 
     <properties>
         <docker.image.prefix>freakchicken</docker.image.prefix>

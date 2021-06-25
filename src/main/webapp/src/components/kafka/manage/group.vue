@@ -3,7 +3,8 @@
     <div style="display: flex">
       <kafkaSelect @kafkaChange="kafkaChange"></kafkaSelect>
 
-      <el-input placeholder="搜索group" v-model="keyword" style="width: 250px;margin-left: 5px" clearable @keyup.enter.native="searchGroup">
+      <el-input placeholder="搜索group" v-model="keyword" style="width: 250px;margin-left: 5px" clearable
+                @keyup.enter.native="searchGroup">
         <el-button slot="append" icon="el-icon-search" @click="searchGroup"></el-button>
       </el-input>
     </div>
@@ -29,20 +30,25 @@
     </el-table>
 
     <el-dialog title="group消费偏移量详情" :visible.sync="dialogTableVisible">
-      <el-table :data="item" stripe border max-height="500" size="small" v-for="item in detail" style="margin: 5px 0">
-        <el-table-column property="topic" label="topic"></el-table-column>
-        <el-table-column property="partition" label="分区号"></el-table-column>
-        <el-table-column property="offset" label="消费偏移量"></el-table-column>
-        <el-table-column property="lag" label="未消费消息条数">
-
-        </el-table-column>
-      </el-table>
+<!--      <vxe-table-->
+<!--          border-->
+<!--          resizable-->
+<!--          :span-method="mergeRowMethod"-->
+<!--          :data="detail">-->
+<!--        <vxe-table-column type="seq" width="60"></vxe-table-column>-->
+<!--        <vxe-table-column field="topic" title="topic"></vxe-table-column>-->
+<!--        <vxe-table-column field="partition" title="分区号"></vxe-table-column>-->
+<!--        <vxe-table-column field="offset" title="消费偏移量"></vxe-table-column>-->
+<!--        <vxe-table-column field="lag" title="未消费消息条数"></vxe-table-column>-->
+<!--      </vxe-table>-->
+      <group-table :data="detail"></group-table>
     </el-dialog>
   </div>
 </template>
 
 <script>
 import kafkaSelect from '@/components/kafka/kafkaSelect.vue'
+import GroupTable from '@/components/common/GroupTable.vue'
 
 export default {
   name: "group",
@@ -57,6 +63,7 @@ export default {
     }
   },
   methods: {
+
     searchGroup() {
       this.axios.post("/kafka/group/search", {"sourceId": this.sourceId, "keyword": this.keyword}).then((response) => {
         if (response.data.success)
@@ -69,9 +76,10 @@ export default {
     },
     getGroups() {
       this.axios.post("/kafka/group/all", {"sourceId": this.sourceId}).then((response) => {
-        if (response.data.success)
+        if (response.data.success) {
           this.tableData = response.data.data
-        else
+          console.log(this.tableData)
+        } else
           this.$message.error(response.data.message)
       }).catch((error) => {
         this.$message.error("查询所有group失败")
@@ -103,7 +111,7 @@ export default {
     }
   },
   components: {
-    kafkaSelect
+    kafkaSelect,GroupTable
   }
 }
 </script>

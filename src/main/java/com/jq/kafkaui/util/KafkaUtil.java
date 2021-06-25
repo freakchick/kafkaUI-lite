@@ -331,7 +331,22 @@ public class KafkaUtil {
             KafkaConsumer<String, String> consumer = getConsumer(broker, topics, group, "earliest");
             Map<TopicPartition, Long> endOffsets = consumer.endOffsets(topicPartitions);
 
-            Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
+            List<JSONObject> collect1 = topicPartitions.stream().map(t -> {
+                OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
+                long offset = offsetAndMetadata.offset();
+                JSONObject jsonObject = new JSONObject();
+                jsonObject.put("topic", t.topic());
+                jsonObject.put("partition", t.partition());
+                jsonObject.put("offset", offset);
+                TopicPartition topicPartition = new TopicPartition(t.topic(), t.partition());
+                Long endOffset = endOffsets.get(topicPartition);
+                jsonObject.put("endOffset", endOffset);
+                jsonObject.put("lag", endOffset - offset);
+                return jsonObject;
+            }).sorted(Comparator.comparing(o -> o.getString("topic")))
+                    .collect(Collectors.toList());
+
+      /*      Map<String, List<JSONObject>> collect = topicPartitions.stream().map(t -> {
                 OffsetAndMetadata offsetAndMetadata = topicPartitionOffsetAndMetadataMap.get(t);
                 long offset = offsetAndMetadata.offset();
                 JSONObject jsonObject = new JSONObject();
@@ -345,9 +360,9 @@ public class KafkaUtil {
                 return jsonObject;
             }).collect(Collectors.groupingBy(t -> {
                 return t.getString("topic");
-            }));
-            Collection<List<JSONObject>> values1 = collect.values();
-            return ResponseDto.success(values1);
+            }));*/
+//            Collection<List<JSONObject>> values1 = collect.values();
+            return ResponseDto.success(collect1);
         } catch (Exception e) {
             return ResponseDto.fail(e.getMessage());
         } finally {
