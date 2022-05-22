@@ -214,6 +214,11 @@ http://localhost:8889
 <img src="https://freakchicken.gitee.io/images/kafkaui/qqgroup.jpg" width = "40%" />
 </div>
 
+### 微信交流群：
+<div style="text-align: center"> 
+<img src="https://freakchicken.gitee.io/images/kafkaui/wechatGroup.jpg" width = "40%" />
+</div>
+
 ### 捐赠：
 
 如果您喜欢这个项目，请作者喝杯咖啡
