@@ -29,7 +29,9 @@ CREATE TABLE "source"
 (
     "id"     INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "name"   text(64),
-    "broker" text(64)
+    "broker" text(64),
+    "username" text(64),
+    "password" text(64)
 );
 
 CREATE TABLE "zookeeper_source"

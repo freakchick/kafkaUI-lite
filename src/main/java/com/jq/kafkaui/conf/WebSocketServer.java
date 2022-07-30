@@ -1,6 +1,8 @@
 package com.jq.kafkaui.conf;
 
 import com.jq.kafkaui.dao.KafkaSourceDao;
+import com.jq.kafkaui.dto.SourceInfo;
+import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -16,6 +18,7 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArraySet;
 
 @Component
@@ -39,6 +42,18 @@ public class WebSocketServer {
 
     Map<String, String> params = new HashMap<>();
 
+    public static KafkaService kafkaService;
+
+    @Autowired
+    public void setKafkaService(KafkaService kafkaService) {
+        WebSocketServer.kafkaService = kafkaService;
+    }
+
+
+
+    public WebSocketServer() {
+    }
+
     /**
      * 连接建立成功调用的方法
      */
@@ -57,19 +72,21 @@ public class WebSocketServer {
             String[] split = p.split("=");
             params.put(split[0], split[1]);
         }
+        Integer sourceId = Optional.ofNullable(params.get("sourceId")).map(Integer::parseInt)
+                .orElseThrow(() -> new RuntimeException("缺乏参数 sourceId 无法建立链接"));
+
 //        int sourceId = Integer.parseInt(params.get("sourceId"));
 //        System.out.println(kafkaSourceDao);
-
-        consume(this.session, params.get("broker"), params.get("topic"), params.get("group"), params.get("offset"));
-
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        consume(this.session, sourceInfo, params.get("topic"), params.get("group"), params.get("offset"));
     }
 
-    public void consume(Session session, String broker, String topic, String group, String offset) {
+    public void consume(Session session, SourceInfo sourceInfo, String topic, String group, String offset) {
 
         new Thread(new Runnable() {
             @Override
             public void run() {
-                KafkaConsumer<String, String> consumer = KafkaUtil.getConsumer(broker, topic, group, offset);
+                KafkaConsumer<String, String> consumer = KafkaUtil.getConsumer(sourceInfo, topic, group, offset);
                 while (session.isOpen()) {
                     ConsumerRecords<String, String> records = consumer.poll(Duration.ofMillis(100));
                     for (ConsumerRecord<String, String> record : records) {

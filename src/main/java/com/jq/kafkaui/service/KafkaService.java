@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.dao.KafkaSourceDao;
 import com.jq.kafkaui.domain.Auth;
 import com.jq.kafkaui.domain.KafkaSource;
+import com.jq.kafkaui.dto.SourceInfo;
 import com.jq.kafkaui.util.IPUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,7 +80,7 @@ public class KafkaService {
 
     }
 
-    public String getBroker(Integer sourceId) {
+    public SourceInfo getSourceInfo(Integer sourceId) {
         return kafkaSourceDao.selectById(sourceId);
     }
 }

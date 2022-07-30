@@ -133,7 +133,7 @@ export default {
       this.consumeCount = 0
       if ('WebSocket' in window) {
 
-        let url = `ws://${this.address}/push/websocket?topic=${this.topic}&broker=${this.broker}&group=${this.group}&offset=${this.mode}`
+        let url = `ws://${this.address}/push/websocket?topic=${this.topic}&sourceId=${this.sourceId}&group=${this.group}&offset=${this.mode}`
         console.log(url)
         this.websocket = new WebSocket(url)
         this.initWebSocket()
