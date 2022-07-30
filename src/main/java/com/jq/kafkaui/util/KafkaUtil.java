@@ -14,6 +14,7 @@ import org.apache.kafka.common.Node;
 import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.common.protocol.types.Field;
+import org.springframework.util.StringUtils;
 
 import java.util.*;
 import java.util.concurrent.ExecutionException;
@@ -42,11 +43,12 @@ public class KafkaUtil {
         Properties prop = new Properties();
         String userName = sourceInfo.getUserName();
         String password = sourceInfo.getPassword();
-
-        prop.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username="
-                + userName + " password=" + password + ";");
-        prop.put("security.protocol", "SASL_PLAINTEXT");
-        prop.put("sasl.mechanism", "PLAIN");
+        if (!StringUtils.isEmpty(userName) && !StringUtils.isEmpty(password)) {
+            prop.put("sasl.jaas.config", "org.apache.kafka.common.security.plain.PlainLoginModule required username="
+                    + userName + " password=" + password + ";");
+            prop.put("security.protocol", "SASL_PLAINTEXT");
+            prop.put("sasl.mechanism", "PLAIN");
+        }
         return prop;
     }
 
