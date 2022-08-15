@@ -8,6 +8,8 @@ public class KafkaSource {
     Integer id;
     String name;
     String broker;
+    String password;
+    String username;
 
     JSONObject auth;
 }

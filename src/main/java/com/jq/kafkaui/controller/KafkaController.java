@@ -3,6 +3,7 @@ package com.jq.kafkaui.controller;
 import com.alibaba.fastjson.JSONObject;
 import com.jq.kafkaui.domain.KafkaSource;
 import com.jq.kafkaui.dto.ResponseDto;
+import com.jq.kafkaui.dto.SourceInfo;
 import com.jq.kafkaui.service.KafkaService;
 import com.jq.kafkaui.util.KafkaUtil;
 import org.apache.kafka.clients.producer.Producer;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -34,8 +36,8 @@ public class KafkaController {
 
     @RequestMapping("/getTopics")
     public ResponseDto getTopics(Integer sourceId) {
-        String brokers = kafkaService.getBroker(sourceId);
-        return KafkaUtil.listTopicsWithOptions(brokers, null);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        return KafkaUtil.listTopicsWithOptions(sourceInfo, null);
     }
 
     @RequestMapping("/getIp")
@@ -68,46 +70,46 @@ public class KafkaController {
 
     @RequestMapping("/getBroker")
     public String getBroker(Integer sourceId) {
-        String broker = kafkaService.getBroker(sourceId);
-        return broker;
+        return Optional.ofNullable(kafkaService.getSourceInfo(sourceId))
+                .map(SourceInfo::getBroker).orElse(null);
     }
 
     @RequestMapping("/createTopic")
     public String createTopic(Integer sourceId, String name,
                               @RequestParam(defaultValue = "1") Integer partition,
                               @RequestParam(defaultValue = "1") Integer replica) throws Exception {
-        String broker = kafkaService.getBroker(sourceId);
-        KafkaUtil.createTopic(broker, name, partition, replica);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        KafkaUtil.createTopic(sourceInfo, name, partition, replica);
         return "success";
 
     }
 
     @RequestMapping("/deleteTopic")
     public boolean deleteTopic(Integer sourceId, String topic) {
-        String broker = kafkaService.getBroker(sourceId);
-        KafkaUtil.deleteTopic(broker, topic);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        KafkaUtil.deleteTopic(sourceInfo, topic);
         return true;
 
     }
 
     @RequestMapping("/searchTopic")
     public ResponseDto searchTopic(Integer sourceId, String topic) {
-        String broker = kafkaService.getBroker(sourceId);
-        ResponseDto responseDto = KafkaUtil.listTopicsWithOptions(broker, topic);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        ResponseDto responseDto = KafkaUtil.listTopicsWithOptions(sourceInfo, topic);
         return responseDto;
 
     }
 
     @RequestMapping("/getTopicDetail")
     public JSONObject getTopicDetail(Integer sourceId, String topic) throws Exception {
-        String broker = kafkaService.getBroker(sourceId);
-        return KafkaUtil.getTopicDetail(broker, topic);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        return KafkaUtil.getTopicDetail(sourceInfo, topic);
     }
 
     @RequestMapping("/produce")
     public String produce(Integer sourceId, String topic, String message, Boolean batch) throws ExecutionException, InterruptedException {
-        String broker = kafkaService.getBroker(sourceId);
-        Producer<String, String> producer = KafkaUtil.getProducer(broker);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        Producer<String, String> producer = KafkaUtil.getProducer(sourceInfo);
         if (batch) {
             String[] messages = message.split("\n");
             for (String ms : messages) {
@@ -124,35 +126,35 @@ public class KafkaController {
 
     @RequestMapping("/cluster/info")
     public ResponseDto getClusterInfo(Integer sourceId) {
-        String broker = kafkaService.getBroker(sourceId);
-        return KafkaUtil.clusterInfo(broker);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        return KafkaUtil.clusterInfo(sourceInfo);
     }
 
     @RequestMapping("/group/all")
     public ResponseDto getAllGroups(Integer sourceId) {
-        String broker = kafkaService.getBroker(sourceId);
-        ResponseDto allGroups = KafkaUtil.getAllGroups(broker, null);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        ResponseDto allGroups = KafkaUtil.getAllGroups(sourceInfo, null);
         return allGroups;
     }
 
     @RequestMapping("/group/search")
     public ResponseDto getAllGroups(Integer sourceId, String keyword) {
-        String broker = kafkaService.getBroker(sourceId);
-        ResponseDto allGroups = KafkaUtil.getAllGroups(broker, keyword);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        ResponseDto allGroups = KafkaUtil.getAllGroups(sourceInfo, keyword);
         return allGroups;
     }
 
     @RequestMapping("/group/detail")
     public ResponseDto getGroupDetail(Integer sourceId, String group) {
-        String broker = kafkaService.getBroker(sourceId);
-        ResponseDto groupInfo = KafkaUtil.getGroupInfo(broker, group);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        ResponseDto groupInfo = KafkaUtil.getGroupInfo(sourceInfo, group);
         return groupInfo;
     }
 
     @RequestMapping("/group/delete")
     public ResponseDto deleteGroup(Integer sourceId, String group) {
-        String broker = kafkaService.getBroker(sourceId);
-        return KafkaUtil.deleteGroup(broker, group);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        return KafkaUtil.deleteGroup(sourceInfo, group);
     }
 
     @RequestMapping("/auth")
@@ -160,15 +162,10 @@ public class KafkaController {
         kafkaService.auth(param);
     }
 
-    @Deprecated
-    @RequestMapping("/getGroupByTopic")
-    public ResponseDto getGroupByTopic(String broker, String topic) {
-        return KafkaUtil.getGroupByTopic(broker, topic);
-    }
 
     @RequestMapping("/getGroupsByTopic")
     public ResponseDto getGroupByTopic(Integer sourceId, String topic) {
-        String broker = kafkaService.getBroker(sourceId);
-        return KafkaUtil.getGroupByTopic(broker, topic);
+        SourceInfo sourceInfo = kafkaService.getSourceInfo(sourceId);
+        return KafkaUtil.getGroupByTopic(sourceInfo, topic);
     }
 }

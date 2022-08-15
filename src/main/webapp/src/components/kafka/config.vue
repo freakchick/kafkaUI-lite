@@ -30,6 +30,12 @@
         <el-form-item label="地址">
           <el-input v-model="broker"></el-input>
         </el-form-item>
+        <el-form-item label="账号">
+          <el-input v-model="username"></el-input>
+        </el-form-item>
+        <el-form-item label="密码">
+          <el-input v-model="password"></el-input>
+        </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">取 消</el-button>
@@ -49,6 +55,8 @@ export default {
       broker: '127.0.0.1:9092',
       sources: [],
       name: null,
+      username: null,
+      password: null,
       dialogFormVisible: false,
       warning: false
     }
@@ -77,7 +85,8 @@ export default {
       })
     },
     add() {
-      this.axios.post("/kafka/add", {"name": this.name, "broker": this.broker}).then((response) => {
+      this.axios.post("/kafka/add", {"name": this.name, "broker": this.broker,
+        "username":this.username, "password":this.password}).then((response) => {
         // this.$message.success("添加kafka环境成功")
         this.warning = true
         initKafka(this)

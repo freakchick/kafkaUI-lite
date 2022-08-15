@@ -2,6 +2,7 @@ package com.jq.kafkaui.dao;
 
 import com.jq.kafkaui.domain.Auth;
 import com.jq.kafkaui.domain.KafkaSource;
+import com.jq.kafkaui.dto.SourceInfo;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -15,7 +16,7 @@ public interface KafkaSourceDao {
             @Result(property = "id", column = "id")})
     List<KafkaSource> getAll();
 
-    @Insert("insert into source (name, broker) values (#{name}, #{broker})")
+    @Insert("insert into source (name, broker, username, password) values (#{name}, #{broker}, #{username}, #{password})")
     @Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
     void insert(KafkaSource source);
 
@@ -34,6 +35,7 @@ public interface KafkaSourceDao {
     @Update({"update kafka_auth set add_auth=#{add}, update_auth=#{update}, remove_auth=#{remove} where source_id = #{id}"})
     int updateAuth(int id, int add, int update, int remove);
 
-    @Select("SELECT broker FROM source where id=#{sourceId}")
-    String selectById(Integer sourceId);
+    @Select("SELECT broker,username,password FROM source where id=#{sourceId}")
+    SourceInfo selectById(Integer sourceId);
 }
+
