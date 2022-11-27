@@ -30,12 +30,12 @@
             <el-button size="mini" circle type="info" @click="getTopicDetail(scope.row.name)">
               <i class="iconfont icon-detail"></i>
             </el-button>
-            <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)"
-                           v-if="!scope.row.internal">
-              <el-button size="mini" circle type="danger" slot="reference" style="margin: 5px" :disabled="!auth.remove">
+<!--            <el-popconfirm title="确定删除吗？" @onConfirm="deleteConfirm(scope.row.name)"-->
+<!--                           v-if="!scope.row.internal">-->
+              <el-button size="mini" circle type="danger" @click="deleteConfirm(scope.row.name)" slot="reference" style="margin: 5px" :disabled="!auth.remove">
                 <i class="el-icon-delete"></i>
               </el-button>
-            </el-popconfirm>
+<!--            </el-popconfirm>-->
 
             <el-button size="mini" round type="info" @click="getGroupByTopic(scope.row.name)">
               consumer
@@ -187,6 +187,7 @@ export default {
       })
     },
     deleteConfirm(topic) {
+      debugger
       this.axios.post("/kafka/deleteTopic",
           {"sourceId": this.sourceId, "topic": topic}).then((response) => {
         this.$message.success("删除topic成功")
