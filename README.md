@@ -7,12 +7,15 @@
 - 支持zookeeper ui界面化操作;支持多环境管理
 - 支持redis ui界面化操作;支持多环境管理
 - 支持权限控制，可以自定义不同环境的新增、修改、删除权限；默认分配只读权限，避免用户的误操作
-- 体验地址 
 
+## 官网地址
 <p align="center">
 	👉 <a target="_blank" href="https://kafkaui.51dbapi.com">https://kafkaui.51dbapi.com</a>  👈
 </p>
 
+## 体验地址
+
+- 试用请点击[体验地址](https://support.51dbapi.com/#/kafkaui/demo)
 
 ## 软件截图
 
